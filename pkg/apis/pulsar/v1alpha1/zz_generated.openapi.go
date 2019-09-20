@@ -11,9 +11,9 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"./pkg/apis/pulsar/v1alpha1.PulsarCluster":       schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref),
-		"./pkg/apis/pulsar/v1alpha1.PulsarClusterSpec":   schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref),
-		"./pkg/apis/pulsar/v1alpha1.PulsarClusterStatus": schema_pkg_apis_pulsar_v1alpha1_PulsarClusterStatus(ref),
+		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarCluster":       schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref),
+		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterSpec":   schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref),
+		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterStatus": schema_pkg_apis_pulsar_v1alpha1_PulsarClusterStatus(ref),
 	}
 }
 
@@ -44,19 +44,19 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref common.ReferenceCallback)
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("./pkg/apis/pulsar/v1alpha1.PulsarClusterSpec"),
+							Ref: ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("./pkg/apis/pulsar/v1alpha1.PulsarClusterStatus"),
+							Ref: ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"./pkg/apis/pulsar/v1alpha1.PulsarClusterSpec", "./pkg/apis/pulsar/v1alpha1.PulsarClusterStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterSpec", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
@@ -65,10 +65,38 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref common.ReferenceCallb
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "PulsarClusterSpec defines the desired state of PulsarCluster",
-				Properties:  map[string]spec.Schema{},
+				Properties: map[string]spec.Schema{
+					"brokerSize": {
+						SchemaProps: spec.SchemaProps{
+							Description: "INSERT ADDITIONAL SPEC FIELDS - desired state of cluster Important: Run \"operator-sdk generate k8s\" to regenerate code after modifying this file Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"bookieSize": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"integer"},
+							Format: "int32",
+						},
+					},
+					"envs": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("k8s.io/api/core/v1.EnvVar"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"brokerSize", "bookieSize"},
 			},
 		},
-		Dependencies: []string{},
+		Dependencies: []string{
+			"k8s.io/api/core/v1.EnvVar"},
 	}
 }
 

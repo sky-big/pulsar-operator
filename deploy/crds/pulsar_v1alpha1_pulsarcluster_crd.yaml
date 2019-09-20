@@ -28,6 +28,24 @@ spec:
         metadata:
           type: object
         spec:
+          properties:
+            bookieSize:
+              format: int32
+              type: integer
+            brokerSize:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "operator-sdk generate k8s" to regenerate code after
+                modifying this file Add custom validation using kubebuilder tags:
+                https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html'
+              format: int32
+              type: integer
+            envs:
+              items:
+                type: object
+              type: array
+          required:
+          - brokerSize
+          - bookieSize
           type: object
         status:
           type: object
