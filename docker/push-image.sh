@@ -13,6 +13,9 @@ echo "[START] build pulsar operator images"
 # build docker image
 docker build --tag "${IMAGE}" .
 
+# push docker image
+docker push "${IMAGE}"
+
 echo "[END] build pulsar operator images"
 
 # remove pulsar operator bin
