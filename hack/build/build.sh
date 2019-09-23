@@ -29,4 +29,4 @@ gitHash="github.com/sky-big/pulsar-operator/version.GitSHA=${GIT_SHA}"
 
 go_ldflags="-X ${gitHash}"
 
-GO_BUILD_FLAGS="$@" go_build operator
+GO_BUILD_FLAGS="$@" go_build manager
