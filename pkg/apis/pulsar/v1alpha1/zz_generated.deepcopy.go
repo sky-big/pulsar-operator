@@ -254,11 +254,6 @@ func (in *ZookeeperSpec) DeepCopyInto(out *ZookeeperSpec) {
 			(*out)[key] = val
 		}
 	}
-	if in.Ports != nil {
-		in, out := &in.Ports, &out.Ports
-		*out = make([]v1.ContainerPort, len(*in))
-		copy(*out, *in)
-	}
 	in.Pod.DeepCopyInto(&out.Pod)
 	return
 }
