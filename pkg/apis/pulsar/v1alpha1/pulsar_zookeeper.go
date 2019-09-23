@@ -4,6 +4,11 @@ import (
 	"k8s.io/api/core/v1"
 )
 
+const (
+	// zookeeper cluster default num is 3
+	ZookeeperClusterDefaultNodeNum = 3
+)
+
 // ZookeeperSpec defines the desired state of Zookeeper
 type ZookeeperSpec struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
@@ -19,17 +24,26 @@ type ZookeeperSpec struct {
 	// The valid range of size is from 1 to 7.
 	Size int32 `json:"size"`
 
-	// Replicas is the expected size of the zookeeper cluster.
-	// The pravega-operator will eventually make the size of the running cluster
-	// equal to the expected size.
-	//
-	// The valid range of size is from 1 to 7.
-	Replicas int32 `json:"replicas"`
-
-	Ports []v1.ContainerPort `json:"ports,omitempty"`
-
 	// Pod defines the policy to create pod for the zookeeper cluster.
 	//
 	// Updating the Pod does not take effect on any existing pods.
 	Pod PodPolicy `json:"pod,omitempty"`
+}
+
+func (s *ZookeeperSpec) SetDefault(cluster *PulsarCluster) bool {
+	changed := s.Image.SetDefault(cluster, ZookeeperPodType)
+
+	if s.Labels == nil {
+		s.Labels = make(map[string]string)
+		changed = true
+	}
+
+	if s.Size == 0 {
+		s.Size = ZookeeperClusterDefaultNodeNum
+		changed = true
+	}
+
+	changed = s.Pod.SetDefault(cluster, ZookeeperPodType)
+
+	return changed
 }

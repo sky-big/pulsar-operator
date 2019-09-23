@@ -2,14 +2,14 @@
 
 set -o errexit
 set -o nounset
-set -o pipefail
+# set -o pipefail
 
 # dir
 bin_dir="$(pwd)/../../bin"
 mkdir -p ${bin_dir} || true
 
 # build function
-function go_build {
+go_build () {
 	echo "[START] building "pulsar ${1}"..."
 	# We’re disabling cgo which gives us a static binary.
 	# This is needed for building minimal container based on alpine image.
