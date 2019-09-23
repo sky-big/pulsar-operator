@@ -1,8 +1,29 @@
 package v1alpha1
 
 import (
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+const (
+	// Zookeeper Pod Type
+	ZookeeperPodType = "zookeeper"
+
+	// Broker Pod Type
+	BrokerPodType = "broker"
+
+	// Bookie Pod Type
+	BookiePodType = "bookie"
+)
+
+const (
+	// DefaultZkContainerRepository is the default docker repo for the container
+	DefaultContainerRepository = "apachepulsar/pulsar-all"
+
+	// DefaultZkContainerVersion is the default tag used for for the container
+	DefaultContainerVersion = "latest"
+
+	// DefaultZkContainerPolicy is the default container pull policy used
+	DefaultContainerPolicy = "Always"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -14,9 +35,25 @@ type PulsarClusterSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
-	BrokerSize *int32          `json:"brokerSize"`
-	BookieSize *int32          `json:"bookieSize"`
-	Envs       []corev1.EnvVar `json:"envs,omitempty"`
+
+	// ZookeeperSpec defines the desired state of Zookeeper
+	ZookeeperSpec ZookeeperSpec `json:"zookeeper,omitempty"`
+
+	// BookieSpec defines the desired state of Bookie
+	BookieSpec BookieSpec `json:"bookie,omitempty"`
+
+	// BrokerSpec defines the desired state of Broker
+	BrokerSpec BrokerSpec `json:"broker,omitempty"`
+}
+
+func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
+	zookeeperChanged := s.ZookeeperSpec.SetDefault(cluster)
+
+	bookieChanged := s.BookieSpec.SetDefault(cluster)
+
+	brokerChanged := s.BrokerSpec.SetDefault(cluster)
+
+	return zookeeperChanged || bookieChanged || brokerChanged
 }
 
 // PulsarClusterStatus defines the observed state of PulsarCluster
@@ -25,6 +62,9 @@ type PulsarClusterStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
+
+	// Pulsar Cluster Phase
+	Phase string `json:"phase,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -38,6 +78,10 @@ type PulsarCluster struct {
 
 	Spec   PulsarClusterSpec   `json:"spec,omitempty"`
 	Status PulsarClusterStatus `json:"status,omitempty"`
+}
+
+func (c *PulsarCluster) SetDefault() bool {
+	return c.Spec.SetDefault(c)
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

@@ -37,3 +37,8 @@ push:
 clean:
 	rm -rf ./bin
 .PHONY: clean
+
+# generate code(zz_generated*)
+generate_code:
+	operator-sdk generate k8s
+.PHONY: generate_code
