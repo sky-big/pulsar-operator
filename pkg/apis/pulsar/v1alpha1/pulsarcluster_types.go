@@ -39,11 +39,21 @@ type PulsarClusterSpec struct {
 	// ZookeeperSpec defines the desired state of Zookeeper
 	ZookeeperSpec ZookeeperSpec `json:"zookeeper,omitempty"`
 
-	// BrokerSpec defines the desired state of Broker
-	BrokerSpec BrokerSpec `json:"broker,omitempty"`
-
 	// BookieSpec defines the desired state of Bookie
 	BookieSpec BookieSpec `json:"bookie,omitempty"`
+
+	// BrokerSpec defines the desired state of Broker
+	BrokerSpec BrokerSpec `json:"broker,omitempty"`
+}
+
+func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
+	zookeeperChanged := s.ZookeeperSpec.SetDefault(cluster)
+
+	bookieChanged := s.BookieSpec.SetDefault(cluster)
+
+	brokerChanged := s.BrokerSpec.SetDefault(cluster)
+
+	return zookeeperChanged || bookieChanged || brokerChanged
 }
 
 // PulsarClusterStatus defines the observed state of PulsarCluster
@@ -68,6 +78,10 @@ type PulsarCluster struct {
 
 	Spec   PulsarClusterSpec   `json:"spec,omitempty"`
 	Status PulsarClusterStatus `json:"status,omitempty"`
+}
+
+func (c *PulsarCluster) SetDefault() bool {
+	return c.Spec.SetDefault(c)
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

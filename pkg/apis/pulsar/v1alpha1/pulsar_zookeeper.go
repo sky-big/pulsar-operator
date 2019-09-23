@@ -1,9 +1,5 @@
 package v1alpha1
 
-import (
-	"k8s.io/api/core/v1"
-)
-
 const (
 	// zookeeper cluster default num is 3
 	ZookeeperClusterDefaultNodeNum = 3
@@ -31,7 +27,11 @@ type ZookeeperSpec struct {
 }
 
 func (s *ZookeeperSpec) SetDefault(cluster *PulsarCluster) bool {
-	changed := s.Image.SetDefault(cluster, ZookeeperPodType)
+	changed := false
+
+	if s.Image.SetDefault(cluster, ZookeeperPodType) {
+		changed = true
+	}
 
 	if s.Labels == nil {
 		s.Labels = make(map[string]string)
@@ -43,7 +43,9 @@ func (s *ZookeeperSpec) SetDefault(cluster *PulsarCluster) bool {
 		changed = true
 	}
 
-	changed = s.Pod.SetDefault(cluster, ZookeeperPodType)
+	if s.Pod.SetDefault(cluster, ZookeeperPodType) {
+		changed = true
+	}
 
 	return changed
 }
