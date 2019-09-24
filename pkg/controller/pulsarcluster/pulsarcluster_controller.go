@@ -11,6 +11,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/api/policy/v1beta1"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -84,6 +85,12 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 
 	// Watch Pod
 	err = c.Watch(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
+	})
+
+	// Watch PodDisruptionBudget
+	err = c.Watch(&source.Kind{Type: &v1beta1.PodDisruptionBudget{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
 		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
 	})
