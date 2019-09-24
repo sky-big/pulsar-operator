@@ -15,8 +15,7 @@ spec:
       serviceAccountName: pulsar-operator
       containers:
         - name: pulsar-operator
-          # Replace this with the built image name
-          image: REPLACE_IMAGE
+          image: "skybig/pulsar-operator:latest"
           command:
           - pulsar-operator
           imagePullPolicy: Always
