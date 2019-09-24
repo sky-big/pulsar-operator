@@ -5,6 +5,8 @@ import (
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
 
+	"github.com/go-logr/logr"
+
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -98,6 +100,7 @@ type ReconcilePulsarCluster struct {
 	// that reads objects from the cache and writes to the apiserver
 	client client.Client
 	scheme *runtime.Scheme
+	log    logr.Logger
 }
 
 // Reconcile reads that state of the cluster for a PulsarCluster object and makes changes based on the state read
@@ -106,8 +109,8 @@ type ReconcilePulsarCluster struct {
 // The Controller will requeue the Request to be processed again if the returned error is non-nil or
 // Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
 func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile.Result, error) {
-	reqLogger := log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
-	reqLogger.Info("[Start] Reconciling PulsarCluster")
+	r.log = log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
+	r.log.Info("[Start] Reconciling PulsarCluster")
 
 	// Fetch the PulsarCluster instance
 	instance := &pulsarv1alpha1.PulsarCluster{}
@@ -126,7 +129,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 	// Set Pulsar Cluster Resource Default
 	changed := instance.SetDefault()
 	if changed {
-		reqLogger.Info("Setting default settings for pulsar-cluster")
+		r.log.Info("Setting default settings for pulsar-cluster")
 		if err := r.client.Update(context.TODO(), instance); err != nil {
 			return reconcile.Result{}, err
 		}
@@ -145,7 +148,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		}
 	}
 
-	reqLogger.Info("[End] Reconciling PulsarCluster")
+	r.log.Info("[End] Reconciling PulsarCluster")
 
 	return reconcile.Result{}, nil
 }

@@ -1,6 +1,8 @@
 package v1alpha1
 
 import (
+	"fmt"
+
 	corev1 "k8s.io/api/core/v1"
 )
 
@@ -12,10 +14,10 @@ type ContainerImage struct {
 	PullPolicy corev1.PullPolicy `json:"pullPolicy"`
 }
 
-func (c *ContainerImage) SetDefault(cluster *PulsarCluster, podType string) bool {
+func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bool {
 	changed := false
-	switch podType {
-	case ZookeeperPodType:
+	switch component {
+	case ZookeeperComponent:
 		if cluster.Spec.ZookeeperSpec.Image.Repository == "" {
 			cluster.Spec.ZookeeperSpec.Image.Repository = DefaultContainerRepository
 			changed = true
@@ -29,7 +31,7 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, podType string) bool
 			changed = true
 		}
 
-	case BrokerPodType:
+	case BrokerComponent:
 		if cluster.Spec.BrokerSpec.Image.Repository == "" {
 			cluster.Spec.BrokerSpec.Image.Repository = DefaultContainerRepository
 			changed = true
@@ -43,7 +45,7 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, podType string) bool
 			changed = true
 		}
 
-	case BookiePodType:
+	case BookieComponent:
 		if cluster.Spec.BookieSpec.Image.Repository == "" {
 			cluster.Spec.BookieSpec.Image.Repository = DefaultContainerRepository
 			changed = true
@@ -58,4 +60,8 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, podType string) bool
 		}
 	}
 	return changed
+}
+
+func (c ContainerImage) GenerateImage() string {
+	return fmt.Sprintf("%s:%s", c.Repository, c.Tag)
 }
