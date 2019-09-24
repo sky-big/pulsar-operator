@@ -4,20 +4,22 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 )
+
+type reconcileFunc func(cluster *pulsarv1alpha1.PulsarCluster) error
 
 var log = logf.Log.WithName("controller_pulsarcluster")
 
@@ -51,15 +53,38 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 		return err
 	}
 
-	// TODO(user): Modify this to be the types you create that are owned by the primary resource
-	// Watch for changes to secondary resource Pods and requeue the owner PulsarCluster
-	err = c.Watch(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+	// Watch Config Map
+	err = c.Watch(&source.Kind{Type: &corev1.ConfigMap{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
 		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
 	})
 	if err != nil {
 		return err
 	}
+
+	// Watch StatefulSet
+	err = c.Watch(&source.Kind{Type: &appsv1.StatefulSet{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
+	})
+	if err != nil {
+		return err
+	}
+
+	// Watch Service
+	err = c.Watch(&source.Kind{Type: &corev1.Service{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
+	})
+	if err != nil {
+		return err
+	}
+
+	// Watch Pod
+	err = c.Watch(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
+	})
 
 	return nil
 }
@@ -77,14 +102,12 @@ type ReconcilePulsarCluster struct {
 
 // Reconcile reads that state of the cluster for a PulsarCluster object and makes changes based on the state read
 // and what is in the PulsarCluster.Spec
-// TODO(user): Modify this Reconcile function to implement your Controller logic.  This example creates
-// a Pod as an example
 // Note:
 // The Controller will requeue the Request to be processed again if the returned error is non-nil or
 // Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
 func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	reqLogger := log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
-	reqLogger.Info("Reconciling PulsarCluster")
+	reqLogger.Info("[Start] Reconciling PulsarCluster")
 
 	// Fetch the PulsarCluster instance
 	instance := &pulsarv1alpha1.PulsarCluster{}
@@ -100,54 +123,34 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		return reconcile.Result{}, err
 	}
 
-	// Define a new Pod object
-	pod := newPodForCR(instance)
-
-	// Set PulsarCluster instance as the owner and controller
-	if err := controllerutil.SetControllerReference(instance, pod, r.scheme); err != nil {
-		return reconcile.Result{}, err
-	}
-
-	// Check if this Pod already exists
-	found := &corev1.Pod{}
-	err = r.client.Get(context.TODO(), types.NamespacedName{Name: pod.Name, Namespace: pod.Namespace}, found)
-	if err != nil && errors.IsNotFound(err) {
-		reqLogger.Info("Creating a new Pod", "Pod.Namespace", pod.Namespace, "Pod.Name", pod.Name)
-		err = r.client.Create(context.TODO(), pod)
-		if err != nil {
+	// Set Pulsar Cluster Resource Default
+	changed := instance.SetDefault()
+	if changed {
+		reqLogger.Info("Setting default settings for pulsar-cluster")
+		if err := r.client.Update(context.TODO(), instance); err != nil {
 			return reconcile.Result{}, err
 		}
-
-		// Pod created successfully - don't requeue
-		return reconcile.Result{}, nil
-	} else if err != nil {
-		return reconcile.Result{}, err
+		return reconcile.Result{Requeue: true}, nil
 	}
 
-	// Pod already exists - don't requeue
-	reqLogger.Info("Skip reconcile: Pod already exists", "Pod.Namespace", found.Namespace, "Pod.Name", found.Name)
+	// Reconcile All Pulsar Cluster Child Resource
+	for _, fun := range []reconcileFunc{
+		r.reconcileZookeeper,
+		r.reconcileBookie,
+		r.reconcileBroker,
+		r.reconcilePulsarCluster,
+	} {
+		if err = fun(instance); err != nil {
+			return reconcile.Result{}, err
+		}
+	}
+
+	reqLogger.Info("[End] Reconciling PulsarCluster")
+
 	return reconcile.Result{}, nil
 }
 
-// newPodForCR returns a busybox pod with the same name/namespace as the cr
-func newPodForCR(cr *pulsarv1alpha1.PulsarCluster) *corev1.Pod {
-	labels := map[string]string{
-		"app": cr.Name,
-	}
-	return &corev1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      cr.Name + "-pod",
-			Namespace: cr.Namespace,
-			Labels:    labels,
-		},
-		Spec: corev1.PodSpec{
-			Containers: []corev1.Container{
-				{
-					Name:    "busybox",
-					Image:   "busybox",
-					Command: []string{"sleep", "3600"},
-				},
-			},
-		},
-	}
+// Reconcile PulsarCluster Resource
+func (r *ReconcilePulsarCluster) reconcilePulsarCluster(c *pulsarv1alpha1.PulsarCluster) error {
+	return nil
 }
