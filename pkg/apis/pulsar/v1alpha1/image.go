@@ -8,6 +8,7 @@ import (
 
 // ContainerImage defines the fields needed for a Docker repository image. The
 // format here matches the predominant format used in Helm charts.
+// +k8s:openapi-gen=true
 type ContainerImage struct {
 	Repository string            `json:"repository"`
 	Tag        string            `json:"tag"`

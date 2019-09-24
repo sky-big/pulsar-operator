@@ -6,6 +6,7 @@ import (
 
 // PodPolicy defines the common pod configuration for Pods, including when used
 // in deployments, stateful-sets, etc.
+// +k8s:openapi-gen=true
 type PodPolicy struct {
 	// Labels specifies the labels to attach to pods the operator creates for
 	// the pulsar cluster.

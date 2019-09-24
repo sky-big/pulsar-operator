@@ -1,6 +1,7 @@
 package v1alpha1
 
 // BookieSpec defines the desired state of Bookie
+// +k8s:openapi-gen=true
 type BookieSpec struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
 	Image ContainerImage `json:"image"`

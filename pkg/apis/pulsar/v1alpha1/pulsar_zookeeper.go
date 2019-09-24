@@ -6,6 +6,7 @@ const (
 )
 
 // ZookeeperSpec defines the desired state of Zookeeper
+// +k8s:openapi-gen=true
 type ZookeeperSpec struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
 	Image ContainerImage `json:"image"`
