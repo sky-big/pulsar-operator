@@ -41,7 +41,6 @@ clean:
 # generate code(zz_generated*)
 # generate go mod list to vendor
 generate:
-    export GO111MODULE=on
 	operator-sdk generate k8s
 	go mod vendor
 .PHONY: generate
