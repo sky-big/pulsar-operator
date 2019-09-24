@@ -1,6 +1,7 @@
 module github.com/sky-big/pulsar-operator
 
 require (
+	github.com/go-logr/logr v0.1.0
 	github.com/go-openapi/spec v0.19.0
 	github.com/operator-framework/operator-sdk v0.10.1-0.20190919134858-8bdd7c5bd54b
 	github.com/spf13/pflag v1.0.3

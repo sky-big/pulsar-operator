@@ -39,6 +39,8 @@ clean:
 .PHONY: clean
 
 # generate code(zz_generated*)
-generate_code:
+# generate go mod list to vendor
+generate:
 	operator-sdk generate k8s
-.PHONY: generate_code
+	go mod vendor
+.PHONY: generate

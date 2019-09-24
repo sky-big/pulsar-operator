@@ -4,28 +4,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const (
-	// Zookeeper Pod Type
-	ZookeeperPodType = "zookeeper"
-
-	// Broker Pod Type
-	BrokerPodType = "broker"
-
-	// Bookie Pod Type
-	BookiePodType = "bookie"
-)
-
-const (
-	// DefaultZkContainerRepository is the default docker repo for the container
-	DefaultContainerRepository = "apachepulsar/pulsar-all"
-
-	// DefaultZkContainerVersion is the default tag used for for the container
-	DefaultContainerVersion = "latest"
-
-	// DefaultZkContainerPolicy is the default container pull policy used
-	DefaultContainerPolicy = "Always"
-)
-
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
@@ -47,13 +25,20 @@ type PulsarClusterSpec struct {
 }
 
 func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
-	zookeeperChanged := s.ZookeeperSpec.SetDefault(cluster)
+	changed := false
+	if s.ZookeeperSpec.SetDefault(cluster) {
+		changed = true
+	}
 
-	bookieChanged := s.BookieSpec.SetDefault(cluster)
+	if s.BookieSpec.SetDefault(cluster) {
+		changed = true
+	}
 
-	brokerChanged := s.BrokerSpec.SetDefault(cluster)
+	if s.BrokerSpec.SetDefault(cluster) {
+		changed = true
+	}
 
-	return zookeeperChanged || bookieChanged || brokerChanged
+	return changed
 }
 
 // PulsarClusterStatus defines the observed state of PulsarCluster
@@ -65,6 +50,16 @@ type PulsarClusterStatus struct {
 
 	// Pulsar Cluster Phase
 	Phase string `json:"phase,omitempty"`
+}
+
+func (s *PulsarClusterStatus) SetDefault(cluster *PulsarCluster) bool {
+	changed := false
+
+	if s.Phase == "" {
+		s.Phase = PulsarClusterInitingPhase
+		changed = true
+	}
+	return changed
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -81,7 +76,16 @@ type PulsarCluster struct {
 }
 
 func (c *PulsarCluster) SetDefault() bool {
-	return c.Spec.SetDefault(c)
+	changed := false
+
+	if c.Spec.SetDefault(c) {
+		changed = true
+	}
+
+	if c.Status.SetDefault(c) {
+		changed = true
+	}
+	return changed
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

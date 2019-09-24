@@ -1,6 +1,7 @@
 package v1alpha1
 
 // BrokerSpec defines the desired state of Broker
+// +k8s:openapi-gen=true
 type BrokerSpec struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
 	Image ContainerImage `json:"image"`

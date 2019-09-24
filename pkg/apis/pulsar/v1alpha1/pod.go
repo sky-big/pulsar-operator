@@ -6,6 +6,7 @@ import (
 
 // PodPolicy defines the common pod configuration for Pods, including when used
 // in deployments, stateful-sets, etc.
+// +k8s:openapi-gen=true
 type PodPolicy struct {
 	// Labels specifies the labels to attach to pods the operator creates for
 	// the pulsar cluster.
@@ -44,6 +45,32 @@ type PodPolicy struct {
 	TerminationGracePeriodSeconds int64 `json:"terminationGracePeriodSeconds"`
 }
 
-func (p *PodPolicy) SetDefault(cluster *PulsarCluster, podType string) bool {
-	return false
+func (p *PodPolicy) SetDefault(cluster *PulsarCluster, component string) bool {
+	changed := false
+
+	if p.Labels == nil {
+		p.Labels = make(map[string]string)
+		changed = true
+	}
+
+	if p.NodeSelector == nil {
+		p.NodeSelector = make(map[string]string)
+		changed = true
+	}
+
+	if p.Tolerations == nil {
+		p.Tolerations = make([]corev1.Toleration, 0)
+		changed = true
+	}
+
+	if p.Env == nil {
+		p.Env = make([]corev1.EnvVar, 0)
+		changed = true
+	}
+
+	if p.Annotations == nil {
+		p.Annotations = make(map[string]string)
+		changed = true
+	}
+	return changed
 }

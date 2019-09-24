@@ -6,6 +6,7 @@ const (
 )
 
 // ZookeeperSpec defines the desired state of Zookeeper
+// +k8s:openapi-gen=true
 type ZookeeperSpec struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
 	Image ContainerImage `json:"image"`
@@ -29,7 +30,7 @@ type ZookeeperSpec struct {
 func (s *ZookeeperSpec) SetDefault(cluster *PulsarCluster) bool {
 	changed := false
 
-	if s.Image.SetDefault(cluster, ZookeeperPodType) {
+	if s.Image.SetDefault(cluster, ZookeeperComponent) {
 		changed = true
 	}
 
@@ -43,7 +44,7 @@ func (s *ZookeeperSpec) SetDefault(cluster *PulsarCluster) bool {
 		changed = true
 	}
 
-	if s.Pod.SetDefault(cluster, ZookeeperPodType) {
+	if s.Pod.SetDefault(cluster, ZookeeperComponent) {
 		changed = true
 	}
 

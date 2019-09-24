@@ -20,11 +20,6 @@ func (in *BookieSpec) DeepCopyInto(out *BookieSpec) {
 			(*out)[key] = val
 		}
 	}
-	if in.Ports != nil {
-		in, out := &in.Ports, &out.Ports
-		*out = make([]v1.ContainerPort, len(*in))
-		copy(*out, *in)
-	}
 	in.Pod.DeepCopyInto(&out.Pod)
 	return
 }
@@ -49,11 +44,6 @@ func (in *BrokerSpec) DeepCopyInto(out *BrokerSpec) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Ports != nil {
-		in, out := &in.Ports, &out.Ports
-		*out = make([]v1.ContainerPort, len(*in))
-		copy(*out, *in)
 	}
 	in.Pod.DeepCopyInto(&out.Pod)
 	return
@@ -212,8 +202,8 @@ func (in *PulsarClusterList) DeepCopyObject() runtime.Object {
 func (in *PulsarClusterSpec) DeepCopyInto(out *PulsarClusterSpec) {
 	*out = *in
 	in.ZookeeperSpec.DeepCopyInto(&out.ZookeeperSpec)
-	in.BrokerSpec.DeepCopyInto(&out.BrokerSpec)
 	in.BookieSpec.DeepCopyInto(&out.BookieSpec)
+	in.BrokerSpec.DeepCopyInto(&out.BrokerSpec)
 	return
 }
 
