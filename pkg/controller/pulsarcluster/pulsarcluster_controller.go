@@ -9,9 +9,9 @@ import (
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/api/policy/v1beta1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/api/policy/v1beta1"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -118,6 +118,9 @@ type ReconcilePulsarCluster struct {
 func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	r.log = log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
 	r.log.Info("[Start] Reconciling PulsarCluster")
+	defer func() {
+		r.log.Info("[End] Reconciling PulsarCluster")
+	}()
 
 	// Fetch the PulsarCluster instance
 	instance := &pulsarv1alpha1.PulsarCluster{}
@@ -133,11 +136,21 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		return reconcile.Result{}, err
 	}
 
-	// Set Pulsar Cluster Resource Default
-	changed := instance.SetDefault()
+	// Set Pulsar Cluster Resource Spec Default
+	changed := instance.SpecSetDefault()
 	if changed {
-		r.log.Info("Setting default settings for pulsar-cluster")
+		r.log.Info("Setting spec default settings for pulsar-cluster")
 		if err := r.client.Update(context.TODO(), instance); err != nil {
+			return reconcile.Result{}, err
+		}
+		return reconcile.Result{Requeue: true}, nil
+	}
+
+	// Set Pulsar Cluster Resource Status Default
+	changed = instance.StatusSetDefault()
+	if changed {
+		r.log.Info("Setting status default settings for pulsar-cluster")
+		if err := r.client.Status().Update(context.TODO(), instance); err != nil {
 			return reconcile.Result{}, err
 		}
 		return reconcile.Result{Requeue: true}, nil
@@ -154,8 +167,6 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 			return reconcile.Result{}, err
 		}
 	}
-
-	r.log.Info("[End] Reconciling PulsarCluster")
 
 	return reconcile.Result{}, nil
 }

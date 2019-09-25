@@ -42,5 +42,6 @@ clean:
 # generate go mod list to vendor
 generate:
 	operator-sdk generate k8s
+	operator-sdk generate openapi
 	go mod vendor
 .PHONY: generate

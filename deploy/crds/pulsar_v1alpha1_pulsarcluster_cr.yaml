@@ -3,5 +3,5 @@ kind: PulsarCluster
 metadata:
   name: example-pulsarcluster
 spec:
-  # Add fields here
-  size: 3
+  zookeeper:
+    size: 3

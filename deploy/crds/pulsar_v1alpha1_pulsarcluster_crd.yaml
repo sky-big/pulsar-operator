@@ -29,25 +29,252 @@ spec:
           type: object
         spec:
           properties:
-            bookieSize:
-              format: int32
-              type: integer
-            brokerSize:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "operator-sdk generate k8s" to regenerate code after
-                modifying this file Add custom validation using kubebuilder tags:
-                https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html'
-              format: int32
-              type: integer
-            envs:
-              items:
-                type: object
-              type: array
-          required:
-          - brokerSize
-          - bookieSize
+            bookie:
+              description: Bookie defines the desired state of Bookie
+              properties:
+                image:
+                  description: Image is the  container image. default is apachepulsar/pulsar-all:latest
+                  properties:
+                    pullPolicy:
+                      type: string
+                    repository:
+                      type: string
+                    tag:
+                      type: string
+                  type: object
+                labels:
+                  additionalProperties:
+                    type: string
+                  description: Labels specifies the labels to attach to pods the operator
+                    creates for the bookie cluster.
+                  type: object
+                pod:
+                  description: Pod defines the policy to create pod for the bookie
+                    cluster.  Updating the Pod does not take effect on any existing
+                    pods.
+                  properties:
+                    affinity:
+                      description: The scheduling constraints on pods.
+                      type: object
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: Annotations specifies the annotations to attach
+                        to pods the operator creates.
+                      type: object
+                    env:
+                      description: List of environment variables to set in the container.
+                        This field cannot be updated.
+                      items:
+                        type: object
+                      type: array
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: Labels specifies the labels to attach to pods the
+                        operator creates for the pulsar cluster.
+                      type: object
+                    nodeSelector:
+                      additionalProperties:
+                        type: string
+                      description: NodeSelector specifies a map of key-value pairs.
+                        For the pod to be eligible to run on a node, the node must
+                        have each of the indicated key-value pairs as labels.
+                      type: object
+                    resources:
+                      description: Resources is the resource requirements for the
+                        container. This field cannot be updated once the cluster is
+                        created.
+                      type: object
+                    securityContext:
+                      description: 'SecurityContext specifies the security context
+                        for the entire pod More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context'
+                      type: object
+                    terminationGracePeriodSeconds:
+                      description: TerminationGracePeriodSeconds is the amount of
+                        time that kubernetes will give for a pod instance to shutdown
+                        normally. The default value is 1800.
+                      format: int64
+                      type: integer
+                    tolerations:
+                      description: Tolerations specifies the pod's tolerations.
+                      items:
+                        type: object
+                      type: array
+                  type: object
+                size:
+                  description: Size (DEPRECATED) is the expected size of the bookie
+                    cluster. This has been replaced with "Replicas"  The valid range
+                    of size is from 1 to 7.
+                  format: int32
+                  type: integer
+              type: object
+            broker:
+              description: Broker defines the desired state of Broker
+              properties:
+                image:
+                  description: Image is the  container image. default is apachepulsar/pulsar-all:latest
+                  properties:
+                    pullPolicy:
+                      type: string
+                    repository:
+                      type: string
+                    tag:
+                      type: string
+                  type: object
+                labels:
+                  additionalProperties:
+                    type: string
+                  description: Labels specifies the labels to attach to pods the operator
+                    creates for the broker cluster.
+                  type: object
+                pod:
+                  description: Pod defines the policy to create pod for the broker
+                    cluster.  Updating the Pod does not take effect on any existing
+                    pods.
+                  properties:
+                    affinity:
+                      description: The scheduling constraints on pods.
+                      type: object
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: Annotations specifies the annotations to attach
+                        to pods the operator creates.
+                      type: object
+                    env:
+                      description: List of environment variables to set in the container.
+                        This field cannot be updated.
+                      items:
+                        type: object
+                      type: array
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: Labels specifies the labels to attach to pods the
+                        operator creates for the pulsar cluster.
+                      type: object
+                    nodeSelector:
+                      additionalProperties:
+                        type: string
+                      description: NodeSelector specifies a map of key-value pairs.
+                        For the pod to be eligible to run on a node, the node must
+                        have each of the indicated key-value pairs as labels.
+                      type: object
+                    resources:
+                      description: Resources is the resource requirements for the
+                        container. This field cannot be updated once the cluster is
+                        created.
+                      type: object
+                    securityContext:
+                      description: 'SecurityContext specifies the security context
+                        for the entire pod More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context'
+                      type: object
+                    terminationGracePeriodSeconds:
+                      description: TerminationGracePeriodSeconds is the amount of
+                        time that kubernetes will give for a pod instance to shutdown
+                        normally. The default value is 1800.
+                      format: int64
+                      type: integer
+                    tolerations:
+                      description: Tolerations specifies the pod's tolerations.
+                      items:
+                        type: object
+                      type: array
+                  type: object
+                size:
+                  description: Size (DEPRECATED) is the expected size of the broker
+                    cluster. This has been replaced with "Replicas"  The valid range
+                    of size is from 1 to 7.
+                  format: int32
+                  type: integer
+              type: object
+            zookeeper:
+              description: Zookeeper defines the desired state of Zookeeper
+              properties:
+                image:
+                  description: Image is the  container image. default is apachepulsar/pulsar-all:latest
+                  properties:
+                    pullPolicy:
+                      type: string
+                    repository:
+                      type: string
+                    tag:
+                      type: string
+                  type: object
+                labels:
+                  additionalProperties:
+                    type: string
+                  description: Labels specifies the labels to attach to pods the operator
+                    creates for the zookeeper cluster.
+                  type: object
+                pod:
+                  description: Pod defines the policy to create pod for the zookeeper
+                    cluster.  Updating the Pod does not take effect on any existing
+                    pods.
+                  properties:
+                    affinity:
+                      description: The scheduling constraints on pods.
+                      type: object
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: Annotations specifies the annotations to attach
+                        to pods the operator creates.
+                      type: object
+                    env:
+                      description: List of environment variables to set in the container.
+                        This field cannot be updated.
+                      items:
+                        type: object
+                      type: array
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: Labels specifies the labels to attach to pods the
+                        operator creates for the pulsar cluster.
+                      type: object
+                    nodeSelector:
+                      additionalProperties:
+                        type: string
+                      description: NodeSelector specifies a map of key-value pairs.
+                        For the pod to be eligible to run on a node, the node must
+                        have each of the indicated key-value pairs as labels.
+                      type: object
+                    resources:
+                      description: Resources is the resource requirements for the
+                        container. This field cannot be updated once the cluster is
+                        created.
+                      type: object
+                    securityContext:
+                      description: 'SecurityContext specifies the security context
+                        for the entire pod More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context'
+                      type: object
+                    terminationGracePeriodSeconds:
+                      description: TerminationGracePeriodSeconds is the amount of
+                        time that kubernetes will give for a pod instance to shutdown
+                        normally. The default value is 1800.
+                      format: int64
+                      type: integer
+                    tolerations:
+                      description: Tolerations specifies the pod's tolerations.
+                      items:
+                        type: object
+                      type: array
+                  type: object
+                size:
+                  description: Size (DEPRECATED) is the expected size of the zookeeper
+                    cluster. This has been replaced with "Replicas"  The valid range
+                    of size is from 1 to 7.
+                  format: int32
+                  type: integer
+              type: object
           type: object
         status:
+          properties:
+            phase:
+              description: Pulsar Cluster Phase
+              type: string
           type: object
   version: v1alpha1
   versions:

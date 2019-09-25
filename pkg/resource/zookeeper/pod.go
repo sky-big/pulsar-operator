@@ -46,7 +46,7 @@ func MakePodDisruptionBudgetName(c *pulsarv1alpha1.PulsarCluster) string {
 
 func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 	return v1.PodSpec{
-		Affinity:   c.Spec.ZookeeperSpec.Pod.Affinity,
+		Affinity:   c.Spec.Zookeeper.Pod.Affinity,
 		Containers: []v1.Container{makeContainer(c)},
 		Volumes: []v1.Volume{
 			{
@@ -62,7 +62,7 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
 		Name:    "zookeeper",
-		Image:   c.Spec.ZookeeperSpec.Image.GenerateImage(),
+		Image:   c.Spec.Zookeeper.Image.GenerateImage(),
 		Command: makeContainerCommand(),
 		Args:    makeContainerCommandArgs(),
 		Ports:   makeContainerPort(c),
@@ -88,7 +88,7 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 			{Name: ContainerDataVolumeName, MountPath: "/pulsar/data"},
 		},
 
-		ImagePullPolicy: c.Spec.ZookeeperSpec.Image.PullPolicy,
+		ImagePullPolicy: c.Spec.Zookeeper.Image.PullPolicy,
 	}
 }
 
@@ -101,10 +101,10 @@ func makeContainerCommand() []string {
 
 func makeContainerCommandArgs() []string {
 	return []string{
-		"bin/apply-config-from-env.py conf/zookeeper.conf",
-		"bin/apply-config-from-env.py conf/pulsar_env.sh",
-		"bin/generate-zookeeper-config.sh conf/zookeeper.conf",
-		"bin/pulsar zookeeper",
+		"bin/apply-config-from-env.py conf/zookeeper.conf && " +
+			"bin/apply-config-from-env.py conf/pulsar_env.sh && " +
+			"bin/generate-zookeeper-config.sh conf/zookeeper.conf && " +
+			"bin/pulsar zookeeper",
 	}
 }
 

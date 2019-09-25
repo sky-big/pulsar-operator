@@ -17,6 +17,7 @@ import (
 
 // Reconcile For All Resource About Zookeeper
 func (r *ReconcilePulsarCluster) reconcileZookeeper(c *pulsarv1alpha1.PulsarCluster) error {
+	r.log.Info("Reconciling PulsarCluster Zookeeper")
 	for _, fun := range []reconcileFunc{
 		r.reconcileZookeeperConfigMap,
 		r.reconcileZookeeperStatefulSet,
@@ -24,6 +25,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeper(c *pulsarv1alpha1.PulsarClus
 		r.reconcileZookeeperPodDisruptionBudget,
 	} {
 		if err := fun(c); err != nil {
+			r.log.Error(err, "Reconciling PulsarCluster Zookeeper Error", c)
 			return err
 		}
 	}
@@ -49,11 +51,6 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperConfigMap(c *pulsarv1alpha1.P
 				"ConfigMap.Namespace", c.Namespace,
 				"ConfigMap.Name", cmCreate.GetName())
 		}
-	} else if err != nil {
-		return err
-	} else {
-		zookeeper.UpdateConfigMap(cmCur, cmCreate)
-		err = r.client.Update(context.TODO(), cmCur)
 	}
 	return
 }
@@ -80,8 +77,16 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperStatefulSet(c *pulsarv1alpha1
 	} else if err != nil {
 		return err
 	} else {
-		zookeeper.UpdateStatefulSet(ssCur, ssCreate)
-		err = r.client.Update(context.TODO(), ssCur)
+		if c.Spec.Zookeeper.Size != *ssCur.Spec.Replicas {
+			old := *ssCur.Spec.Replicas
+			ssCur.Spec.Replicas = &c.Spec.Zookeeper.Size
+			err = r.client.Update(context.TODO(), ssCur)
+			if err == nil {
+				r.log.Info("Scale Pulsar Zookeeper StatefulSet Success",
+					"OldSize", old,
+					"NewSize", c.Spec.Zookeeper.Size)
+			}
+		}
 	}
 	return
 }
@@ -105,11 +110,6 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperService(c *pulsarv1alpha1.Pul
 				"Service.Namespace", c.Namespace,
 				"Service.Name", sCreate.GetName())
 		}
-	} else if err != nil {
-		return err
-	} else {
-		zookeeper.UpdateService(sCur, sCreate)
-		err = r.client.Update(context.TODO(), sCur)
 	}
 	return
 }

@@ -14,30 +14,30 @@ type PulsarClusterSpec struct {
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
 
-	// ZookeeperSpec defines the desired state of Zookeeper
-	ZookeeperSpec ZookeeperSpec `json:"zookeeper,omitempty"`
+	// Zookeeper defines the desired state of Zookeeper
+	Zookeeper Zookeeper `json:"zookeeper,omitempty"`
 
-	// BookieSpec defines the desired state of Bookie
-	BookieSpec BookieSpec `json:"bookie,omitempty"`
+	// Bookie defines the desired state of Bookie
+	Bookie Bookie `json:"bookie,omitempty"`
 
-	// BrokerSpec defines the desired state of Broker
-	BrokerSpec BrokerSpec `json:"broker,omitempty"`
+	// Broker defines the desired state of Broker
+	Broker Broker `json:"broker,omitempty"`
 }
 
 func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
 	changed := false
-	if s.ZookeeperSpec.SetDefault(cluster) {
+
+	if s.Zookeeper.SetDefault(cluster) {
 		changed = true
 	}
 
-	if s.BookieSpec.SetDefault(cluster) {
+	if s.Bookie.SetDefault(cluster) {
 		changed = true
 	}
 
-	if s.BrokerSpec.SetDefault(cluster) {
+	if s.Broker.SetDefault(cluster) {
 		changed = true
 	}
-
 	return changed
 }
 
@@ -75,17 +75,12 @@ type PulsarCluster struct {
 	Status PulsarClusterStatus `json:"status,omitempty"`
 }
 
-func (c *PulsarCluster) SetDefault() bool {
-	changed := false
+func (c *PulsarCluster) SpecSetDefault() bool {
+	return c.Spec.SetDefault(c)
+}
 
-	if c.Spec.SetDefault(c) {
-		changed = true
-	}
-
-	if c.Status.SetDefault(c) {
-		changed = true
-	}
-	return changed
+func (c *PulsarCluster) StatusSetDefault() bool {
+	return c.Status.SetDefault(c)
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

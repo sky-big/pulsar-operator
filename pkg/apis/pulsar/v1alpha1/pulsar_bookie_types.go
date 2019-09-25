@@ -1,10 +1,10 @@
 package v1alpha1
 
-// BookieSpec defines the desired state of Bookie
+// Bookie defines the desired state of Bookie
 // +k8s:openapi-gen=true
-type BookieSpec struct {
+type Bookie struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
-	Image ContainerImage `json:"image"`
+	Image ContainerImage `json:"image,omitempty"`
 
 	// Labels specifies the labels to attach to pods the operator creates for
 	// the bookie cluster.
@@ -14,7 +14,7 @@ type BookieSpec struct {
 	// has been replaced with "Replicas"
 	//
 	// The valid range of size is from 1 to 7.
-	Size int32 `json:"size"`
+	Size int32 `json:"size,omitempty"`
 
 	// Pod defines the policy to create pod for the bookie cluster.
 	//
@@ -22,6 +22,6 @@ type BookieSpec struct {
 	Pod PodPolicy `json:"pod,omitempty"`
 }
 
-func (b *BookieSpec) SetDefault(cluster *PulsarCluster) bool {
+func (b *Bookie) SetDefault(cluster *PulsarCluster) bool {
 	return false
 }
