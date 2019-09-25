@@ -62,7 +62,6 @@ func schema_pkg_apis_pulsar_v1alpha1_Bookie(ref common.ReferenceCallback) common
 						},
 					},
 				},
-				Required: []string{"image", "size"},
 			},
 		},
 		Dependencies: []string{
@@ -110,7 +109,6 @@ func schema_pkg_apis_pulsar_v1alpha1_Broker(ref common.ReferenceCallback) common
 						},
 					},
 				},
-				Required: []string{"image", "size"},
 			},
 		},
 		Dependencies: []string{
@@ -143,7 +141,6 @@ func schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref common.ReferenceCallback
 						},
 					},
 				},
-				Required: []string{"repository", "tag", "pullPolicy"},
 			},
 		},
 		Dependencies: []string{},
@@ -250,7 +247,6 @@ func schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref common.ReferenceCallback) com
 						},
 					},
 				},
-				Required: []string{"terminationGracePeriodSeconds"},
 			},
 		},
 		Dependencies: []string{
@@ -393,7 +389,6 @@ func schema_pkg_apis_pulsar_v1alpha1_Zookeeper(ref common.ReferenceCallback) com
 						},
 					},
 				},
-				Required: []string{"image", "size"},
 			},
 		},
 		Dependencies: []string{

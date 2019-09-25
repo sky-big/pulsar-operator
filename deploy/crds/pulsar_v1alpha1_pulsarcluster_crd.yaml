@@ -41,10 +41,6 @@ spec:
                       type: string
                     tag:
                       type: string
-                  required:
-                  - repository
-                  - tag
-                  - pullPolicy
                   type: object
                 labels:
                   additionalProperties:
@@ -105,8 +101,6 @@ spec:
                       items:
                         type: object
                       type: array
-                  required:
-                  - terminationGracePeriodSeconds
                   type: object
                 size:
                   description: Size (DEPRECATED) is the expected size of the bookie
@@ -114,9 +108,6 @@ spec:
                     of size is from 1 to 7.
                   format: int32
                   type: integer
-              required:
-              - image
-              - size
               type: object
             broker:
               description: Broker defines the desired state of Broker
@@ -130,10 +121,6 @@ spec:
                       type: string
                     tag:
                       type: string
-                  required:
-                  - repository
-                  - tag
-                  - pullPolicy
                   type: object
                 labels:
                   additionalProperties:
@@ -194,8 +181,6 @@ spec:
                       items:
                         type: object
                       type: array
-                  required:
-                  - terminationGracePeriodSeconds
                   type: object
                 size:
                   description: Size (DEPRECATED) is the expected size of the broker
@@ -203,9 +188,6 @@ spec:
                     of size is from 1 to 7.
                   format: int32
                   type: integer
-              required:
-              - image
-              - size
               type: object
             zookeeper:
               description: Zookeeper defines the desired state of Zookeeper
@@ -219,10 +201,6 @@ spec:
                       type: string
                     tag:
                       type: string
-                  required:
-                  - repository
-                  - tag
-                  - pullPolicy
                   type: object
                 labels:
                   additionalProperties:
@@ -283,8 +261,6 @@ spec:
                       items:
                         type: object
                       type: array
-                  required:
-                  - terminationGracePeriodSeconds
                   type: object
                 size:
                   description: Size (DEPRECATED) is the expected size of the zookeeper
@@ -292,9 +268,6 @@ spec:
                     of size is from 1 to 7.
                   format: int32
                   type: integer
-              required:
-              - image
-              - size
               type: object
           type: object
         status:
