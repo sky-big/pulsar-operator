@@ -42,7 +42,7 @@ type PodPolicy struct {
 	// TerminationGracePeriodSeconds is the amount of time that kubernetes will
 	// give for a pod instance to shutdown normally.
 	// The default value is 1800.
-	TerminationGracePeriodSeconds int64 `json:"terminationGracePeriodSeconds"`
+	TerminationGracePeriodSeconds int64 `json:"terminationGracePeriodSeconds,omitempty"`
 }
 
 func (p *PodPolicy) SetDefault(cluster *PulsarCluster, component string) bool {

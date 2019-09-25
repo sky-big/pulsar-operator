@@ -10,9 +10,9 @@ import (
 // format here matches the predominant format used in Helm charts.
 // +k8s:openapi-gen=true
 type ContainerImage struct {
-	Repository string            `json:"repository"`
-	Tag        string            `json:"tag"`
-	PullPolicy corev1.PullPolicy `json:"pullPolicy"`
+	Repository string            `json:"repository,omitempty"`
+	Tag        string            `json:"tag,omitempty"`
+	PullPolicy corev1.PullPolicy `json:"pullPolicy,omitempty"`
 }
 
 func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bool {

@@ -4,7 +4,7 @@ package v1alpha1
 // +k8s:openapi-gen=true
 type Broker struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
-	Image ContainerImage `json:"image"`
+	Image ContainerImage `json:"image,omitempty"`
 
 	// Labels specifies the labels to attach to pods the operator creates for
 	// the broker cluster.
@@ -14,7 +14,7 @@ type Broker struct {
 	// has been replaced with "Replicas"
 	//
 	// The valid range of size is from 1 to 7.
-	Size int32 `json:"size"`
+	Size int32 `json:"size,omitempty"`
 
 	// Pod defines the policy to create pod for the broker cluster.
 	//
