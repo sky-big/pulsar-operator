@@ -25,6 +25,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeper(c *pulsarv1alpha1.PulsarClus
 		r.reconcileZookeeperPodDisruptionBudget,
 	} {
 		if err := fun(c); err != nil {
+			r.log.Error(err, "Reconciling PulsarCluster Zookeeper Error", c)
 			return err
 		}
 	}
