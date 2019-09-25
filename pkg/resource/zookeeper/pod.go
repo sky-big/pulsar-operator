@@ -101,10 +101,7 @@ func makeContainerCommand() []string {
 
 func makeContainerCommandArgs() []string {
 	return []string{
-		"bin/apply-config-from-env.py conf/zookeeper.conf &&",
-		"bin/apply-config-from-env.py conf/pulsar_env.sh &&",
-		"bin/generate-zookeeper-config.sh conf/zookeeper.conf &&",
-		"bin/pulsar zookeeper",
+		"bin/apply-config-from-env.py conf/zookeeper.conf && bin/apply-config-from-env.py conf/pulsar_env.sh && bin/generate-zookeeper-config.sh conf/zookeeper.conf && bin/pulsar zookeeper",
 	}
 }
 
