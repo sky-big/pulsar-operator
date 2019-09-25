@@ -26,6 +26,7 @@ type PulsarClusterSpec struct {
 
 func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
 	changed := false
+
 	if s.Zookeeper.SetDefault(cluster) {
 		changed = true
 	}
@@ -37,7 +38,6 @@ func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
 	if s.Broker.SetDefault(cluster) {
 		changed = true
 	}
-
 	return changed
 }
 

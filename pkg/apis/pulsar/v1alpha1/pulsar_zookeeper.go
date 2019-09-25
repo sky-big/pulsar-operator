@@ -35,7 +35,7 @@ func (s *Zookeeper) SetDefault(cluster *PulsarCluster) bool {
 	}
 
 	if s.Labels == nil {
-		s.Labels = make(map[string]string)
+		s.Labels = map[string]string{}
 		changed = true
 	}
 
@@ -47,6 +47,5 @@ func (s *Zookeeper) SetDefault(cluster *PulsarCluster) bool {
 	if s.Pod.SetDefault(cluster, ZookeeperComponent) {
 		changed = true
 	}
-
 	return changed
 }

@@ -49,27 +49,27 @@ func (p *PodPolicy) SetDefault(cluster *PulsarCluster, component string) bool {
 	changed := false
 
 	if p.Labels == nil {
-		p.Labels = make(map[string]string)
+		p.Labels = map[string]string{}
 		changed = true
 	}
 
 	if p.NodeSelector == nil {
-		p.NodeSelector = make(map[string]string)
+		p.NodeSelector = map[string]string{}
 		changed = true
 	}
 
 	if p.Tolerations == nil {
-		p.Tolerations = make([]corev1.Toleration, 0)
+		p.Tolerations = []corev1.Toleration{}
 		changed = true
 	}
 
 	if p.Env == nil {
-		p.Env = make([]corev1.EnvVar, 0)
+		p.Env = []corev1.EnvVar{}
 		changed = true
 	}
 
 	if p.Annotations == nil {
-		p.Annotations = make(map[string]string)
+		p.Annotations = map[string]string{}
 		changed = true
 	}
 	return changed
