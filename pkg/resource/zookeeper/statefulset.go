@@ -30,11 +30,6 @@ func MakeStatefulSetName(c *pulsarv1alpha1.PulsarCluster) string {
 	return fmt.Sprintf("%s-zookeeper-statefulset", c.GetName())
 }
 
-func UpdateStatefulSet(cur, next *appsv1.StatefulSet) {
-	cur.Spec.Replicas = next.Spec.Replicas
-	cur.Spec.Template = next.Spec.Template
-}
-
 func makeStatefulSetPodNameList(c *pulsarv1alpha1.PulsarCluster) []string {
 	result := make([]string, 0)
 	for i := 0; i < int(c.Spec.Zookeeper.Size); i++ {

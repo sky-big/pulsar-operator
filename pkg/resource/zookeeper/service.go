@@ -32,11 +32,6 @@ func MakeServiceName(c *pulsarv1alpha1.PulsarCluster) string {
 	return fmt.Sprintf("%s-zookeeper-service", c.GetName())
 }
 
-func UpdateService(cur, next *v1.Service) {
-	cur.Spec.Ports = next.Spec.Ports
-	cur.Spec.Type = next.Spec.Type
-}
-
 func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
 	return []v1.ServicePort{
 		{

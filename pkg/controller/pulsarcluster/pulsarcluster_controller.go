@@ -118,6 +118,9 @@ type ReconcilePulsarCluster struct {
 func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	r.log = log.WithValues("Request.Namespace", request.Namespace, "Request.Name", request.Name)
 	r.log.Info("[Start] Reconciling PulsarCluster")
+	defer func() {
+		r.log.Info("[End] Reconciling PulsarCluster")
+	}()
 
 	// Fetch the PulsarCluster instance
 	instance := &pulsarv1alpha1.PulsarCluster{}
@@ -164,8 +167,6 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 			return reconcile.Result{}, err
 		}
 	}
-
-	r.log.Info("[End] Reconciling PulsarCluster")
 
 	return reconcile.Result{}, nil
 }

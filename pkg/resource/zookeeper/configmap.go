@@ -37,8 +37,3 @@ func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 func MakeConfigMapName(c *pulsarv1alpha1.PulsarCluster) string {
 	return fmt.Sprintf("%s-zookeeper-configmap", c.GetName())
 }
-
-func UpdateConfigMap(cur, next *v1.ConfigMap) {
-	cur.Data = next.Data
-	cur.BinaryData = next.BinaryData
-}
