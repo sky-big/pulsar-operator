@@ -34,11 +34,6 @@ func (s *Zookeeper) SetDefault(cluster *PulsarCluster) bool {
 		changed = true
 	}
 
-	if s.Labels == nil {
-		s.Labels = map[string]string{}
-		changed = true
-	}
-
 	if s.Size == 0 {
 		s.Size = ZookeeperClusterDefaultNodeNum
 		changed = true

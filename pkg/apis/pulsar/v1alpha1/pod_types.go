@@ -46,31 +46,5 @@ type PodPolicy struct {
 }
 
 func (p *PodPolicy) SetDefault(cluster *PulsarCluster, component string) bool {
-	changed := false
-
-	if p.Labels == nil {
-		p.Labels = map[string]string{}
-		changed = true
-	}
-
-	if p.NodeSelector == nil {
-		p.NodeSelector = map[string]string{}
-		changed = true
-	}
-
-	if p.Tolerations == nil {
-		p.Tolerations = []corev1.Toleration{}
-		changed = true
-	}
-
-	if p.Env == nil {
-		p.Env = []corev1.EnvVar{}
-		changed = true
-	}
-
-	if p.Annotations == nil {
-		p.Annotations = map[string]string{}
-		changed = true
-	}
-	return changed
+	return false
 }
