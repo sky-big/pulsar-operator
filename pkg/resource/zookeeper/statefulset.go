@@ -37,7 +37,7 @@ func UpdateStatefulSet(cur, next *appsv1.StatefulSet) {
 
 func makeStatefulSetPodNameList(c *pulsarv1alpha1.PulsarCluster) []string {
 	result := make([]string, 0)
-	for i := 0; i < int(c.Spec.ZookeeperSpec.Size); i++ {
+	for i := 0; i < int(c.Spec.Zookeeper.Size); i++ {
 		result = append(result, fmt.Sprintf("%s-%s"), MakeStatefulSetName(c), strconv.Itoa(i))
 	}
 	return result
@@ -49,7 +49,7 @@ func makeStatefulSetSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.StatefulSetSpec
 		Selector: &metav1.LabelSelector{
 			MatchLabels: pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
 		},
-		Replicas: &c.Spec.ZookeeperSpec.Size,
+		Replicas: &c.Spec.Zookeeper.Size,
 		Template: v1.PodTemplateSpec{
 			ObjectMeta: metav1.ObjectMeta{
 				GenerateName: c.GetName(),

@@ -1,8 +1,8 @@
 package v1alpha1
 
-// BrokerSpec defines the desired state of Broker
+// Broker defines the desired state of Broker
 // +k8s:openapi-gen=true
-type BrokerSpec struct {
+type Broker struct {
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
 	Image ContainerImage `json:"image"`
 
@@ -22,6 +22,6 @@ type BrokerSpec struct {
 	Pod PodPolicy `json:"pod,omitempty"`
 }
 
-func (b *BrokerSpec) SetDefault(cluster *PulsarCluster) bool {
+func (b *Broker) SetDefault(cluster *PulsarCluster) bool {
 	return false
 }
