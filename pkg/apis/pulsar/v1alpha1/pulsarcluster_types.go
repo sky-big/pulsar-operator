@@ -75,17 +75,12 @@ type PulsarCluster struct {
 	Status PulsarClusterStatus `json:"status,omitempty"`
 }
 
-func (c *PulsarCluster) SetDefault() bool {
-	changed := false
+func (c *PulsarCluster) SpecSetDefault() bool {
+	return c.Spec.SetDefault(c)
+}
 
-	if c.Spec.SetDefault(c) {
-		changed = true
-	}
-
-	if c.Status.SetDefault(c) {
-		changed = true
-	}
-	return changed
+func (c *PulsarCluster) StatusSetDefault() bool {
+	return c.Status.SetDefault(c)
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
