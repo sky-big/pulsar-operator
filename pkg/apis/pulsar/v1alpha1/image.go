@@ -19,44 +19,44 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bo
 	changed := false
 	switch component {
 	case ZookeeperComponent:
-		if cluster.Spec.ZookeeperSpec.Image.Repository == "" {
-			cluster.Spec.ZookeeperSpec.Image.Repository = DefaultContainerRepository
+		if cluster.Spec.Zookeeper.Image.Repository == "" {
+			cluster.Spec.Zookeeper.Image.Repository = DefaultContainerRepository
 			changed = true
 		}
-		if cluster.Spec.ZookeeperSpec.Image.Tag == "" {
-			cluster.Spec.ZookeeperSpec.Image.Tag = DefaultContainerVersion
+		if cluster.Spec.Zookeeper.Image.Tag == "" {
+			cluster.Spec.Zookeeper.Image.Tag = DefaultContainerVersion
 			changed = true
 		}
-		if cluster.Spec.ZookeeperSpec.Image.PullPolicy == "" {
-			cluster.Spec.ZookeeperSpec.Image.PullPolicy = DefaultContainerPolicy
+		if cluster.Spec.Zookeeper.Image.PullPolicy == "" {
+			cluster.Spec.Zookeeper.Image.PullPolicy = DefaultContainerPolicy
 			changed = true
 		}
 
 	case BrokerComponent:
-		if cluster.Spec.BrokerSpec.Image.Repository == "" {
-			cluster.Spec.BrokerSpec.Image.Repository = DefaultContainerRepository
+		if cluster.Spec.Broker.Image.Repository == "" {
+			cluster.Spec.Broker.Image.Repository = DefaultContainerRepository
 			changed = true
 		}
-		if cluster.Spec.BrokerSpec.Image.Tag == "" {
-			cluster.Spec.BrokerSpec.Image.Tag = DefaultContainerVersion
+		if cluster.Spec.Broker.Image.Tag == "" {
+			cluster.Spec.Broker.Image.Tag = DefaultContainerVersion
 			changed = true
 		}
-		if cluster.Spec.BrokerSpec.Image.PullPolicy == "" {
-			cluster.Spec.BrokerSpec.Image.PullPolicy = DefaultContainerPolicy
+		if cluster.Spec.Broker.Image.PullPolicy == "" {
+			cluster.Spec.Broker.Image.PullPolicy = DefaultContainerPolicy
 			changed = true
 		}
 
 	case BookieComponent:
-		if cluster.Spec.BookieSpec.Image.Repository == "" {
-			cluster.Spec.BookieSpec.Image.Repository = DefaultContainerRepository
+		if cluster.Spec.Bookie.Image.Repository == "" {
+			cluster.Spec.Bookie.Image.Repository = DefaultContainerRepository
 			changed = true
 		}
-		if cluster.Spec.BookieSpec.Image.Tag == "" {
-			cluster.Spec.BookieSpec.Image.Tag = DefaultContainerVersion
+		if cluster.Spec.Bookie.Image.Tag == "" {
+			cluster.Spec.Bookie.Image.Tag = DefaultContainerVersion
 			changed = true
 		}
-		if cluster.Spec.BookieSpec.Image.PullPolicy == "" {
-			cluster.Spec.BookieSpec.Image.PullPolicy = DefaultContainerPolicy
+		if cluster.Spec.Bookie.Image.PullPolicy == "" {
+			cluster.Spec.Bookie.Image.PullPolicy = DefaultContainerPolicy
 			changed = true
 		}
 	}
