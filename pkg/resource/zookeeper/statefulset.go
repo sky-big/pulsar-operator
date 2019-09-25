@@ -33,7 +33,7 @@ func MakeStatefulSetName(c *pulsarv1alpha1.PulsarCluster) string {
 func makeStatefulSetPodNameList(c *pulsarv1alpha1.PulsarCluster) []string {
 	result := make([]string, 0)
 	for i := 0; i < int(c.Spec.Zookeeper.Size); i++ {
-		result = append(result, fmt.Sprintf("%s-%s"), MakeStatefulSetName(c), strconv.Itoa(i))
+		result = append(result, fmt.Sprintf("%s-%s", MakeStatefulSetName(c), strconv.Itoa(i)))
 	}
 	return result
 }
