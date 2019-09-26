@@ -9,14 +9,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const (
-	// Mem
-	PulsarMemData = "\" -Xms100m -Xmx256m \""
-
-	// GC
-	PulsarGCData = "\" -XX:+UseG1GC -XX:MaxGCPauseMillis=10\""
-)
-
 func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 	return &v1.ConfigMap{
 		TypeMeta: metav1.TypeMeta{

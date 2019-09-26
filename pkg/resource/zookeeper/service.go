@@ -36,11 +36,11 @@ func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
 	return []v1.ServicePort{
 		{
 			Name: "server",
-			Port: pulsarv1alpha1.ZookeeperContainerServerDefaultPort,
+			Port: ZookeeperContainerServerDefaultPort,
 		},
 		{
 			Name: "leader-election",
-			Port: pulsarv1alpha1.ZookeeperContainerLeaderElectionPort,
+			Port: ZookeeperContainerLeaderElectionPort,
 		},
 	}
 }

@@ -36,18 +36,6 @@ const (
 	DefaultContainerPolicy = "Always"
 )
 
-// Zookeeper
-const (
-	// Container Client Default Port
-	ZookeeperContainerClientDefaultPort = 2181
-
-	// Container Server Default Port
-	ZookeeperContainerServerDefaultPort = 2888
-
-	// Container Leader Election Port
-	ZookeeperContainerLeaderElectionPort = 3888
-)
-
 // Labels
 const (
 	// App
