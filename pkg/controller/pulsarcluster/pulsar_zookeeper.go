@@ -88,6 +88,11 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperStatefulSet(c *pulsarv1alpha1
 			}
 		}
 	}
+	r.log.Info("Zookeeper Num",
+		"Replicas", ssCur.Status.Replicas,
+		"ReadyNum", ssCur.Status.ReadyReplicas,
+		"CurrentNum", ssCur.Status.CurrentReplicas,
+	)
 	return
 }
 
