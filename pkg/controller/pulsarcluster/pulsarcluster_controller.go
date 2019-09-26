@@ -175,3 +175,8 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 func (r *ReconcilePulsarCluster) reconcilePulsarCluster(c *pulsarv1alpha1.PulsarCluster) error {
 	return nil
 }
+
+// Init Pulsar MetaData
+func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1alpha1.PulsarCluster) error {
+	return nil
+}
