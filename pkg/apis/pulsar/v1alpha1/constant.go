@@ -26,11 +26,17 @@ const (
 )
 
 const (
-	// DefaultZkContainerRepository is the default docker repo for the container
-	DefaultContainerRepository = "apachepulsar/pulsar-all"
+	// DefaultPulsarContainerRepository is the pulsar common container
+	DefaultPulsarContainerRepository = "apachepulsar/pulsar"
 
-	// DefaultZkContainerVersion is the default tag used for for the container
-	DefaultContainerVersion = "latest"
+	// DefaultPulsarContainerVersion is the default tag used for container
+	DefaultPulsarContainerVersion = "latest"
+
+	// DefaultAllPulsarContainerRepository is the default docker repo for components
+	DefaultAllPulsarContainerRepository = "apachepulsar/pulsar-all"
+
+	// DefaultAllPulsarContainerVersion is the default tag used for components
+	DefaultAllPulsarContainerVersion = "latest"
 
 	// DefaultZkContainerPolicy is the default container pull policy used
 	DefaultContainerPolicy = "Always"

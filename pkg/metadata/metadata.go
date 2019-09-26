@@ -1,0 +1,87 @@
+package metadata
+
+import (
+	"fmt"
+
+	"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/components/zookeeper"
+
+	"k8s.io/api/batch/v1"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+const (
+	JobContainerName = "pulsar-cluster-metadata-init-container"
+
+	ComponentName = "init-cluster-metadata-job"
+)
+
+func MakeInitClusterMetaDataJob(c *v1alpha1.PulsarCluster) *v1.Job {
+	return &v1.Job{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Job",
+			APIVersion: "batch/v1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      MakeInitClusterMetaDataJobName(c),
+			Namespace: c.Namespace,
+			Labels:    v1alpha1.MakeLabels(c, ComponentName),
+		},
+		Spec: makeJobSpec(c),
+	}
+}
+
+func MakeInitClusterMetaDataJobName(c *v1alpha1.PulsarCluster) string {
+	return fmt.Sprintf("%s-init-cluster-metadata-job", c.GetName())
+}
+
+func makeJobSpec(c *v1alpha1.PulsarCluster) v1.JobSpec {
+	return v1.JobSpec{
+		Selector: &metav1.LabelSelector{
+			MatchLabels: v1alpha1.MakeLabels(c, ComponentName),
+		},
+		Template: makePodTemplate(c),
+	}
+}
+
+func makePodTemplate(c *v1alpha1.PulsarCluster) corev1.PodTemplateSpec {
+	return corev1.PodTemplateSpec{
+		ObjectMeta: metav1.ObjectMeta{
+			GenerateName: c.GetName(),
+			Labels:       v1alpha1.MakeLabels(c, ComponentName),
+		},
+		Spec: corev1.PodSpec{
+			Containers:    []corev1.Container{makeContainer(c)},
+			RestartPolicy: corev1.RestartPolicyNever,
+		},
+	}
+}
+
+func makeContainer(c *v1alpha1.PulsarCluster) corev1.Container {
+	return corev1.Container{
+		Name:    JobContainerName,
+		Image:   fmt.Sprintf("%s:%s", v1alpha1.DefaultPulsarContainerRepository, v1alpha1.DefaultPulsarContainerVersion),
+		Command: makeContainerCommand(),
+		Args:    makeConainerCommandArgs(),
+	}
+}
+
+func makeContainerCommand() []string {
+	return []string{
+		"sh",
+		"-c",
+	}
+}
+
+func makeConainerCommandArgs(c *v1alpha1.PulsarCluster) []string {
+	return []string{
+		"bin/pulsar initialize-cluster-metadata " +
+			fmt.Sprintf("--cluster %s ", c.GetName()) +
+			fmt.Sprintf("--zookeeper %s ", zookeeper.MakeService(c)) +
+			fmt.Sprintf("--configuration-store %s ", zookeeper.MakeService(c)) +
+			fmt.Sprintf(" --web-service-url %s ", "") +
+			fmt.Sprintf("--broker-service-url %s ", "") +
+			"|| true;",
+	}
+}

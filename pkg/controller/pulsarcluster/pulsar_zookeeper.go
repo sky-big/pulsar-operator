@@ -4,7 +4,7 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/resource/zookeeper"
+	"github.com/sky-big/pulsar-operator/pkg/components/zookeeper"
 
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/api/core/v1"

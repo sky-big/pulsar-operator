@@ -20,11 +20,11 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bo
 	switch component {
 	case ZookeeperComponent:
 		if cluster.Spec.Zookeeper.Image.Repository == "" {
-			cluster.Spec.Zookeeper.Image.Repository = DefaultContainerRepository
+			cluster.Spec.Zookeeper.Image.Repository = DefaultAllPulsarContainerRepository
 			changed = true
 		}
 		if cluster.Spec.Zookeeper.Image.Tag == "" {
-			cluster.Spec.Zookeeper.Image.Tag = DefaultContainerVersion
+			cluster.Spec.Zookeeper.Image.Tag = DefaultAllPulsarContainerVersion
 			changed = true
 		}
 		if cluster.Spec.Zookeeper.Image.PullPolicy == "" {
@@ -34,11 +34,11 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bo
 
 	case BrokerComponent:
 		if cluster.Spec.Broker.Image.Repository == "" {
-			cluster.Spec.Broker.Image.Repository = DefaultContainerRepository
+			cluster.Spec.Broker.Image.Repository = DefaultAllPulsarContainerRepository
 			changed = true
 		}
 		if cluster.Spec.Broker.Image.Tag == "" {
-			cluster.Spec.Broker.Image.Tag = DefaultContainerVersion
+			cluster.Spec.Broker.Image.Tag = DefaultAllPulsarContainerVersion
 			changed = true
 		}
 		if cluster.Spec.Broker.Image.PullPolicy == "" {
@@ -48,11 +48,11 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bo
 
 	case BookieComponent:
 		if cluster.Spec.Bookie.Image.Repository == "" {
-			cluster.Spec.Bookie.Image.Repository = DefaultContainerRepository
+			cluster.Spec.Bookie.Image.Repository = DefaultAllPulsarContainerRepository
 			changed = true
 		}
 		if cluster.Spec.Bookie.Image.Tag == "" {
-			cluster.Spec.Bookie.Image.Tag = DefaultContainerVersion
+			cluster.Spec.Bookie.Image.Tag = DefaultAllPulsarContainerVersion
 			changed = true
 		}
 		if cluster.Spec.Bookie.Image.PullPolicy == "" {
