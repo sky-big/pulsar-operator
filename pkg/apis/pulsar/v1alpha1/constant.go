@@ -64,3 +64,9 @@ func MakeLabels(c *PulsarCluster, component string) map[string]string {
 	labels[LabelComponent] = component
 	return labels
 }
+
+// Service
+const (
+	// Service Domain
+	ServiceDomain = "svc.cluster.local"
+)

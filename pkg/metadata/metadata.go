@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/components/broker"
 	"github.com/sky-big/pulsar-operator/pkg/components/zookeeper"
 
 	"k8s.io/api/batch/v1"
@@ -75,13 +76,16 @@ func makeContainerCommand() []string {
 }
 
 func makeContainerCommandArgs(c *v1alpha1.PulsarCluster) []string {
+	brokerServiceName := broker.MakeBrokerService(c)
+	webServiceUrl := fmt.Sprintf("http://%s.%s.%s:8000", brokerServiceName, c.Namespace, v1alpha1.ServiceDomain)
+	brokerServiceUrl := fmt.Sprintf("pulsar://%s.%s.%s:6650", brokerServiceName, c.Namespace, v1alpha1.ServiceDomain)
 	return []string{
 		"bin/pulsar initialize-cluster-metadata " +
 			fmt.Sprintf("--cluster %s ", c.GetName()) +
 			fmt.Sprintf("--zookeeper %s ", zookeeper.MakeService(c)) +
 			fmt.Sprintf("--configuration-store %s ", zookeeper.MakeService(c)) +
-			fmt.Sprintf(" --web-service-url %s ", "") +
-			fmt.Sprintf("--broker-service-url %s ", "") +
+			fmt.Sprintf(" --web-service-url %s/ ", webServiceUrl) +
+			fmt.Sprintf("--broker-service-url %s/ ", brokerServiceUrl) +
 			"|| true;",
 	}
 }
