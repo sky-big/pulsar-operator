@@ -144,7 +144,7 @@ func (r *ReconcilePulsarCluster) isZookeeperRunning(c *pulsarv1alpha1.PulsarClus
 		Name:      zookeeper.MakeStatefulSetName(c),
 		Namespace: c.Namespace,
 	}, ss)
-	if err != nil {
+	if err == nil {
 		return ss.Status.ReadyReplicas == c.Spec.Zookeeper.Size
 	}
 	return false
