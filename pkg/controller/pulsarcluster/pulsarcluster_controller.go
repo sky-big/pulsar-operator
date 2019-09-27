@@ -23,6 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 	"sigs.k8s.io/controller-runtime/pkg/source"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 type reconcileFunc func(cluster *pulsarv1alpha1.PulsarCluster) error
@@ -193,6 +194,10 @@ func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1a
 			Namespace: job.Namespace,
 		}, jobCur)
 		if err != nil && errors.IsNotFound(err) {
+			if err = controllerutil.SetControllerReference(c, job, r.scheme); err != nil {
+				return err
+			}
+
 			if err = r.client.Create(context.TODO(), job); err == nil {
 				r.log.Info("Start Init Pulsar Cluster MetaData Job",
 					"Job.Namespace", job.Namespace,
