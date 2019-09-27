@@ -45,8 +45,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperConfigMap(c *pulsarv1alpha1.P
 		Namespace: cmCreate.Namespace,
 	}, cmCur)
 	if err != nil && errors.IsNotFound(err) {
-		err = r.client.Create(context.TODO(), cmCreate)
-		if err == nil {
+		if err = r.client.Create(context.TODO(), cmCreate); err == nil {
 			r.log.Info("Create Pulsar Zookeeper Config Map Success",
 				"ConfigMap.Namespace", c.Namespace,
 				"ConfigMap.Name", cmCreate.GetName())
@@ -68,8 +67,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperStatefulSet(c *pulsarv1alpha1
 		Namespace: ssCreate.Namespace,
 	}, ssCur)
 	if err != nil && errors.IsNotFound(err) {
-		err = r.client.Create(context.TODO(), ssCreate)
-		if err == nil {
+		if err = r.client.Create(context.TODO(), ssCreate); err == nil {
 			r.log.Info("Create Pulsar Zookeeper StatefulSet Success",
 				"StatefulSet.Namespace", c.Namespace,
 				"StatefulSet.Name", ssCreate.GetName())
@@ -80,15 +78,15 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperStatefulSet(c *pulsarv1alpha1
 		if c.Spec.Zookeeper.Size != *ssCur.Spec.Replicas {
 			old := *ssCur.Spec.Replicas
 			ssCur.Spec.Replicas = &c.Spec.Zookeeper.Size
-			err = r.client.Update(context.TODO(), ssCur)
-			if err == nil {
+			if err = r.client.Update(context.TODO(), ssCur); err == nil {
 				r.log.Info("Scale Pulsar Zookeeper StatefulSet Success",
 					"OldSize", old,
 					"NewSize", c.Spec.Zookeeper.Size)
 			}
 		}
 	}
-	r.log.Info("Zookeeper Num",
+
+	r.log.Info("Zookeeper Node Num Info",
 		"Replicas", ssCur.Status.Replicas,
 		"ReadyNum", ssCur.Status.ReadyReplicas,
 		"CurrentNum", ssCur.Status.CurrentReplicas,
@@ -109,8 +107,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperService(c *pulsarv1alpha1.Pul
 		Namespace: sCreate.Namespace,
 	}, sCur)
 	if err != nil && errors.IsNotFound(err) {
-		err = r.client.Create(context.TODO(), sCreate)
-		if err == nil {
+		if err = r.client.Create(context.TODO(), sCreate); err == nil {
 			r.log.Info("Create Pulsar Zookeeper Service Success",
 				"Service.Namespace", c.Namespace,
 				"Service.Name", sCreate.GetName())
@@ -132,12 +129,23 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperPodDisruptionBudget(c *pulsar
 		Namespace: pdb.Namespace,
 	}, pdbCur)
 	if err != nil && errors.IsNotFound(err) {
-		err = r.client.Create(context.TODO(), pdb)
-		if err == nil {
+		if err = r.client.Create(context.TODO(), pdb); err == nil {
 			r.log.Info("Create Pulsar Zookeeper PodDisruptionBudget Success",
 				"PodDisruptionBudget.Namespace", c.Namespace,
 				"PodDisruptionBudget.Name", pdb.GetName())
 		}
 	}
 	return
+}
+
+func (r *ReconcilePulsarCluster) isZookeeperRunning(c *pulsarv1alpha1.PulsarCluster) bool {
+	ss := &appsv1.StatefulSet{}
+	err := r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      zookeeper.MakeStatefulSetName(c),
+		Namespace: c.Namespace,
+	}, ss)
+	if err != nil {
+		return ss.Status.ReadyReplicas == c.Spec.Zookeeper.Size
+	}
+	return false
 }

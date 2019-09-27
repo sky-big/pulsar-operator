@@ -4,14 +4,17 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/metadata"
 
 	"github.com/go-logr/logr"
 
 	appsv1 "k8s.io/api/apps/v1"
+	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/api/policy/v1beta1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -173,10 +176,38 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 
 // Reconcile PulsarCluster Resource
 func (r *ReconcilePulsarCluster) reconcilePulsarCluster(c *pulsarv1alpha1.PulsarCluster) error {
+	if err := r.reconcileInitPulsarClusterMetaData(c); err != nil {
+		return err
+	}
 	return nil
 }
 
 // Init Pulsar MetaData
-func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1alpha1.PulsarCluster) error {
-	return nil
+func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	if c.Status.Phase == pulsarv1alpha1.PulsarClusterInitingPhase && r.isZookeeperRunning(c) {
+		job := metadata.MakeInitClusterMetaDataJob(c)
+
+		jobCur := &batchv1.Job{}
+		err = r.client.Get(context.TODO(), types.NamespacedName{
+			Name:      job.Name,
+			Namespace: job.Namespace,
+		}, jobCur)
+		if err != nil && errors.IsNotFound(err) {
+			if err = r.client.Create(context.TODO(), job); err == nil {
+				r.log.Info("Start Init Pulsar Cluster MetaData Job",
+					"Job.Namespace", job.Namespace,
+					"Job.Name", job.Name)
+			}
+
+		} else if err == nil && jobCur.Status.Succeeded == 1 {
+			// Init Pulsar Cluster Success
+			c.Status.Phase = pulsarv1alpha1.PulsarClusterLaunchingPhase
+			if err = r.client.Status().Update(context.TODO(), c); err == nil {
+				r.log.Info("Init Pulsar Cluster MetaData Success",
+					"PulsarCluster.Namespace", c.Namespace,
+					"PulsarCluster.Name", c.Name)
+			}
+		}
+	}
+	return
 }

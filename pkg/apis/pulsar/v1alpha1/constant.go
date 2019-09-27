@@ -10,6 +10,9 @@ const (
 	// InitIng Phase
 	PulsarClusterInitingPhase = "Initing"
 
+	// Launching Phase
+	PulsarClusterLaunchingPhase = "Launching"
+
 	// Running Phase
 	PulsarClusterRunningPhase = "Running"
 )

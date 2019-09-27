@@ -63,7 +63,7 @@ func makeContainer(c *v1alpha1.PulsarCluster) corev1.Container {
 		Name:    JobContainerName,
 		Image:   fmt.Sprintf("%s:%s", v1alpha1.DefaultPulsarContainerRepository, v1alpha1.DefaultPulsarContainerVersion),
 		Command: makeContainerCommand(),
-		Args:    makeConainerCommandArgs(),
+		Args:    makeContainerCommandArgs(c),
 	}
 }
 
@@ -74,7 +74,7 @@ func makeContainerCommand() []string {
 	}
 }
 
-func makeConainerCommandArgs(c *v1alpha1.PulsarCluster) []string {
+func makeContainerCommandArgs(c *v1alpha1.PulsarCluster) []string {
 	return []string{
 		"bin/pulsar initialize-cluster-metadata " +
 			fmt.Sprintf("--cluster %s ", c.GetName()) +
