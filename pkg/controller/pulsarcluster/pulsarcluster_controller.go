@@ -18,12 +18,12 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 	"sigs.k8s.io/controller-runtime/pkg/source"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
 type reconcileFunc func(cluster *pulsarv1alpha1.PulsarCluster) error
@@ -95,6 +95,12 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 
 	// Watch PodDisruptionBudget
 	err = c.Watch(&source.Kind{Type: &v1beta1.PodDisruptionBudget{}}, &handler.EnqueueRequestForOwner{
+		IsController: true,
+		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
+	})
+
+	// Watch Job
+	err = c.Watch(&source.Kind{Type: &batchv1.Job{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
 		OwnerType:    &pulsarv1alpha1.PulsarCluster{},
 	})
