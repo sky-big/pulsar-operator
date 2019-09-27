@@ -39,9 +39,6 @@ func MakeInitClusterMetaDataJobName(c *v1alpha1.PulsarCluster) string {
 
 func makeJobSpec(c *v1alpha1.PulsarCluster) v1.JobSpec {
 	return v1.JobSpec{
-		Selector: &metav1.LabelSelector{
-			MatchLabels: v1alpha1.MakeLabels(c, ComponentName),
-		},
 		Template: makePodTemplate(c),
 	}
 }
