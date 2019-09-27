@@ -79,8 +79,8 @@ func makeContainerCommandArgs(c *v1alpha1.PulsarCluster) []string {
 	return []string{
 		"bin/pulsar initialize-cluster-metadata " +
 			fmt.Sprintf("--cluster %s ", c.GetName()) +
-			fmt.Sprintf("--zookeeper %s ", zookeeper.MakeService(c)) +
-			fmt.Sprintf("--configuration-store %s ", zookeeper.MakeService(c)) +
+			fmt.Sprintf("--zookeeper %s ", zookeeper.MakeServiceName(c)) +
+			fmt.Sprintf("--configuration-store %s ", zookeeper.MakeServiceName(c)) +
 			fmt.Sprintf(" --web-service-url %s/ ", webServiceUrl) +
 			fmt.Sprintf("--broker-service-url %s/ ", brokerServiceUrl) +
 			"|| true;",
