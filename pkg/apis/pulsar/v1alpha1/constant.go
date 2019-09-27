@@ -10,6 +10,9 @@ const (
 	// InitIng Phase
 	PulsarClusterInitingPhase = "Initing"
 
+	// Launching Phase
+	PulsarClusterLaunchingPhase = "Launching"
+
 	// Running Phase
 	PulsarClusterRunningPhase = "Running"
 )
@@ -26,26 +29,20 @@ const (
 )
 
 const (
-	// DefaultZkContainerRepository is the default docker repo for the container
-	DefaultContainerRepository = "apachepulsar/pulsar-all"
+	// DefaultPulsarContainerRepository is the pulsar common container
+	DefaultPulsarContainerRepository = "apachepulsar/pulsar"
 
-	// DefaultZkContainerVersion is the default tag used for for the container
-	DefaultContainerVersion = "latest"
+	// DefaultPulsarContainerVersion is the default tag used for container
+	DefaultPulsarContainerVersion = "latest"
+
+	// DefaultAllPulsarContainerRepository is the default docker repo for components
+	DefaultAllPulsarContainerRepository = "apachepulsar/pulsar-all"
+
+	// DefaultAllPulsarContainerVersion is the default tag used for components
+	DefaultAllPulsarContainerVersion = "latest"
 
 	// DefaultZkContainerPolicy is the default container pull policy used
 	DefaultContainerPolicy = "Always"
-)
-
-// Zookeeper
-const (
-	// Container Client Default Port
-	ZookeeperContainerClientDefaultPort = 2181
-
-	// Container Server Default Port
-	ZookeeperContainerServerDefaultPort = 2888
-
-	// Container Leader Election Port
-	ZookeeperContainerLeaderElectionPort = 3888
 )
 
 // Labels
@@ -67,3 +64,9 @@ func MakeLabels(c *PulsarCluster, component string) map[string]string {
 	labels[LabelComponent] = component
 	return labels
 }
+
+// Service
+const (
+	// Service Domain
+	ServiceDomain = "svc.cluster.local"
+)

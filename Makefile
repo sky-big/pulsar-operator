@@ -40,8 +40,17 @@ clean:
 
 # generate code(zz_generated*)
 # generate go mod list to vendor
+# Example:
+#   make generate
 generate:
 	operator-sdk generate k8s
 	operator-sdk generate openapi
 	go mod vendor
 .PHONY: generate
+	
+# local test
+# Example:
+#   make local
+local:
+	operator-sdk up local
+.PHONY: local

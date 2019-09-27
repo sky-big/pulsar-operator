@@ -44,17 +44,21 @@ func makeStatefulSetSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.StatefulSetSpec
 		Selector: &metav1.LabelSelector{
 			MatchLabels: pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
 		},
-		Replicas: &c.Spec.Zookeeper.Size,
-		Template: v1.PodTemplateSpec{
-			ObjectMeta: metav1.ObjectMeta{
-				GenerateName: c.GetName(),
-				Labels:       pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
-			},
-			Spec: makePodSpec(c),
-		},
+		Replicas:            &c.Spec.Zookeeper.Size,
+		Template:            makeStatefulSetPodTemplate(c),
 		PodManagementPolicy: appsv1.OrderedReadyPodManagement,
 		UpdateStrategy: appsv1.StatefulSetUpdateStrategy{
 			Type: appsv1.RollingUpdateStatefulSetStrategyType,
 		},
+	}
+}
+
+func makeStatefulSetPodTemplate(c *pulsarv1alpha1.PulsarCluster) v1.PodTemplateSpec {
+	return v1.PodTemplateSpec{
+		ObjectMeta: metav1.ObjectMeta{
+			GenerateName: c.GetName(),
+			Labels:       pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+		},
+		Spec: makePodSpec(c),
 	}
 }

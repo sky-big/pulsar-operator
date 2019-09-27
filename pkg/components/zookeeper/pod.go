@@ -12,14 +12,6 @@ import (
 	"k8s.io/apimachinery/pkg/util/intstr"
 )
 
-const (
-	// Container Zookeeper Server List Env Key
-	ContainerZookeeperServerList = "ZOOKEEPER_SERVERS"
-
-	// Container Data Volume Name
-	ContainerDataVolumeName = "datadir"
-)
-
 func MakePodDisruptionBudget(c *pulsarv1alpha1.PulsarCluster) *v1beta1.PodDisruptionBudget {
 	count := intstr.FromInt(1)
 	return &v1beta1.PodDisruptionBudget{
@@ -73,19 +65,19 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 			InitialDelaySeconds: 5,
 			TimeoutSeconds:      5,
 			Handler: v1.Handler{
-				Exec: &v1.ExecAction{Command: []string{"bin/pulsar-zookeeper-ruok.sh"}},
+				Exec: &v1.ExecAction{Command: []string{ReadinessProbeScript}},
 			},
 		},
 		LivenessProbe: &v1.Probe{
 			InitialDelaySeconds: 15,
 			TimeoutSeconds:      5,
 			Handler: v1.Handler{
-				Exec: &v1.ExecAction{Command: []string{"bin/pulsar-zookeeper-ruok.sh"}},
+				Exec: &v1.ExecAction{Command: []string{LivenessProbeScript}},
 			},
 		},
 
 		VolumeMounts: []v1.VolumeMount{
-			{Name: ContainerDataVolumeName, MountPath: "/pulsar/data"},
+			{Name: ContainerDataVolumeName, MountPath: ContainerDataPath},
 		},
 
 		ImagePullPolicy: c.Spec.Zookeeper.Image.PullPolicy,
@@ -112,17 +104,17 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
 			Name:          "client",
-			ContainerPort: pulsarv1alpha1.ZookeeperContainerClientDefaultPort,
+			ContainerPort: ZookeeperContainerClientDefaultPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 		{
 			Name:          "server",
-			ContainerPort: pulsarv1alpha1.ZookeeperContainerServerDefaultPort,
+			ContainerPort: ZookeeperContainerServerDefaultPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 		{
 			Name:          "leader-election",
-			ContainerPort: pulsarv1alpha1.ZookeeperContainerLeaderElectionPort,
+			ContainerPort: ZookeeperContainerLeaderElectionPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}
