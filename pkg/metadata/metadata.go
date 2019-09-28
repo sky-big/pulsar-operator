@@ -73,7 +73,7 @@ func makeContainerCommand() []string {
 }
 
 func makeContainerCommandArgs(c *v1alpha1.PulsarCluster) []string {
-	brokerServiceName := broker.MakeBrokerService(c)
+	brokerServiceName := broker.MakeServiceName(c)
 	webServiceUrl := fmt.Sprintf("http://%s.%s.%s:8000", brokerServiceName, c.Namespace, v1alpha1.ServiceDomain)
 	brokerServiceUrl := fmt.Sprintf("pulsar://%s.%s.%s:6650", brokerServiceName, c.Namespace, v1alpha1.ServiceDomain)
 	return []string{
