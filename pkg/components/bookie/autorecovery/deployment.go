@@ -1,4 +1,4 @@
-package broker
+package autorecovery
 
 import (
 	"fmt"
@@ -19,22 +19,23 @@ func MakeDeployment(c *pulsarv1alpha1.PulsarCluster) *appsv1.Deployment {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      MakeDeploymentName(c),
 			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.BrokerComponent),
+			Labels:    pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
 		},
 		Spec: makeDeploymentSpec(c),
 	}
 }
 
 func MakeDeploymentName(c *pulsarv1alpha1.PulsarCluster) string {
-	return fmt.Sprintf("%s-broker-deployment", c.GetName())
+	return fmt.Sprintf("%s-bookie-autorecovery-deployment", c.GetName())
 }
 
 func makeDeploymentSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.DeploymentSpec {
+	var podNum int32 = 3
 	return appsv1.DeploymentSpec{
 		Selector: &metav1.LabelSelector{
-			MatchLabels: pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.BrokerComponent),
+			MatchLabels: pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
 		},
-		Replicas: &c.Spec.Broker.Size,
+		Replicas: &podNum,
 		Template: makeDeploymentPodTemplate(c),
 	}
 }
@@ -43,8 +44,9 @@ func makeDeploymentPodTemplate(c *pulsarv1alpha1.PulsarCluster) v1.PodTemplateSp
 	return v1.PodTemplateSpec{
 		ObjectMeta: metav1.ObjectMeta{
 			GenerateName: c.GetName(),
-			Labels:       pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.BrokerComponent),
+			Labels:       pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
 		},
 		Spec: makePodSpec(c),
 	}
 }
+

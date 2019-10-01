@@ -13,7 +13,6 @@ type Bookie struct {
 	// Size (DEPRECATED) is the expected size of the bookie cluster. This
 	// has been replaced with "Replicas"
 	//
-	// The valid range of size is from 1 to 7.
 	Size int32 `json:"size,omitempty"`
 
 	// Pod defines the policy to create pod for the bookie cluster.
@@ -23,5 +22,19 @@ type Bookie struct {
 }
 
 func (b *Bookie) SetDefault(cluster *PulsarCluster) bool {
-	return false
+	changed := false
+
+	if b.Image.SetDefault(cluster, BookieComponent) {
+		changed = true
+	}
+
+	if b.Size == 0 {
+		b.Size = BookieClusterDefaultNodeNum
+		changed = true
+	}
+
+	if b.Pod.SetDefault(cluster, BookieComponent) {
+		changed = true
+	}
+	return changed
 }

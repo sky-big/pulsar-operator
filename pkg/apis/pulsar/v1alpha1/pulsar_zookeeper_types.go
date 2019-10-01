@@ -1,10 +1,5 @@
 package v1alpha1
 
-const (
-	// zookeeper cluster default num is 3
-	ZookeeperClusterDefaultNodeNum = 3
-)
-
 // Zookeeper defines the desired state of Zookeeper
 // +k8s:openapi-gen=true
 type Zookeeper struct {

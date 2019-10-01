@@ -23,5 +23,19 @@ type Broker struct {
 }
 
 func (b *Broker) SetDefault(cluster *PulsarCluster) bool {
-	return false
+	changed := false
+
+	if b.Image.SetDefault(cluster, BrokerComponent) {
+		changed = true
+	}
+
+	if b.Size == 0 {
+		b.Size = BrokerClusterDefaultNodeNum
+		changed = true
+	}
+
+	if b.Pod.SetDefault(cluster, BrokerComponent) {
+		changed = true
+	}
+	return changed
 }

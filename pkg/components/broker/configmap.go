@@ -21,15 +21,15 @@ func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 			Namespace: c.Namespace,
 		},
 		Data: map[string]string{
-			"PULSAR_MEM": PulsarMemData,
-			"zookeeperServers": zookeeper.MakeConfigMapName(c),
-			"configurationStoreServers": zookeeper.MakeConfigMapName(c),
-			"clusterName": c.GetName(),
+			"PULSAR_MEM":                       PulsarMemData,
+			"zookeeperServers":                 zookeeper.MakeConfigMapName(c),
+			"configurationStoreServers":        zookeeper.MakeConfigMapName(c),
+			"clusterName":                      c.GetName(),
 			"managedLedgerDefaultEnsembleSize": ManagedLedgerDefaultEnsembleSize,
-			"managedLedgerDefaultWriteQuorum": ManagedLedgerDefaultWriteQuorum,
-			"managedLedgerDefaultAckQuorum": ManagedLedgerDefaultAckQuorum,
-			"functionsWorkerEnabled": FunctionsWorkerEnabled,
-			"PF_pulsarFunctionsCluster": c.GetName(),
+			"managedLedgerDefaultWriteQuorum":  ManagedLedgerDefaultWriteQuorum,
+			"managedLedgerDefaultAckQuorum":    ManagedLedgerDefaultAckQuorum,
+			"functionsWorkerEnabled":           FunctionsWorkerEnabled,
+			"PF_pulsarFunctionsCluster":        c.GetName(),
 		},
 	}
 }

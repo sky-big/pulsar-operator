@@ -26,6 +26,9 @@ const (
 
 	// Bookie Component
 	BookieComponent = "bookie"
+
+	// Bookie AutoRecovery Child Component
+	BookieAutoRecoveryComponent = "bookie-autorecovery"
 )
 
 const (
@@ -55,13 +58,23 @@ const (
 
 	// Component
 	LabelComponent = "component"
+
+	// ChildComponent
+	LabelChildComponent = "child-component"
 )
 
 func MakeLabels(c *PulsarCluster, component string) map[string]string {
+	return MakeAllLabels(c, component, "")
+}
+
+func MakeAllLabels(c *PulsarCluster, component string, childComponent string) map[string]string {
 	labels := make(map[string]string)
 	labels[LabelService] = Service
 	labels[LabelCluster] = c.GetName()
 	labels[LabelComponent] = component
+	if childComponent != "" {
+		labels[LabelChildComponent] = childComponent
+	}
 	return labels
 }
 
@@ -69,4 +82,19 @@ func MakeLabels(c *PulsarCluster, component string) map[string]string {
 const (
 	// Service Domain
 	ServiceDomain = "svc.cluster.local"
+)
+
+// Default Number
+const (
+	// zookeeper number default num is 3
+	ZookeeperClusterDefaultNodeNum = 3
+
+	// broker number default num is 3
+	BrokerClusterDefaultNodeNum = 3
+
+	// bookie number default num is 3
+	BookieClusterDefaultNodeNum = 3
+
+	// bookie autorecovery default num is 3
+	BookieAutoRecoveryClusterDefaultNodeNum = 3
 )

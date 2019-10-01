@@ -15,13 +15,13 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:    "broker",
-		Image:   c.Spec.Broker.Image.GenerateImage(),
-		Command: makeContainerCommand(),
-		Args:    makeContainerCommandArgs(),
-		Ports:   makeContainerPort(c),
-		Env:     makeContainerEnv(c),
-		EnvFrom: makeContainerEnvFrom(c),
+		Name:            "broker",
+		Image:           c.Spec.Broker.Image.GenerateImage(),
+		Command:         makeContainerCommand(),
+		Args:            makeContainerCommandArgs(),
+		Ports:           makeContainerPort(c),
+		Env:             makeContainerEnv(c),
+		EnvFrom:         makeContainerEnvFrom(c),
 		ImagePullPolicy: c.Spec.Broker.Image.PullPolicy,
 	}
 }
@@ -60,7 +60,7 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
 	env := make([]v1.EnvVar, 0)
 	env = append(env, v1.EnvVar{
-		Name: AdvertisedAddress,
+		Name:      AdvertisedAddress,
 		ValueFrom: &v1.EnvVarSource{FieldRef: &v1.ObjectFieldSelector{FieldPath: "status.podIP"}},
 	})
 	return env
