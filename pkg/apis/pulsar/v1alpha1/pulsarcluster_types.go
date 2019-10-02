@@ -22,6 +22,9 @@ type PulsarClusterSpec struct {
 
 	// Broker defines the desired state of Broker
 	Broker Broker `json:"broker,omitempty"`
+
+	// Proxy defines the desired state of Proxy
+	Proxy Broker `json:"proxy,omitempty"`
 }
 
 func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
@@ -48,7 +51,7 @@ type PulsarClusterStatus struct {
 	// Important: Run "operator-sdk generate k8s" to regenerate code after modifying this file
 	// Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html
 
-	// Pulsar Cluster Phase
+	// Pulsar cluster phase
 	Phase string `json:"phase,omitempty"`
 }
 

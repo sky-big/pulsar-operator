@@ -36,11 +36,11 @@ func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
 	return []v1.ServicePort{
 		{
 			Name: "http",
-			Port: PulsarBrokerHttpServicePort,
+			Port: pulsarv1alpha1.PulsarBrokerHttpServicePort,
 		},
 		{
 			Name: "pulsar",
-			Port: PulsarBrokerPulsarServicePort,
+			Port: pulsarv1alpha1.PulsarBrokerPulsarServicePort,
 		},
 	}
 }

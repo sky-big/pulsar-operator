@@ -46,7 +46,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperConfigMap(c *pulsarv1alpha1.P
 		}
 
 		if err = r.client.Create(context.TODO(), cmCreate); err == nil {
-			r.log.Info("Create Pulsar Zookeeper Config Map Success",
+			r.log.Info("Create pulsar zookeeper config map success",
 				"ConfigMap.Namespace", c.Namespace,
 				"ConfigMap.Name", cmCreate.GetName())
 		}
@@ -68,7 +68,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperStatefulSet(c *pulsarv1alpha1
 		}
 
 		if err = r.client.Create(context.TODO(), ssCreate); err == nil {
-			r.log.Info("Create Pulsar Zookeeper StatefulSet Success",
+			r.log.Info("Create pulsar zookeeper statefulSet success",
 				"StatefulSet.Namespace", c.Namespace,
 				"StatefulSet.Name", ssCreate.GetName())
 		}
@@ -79,14 +79,14 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperStatefulSet(c *pulsarv1alpha1
 			old := *ssCur.Spec.Replicas
 			ssCur.Spec.Replicas = &c.Spec.Zookeeper.Size
 			if err = r.client.Update(context.TODO(), ssCur); err == nil {
-				r.log.Info("Scale Pulsar Zookeeper StatefulSet Success",
+				r.log.Info("Scale pulsar zookeeper statefulSet success",
 					"OldSize", old,
 					"NewSize", c.Spec.Zookeeper.Size)
 			}
 		}
 	}
 
-	r.log.Info("Zookeeper Node Num Info",
+	r.log.Info("Zookeeper node num info",
 		"Replicas", ssCur.Status.Replicas,
 		"ReadyNum", ssCur.Status.ReadyReplicas,
 		"CurrentNum", ssCur.Status.CurrentReplicas,
@@ -108,7 +108,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperService(c *pulsarv1alpha1.Pul
 		}
 
 		if err = r.client.Create(context.TODO(), sCreate); err == nil {
-			r.log.Info("Create Pulsar Zookeeper Service Success",
+			r.log.Info("Create pulsar zookeeper service success",
 				"Service.Namespace", c.Namespace,
 				"Service.Name", sCreate.GetName())
 		}
@@ -130,7 +130,7 @@ func (r *ReconcilePulsarCluster) reconcileZookeeperPodDisruptionBudget(c *pulsar
 		}
 
 		if err = r.client.Create(context.TODO(), pdb); err == nil {
-			r.log.Info("Create Pulsar Zookeeper PodDisruptionBudget Success",
+			r.log.Info("Create pulsar zookeeper podDisruptionBudget success",
 				"PodDisruptionBudget.Namespace", c.Namespace,
 				"PodDisruptionBudget.Name", pdb.GetName())
 		}

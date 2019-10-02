@@ -1,4 +1,4 @@
-package broker
+package proxy
 
 import (
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
@@ -8,15 +8,15 @@ import (
 
 func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 	return v1.PodSpec{
-		Affinity:   c.Spec.Broker.Pod.Affinity,
+		Affinity:   c.Spec.Proxy.Pod.Affinity,
 		Containers: []v1.Container{makeContainer(c)},
 	}
 }
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:            "broker",
-		Image:           c.Spec.Broker.Image.GenerateImage(),
+		Name:            "proxy",
+		Image:           c.Spec.Proxy.Image.GenerateImage(),
 		Command:         makeContainerCommand(),
 		Args:            makeContainerCommandArgs(),
 		Ports:           makeContainerPort(c),
@@ -35,10 +35,9 @@ func makeContainerCommand() []string {
 
 func makeContainerCommandArgs() []string {
 	return []string{
-		"bin/apply-config-from-env.py conf/broker.conf && " +
+		"bin/apply-config-from-env.py conf/proxy.conf && " +
 			"bin/apply-config-from-env.py conf/pulsar_env.sh && " +
-			"bin/gen-yml-from-env.py conf/functions_worker.yml && " +
-			"bin/pulsar broker",
+			"bin/pulsar proxy",
 	}
 }
 
@@ -59,10 +58,6 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
 	env := make([]v1.EnvVar, 0)
-	env = append(env, v1.EnvVar{
-		Name:      AdvertisedAddress,
-		ValueFrom: &v1.EnvVarSource{FieldRef: &v1.ObjectFieldSelector{FieldPath: "status.podIP"}},
-	})
 	return env
 }
 

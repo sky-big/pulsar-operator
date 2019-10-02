@@ -1,4 +1,4 @@
-package zookeeper
+package proxy
 
 import (
 	"fmt"
@@ -18,29 +18,29 @@ func MakeService(c *pulsarv1alpha1.PulsarCluster) *v1.Service {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      MakeServiceName(c),
 			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ProxyComponent),
 		},
 		Spec: v1.ServiceSpec{
 			Ports:     makeServicePorts(c),
 			ClusterIP: v1.ClusterIPNone,
-			Selector:  pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Selector:  pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ProxyComponent),
 		},
 	}
 }
 
 func MakeServiceName(c *pulsarv1alpha1.PulsarCluster) string {
-	return fmt.Sprintf("%s-zookeeper-service", c.GetName())
+	return fmt.Sprintf("%s-proxy-service", c.GetName())
 }
 
 func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
 	return []v1.ServicePort{
 		{
-			Name: "server",
-			Port: pulsarv1alpha1.ZookeeperContainerServerDefaultPort,
+			Name: "http",
+			Port: pulsarv1alpha1.PulsarBrokerHttpServicePort,
 		},
 		{
-			Name: "leader-election",
-			Port: pulsarv1alpha1.ZookeeperContainerLeaderElectionPort,
+			Name: "pulsar",
+			Port: pulsarv1alpha1.PulsarBrokerPulsarServicePort,
 		},
 	}
 }

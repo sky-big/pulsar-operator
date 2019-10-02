@@ -4,7 +4,7 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/broker"
+	"github.com/sky-big/pulsar-operator/pkg/components/proxy"
 
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
@@ -14,27 +14,27 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
-func (r *ReconcilePulsarCluster) reconcileBroker(c *pulsarv1alpha1.PulsarCluster) error {
+func (r *ReconcilePulsarCluster) reconcileProxy(c *pulsarv1alpha1.PulsarCluster) error {
 	if c.Status.Phase == pulsarv1alpha1.PulsarClusterInitingPhase {
 		return nil
 	}
 
-	r.log.Info("Reconciling PulsarCluster Broker")
+	r.log.Info("Reconciling PulsarCluster Proxy")
 	for _, fun := range []reconcileFunc{
-		r.reconcileBrokerConfigMap,
-		r.reconcileBrokerDeployment,
-		r.reconcileBrokerService,
+		r.reconcileProxyConfigMap,
+		r.reconcileProxyDeployment,
+		r.reconcileProxyService,
 	} {
 		if err := fun(c); err != nil {
-			r.log.Error(err, "Reconciling PulsarCluster Broker Error", c)
+			r.log.Error(err, "Reconciling PulsarCluster Proxy Error", c)
 			return err
 		}
 	}
 	return nil
 }
 
-func (r *ReconcilePulsarCluster) reconcileBrokerConfigMap(c *pulsarv1alpha1.PulsarCluster) (err error) {
-	cmCreate := broker.MakeConfigMap(c)
+func (r *ReconcilePulsarCluster) reconcileProxyConfigMap(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	cmCreate := proxy.MakeConfigMap(c)
 
 	cmCur := &v1.ConfigMap{}
 	err = r.client.Get(context.TODO(), types.NamespacedName{
@@ -47,7 +47,7 @@ func (r *ReconcilePulsarCluster) reconcileBrokerConfigMap(c *pulsarv1alpha1.Puls
 		}
 
 		if err = r.client.Create(context.TODO(), cmCreate); err == nil {
-			r.log.Info("Create pulsar broker config map success",
+			r.log.Info("Create pulsar proxy config map success",
 				"ConfigMap.Namespace", c.Namespace,
 				"ConfigMap.Name", cmCreate.GetName())
 		}
@@ -55,8 +55,8 @@ func (r *ReconcilePulsarCluster) reconcileBrokerConfigMap(c *pulsarv1alpha1.Puls
 	return
 }
 
-func (r *ReconcilePulsarCluster) reconcileBrokerDeployment(c *pulsarv1alpha1.PulsarCluster) (err error) {
-	dmCreate := broker.MakeDeployment(c)
+func (r *ReconcilePulsarCluster) reconcileProxyDeployment(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	dmCreate := proxy.MakeDeployment(c)
 
 	dmCur := &appsv1.Deployment{}
 	err = r.client.Get(context.TODO(), types.NamespacedName{
@@ -69,33 +69,33 @@ func (r *ReconcilePulsarCluster) reconcileBrokerDeployment(c *pulsarv1alpha1.Pul
 		}
 
 		if err = r.client.Create(context.TODO(), dmCreate); err == nil {
-			r.log.Info("Create pulsar broker deployment success",
+			r.log.Info("Create pulsar proxy deployment success",
 				"Deployment.Namespace", c.Namespace,
 				"Deployment.Name", dmCreate.GetName())
 		}
 	} else if err != nil {
 		return err
 	} else {
-		if c.Spec.Broker.Size != *dmCur.Spec.Replicas {
+		if c.Spec.Proxy.Size != *dmCur.Spec.Replicas {
 			old := *dmCur.Spec.Replicas
-			dmCur.Spec.Replicas = &c.Spec.Broker.Size
+			dmCur.Spec.Replicas = &c.Spec.Proxy.Size
 			if err = r.client.Update(context.TODO(), dmCur); err == nil {
-				r.log.Info("Scale pulsar broker deployment success",
+				r.log.Info("Scale pulsar proxy deployment success",
 					"OldSize", old,
-					"NewSize", c.Spec.Broker.Size)
+					"NewSize", c.Spec.Proxy.Size)
 			}
 		}
 	}
 
-	r.log.Info("Broker node num info",
+	r.log.Info("Proxy node num info",
 		"Replicas", dmCur.Status.Replicas,
 		"ReadyNum", dmCur.Status.ReadyReplicas,
 	)
 	return
 }
 
-func (r *ReconcilePulsarCluster) reconcileBrokerService(c *pulsarv1alpha1.PulsarCluster) (err error) {
-	sCreate := broker.MakeService(c)
+func (r *ReconcilePulsarCluster) reconcileProxyService(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	sCreate := proxy.MakeService(c)
 
 	sCur := &v1.Service{}
 	err = r.client.Get(context.TODO(), types.NamespacedName{
@@ -108,7 +108,7 @@ func (r *ReconcilePulsarCluster) reconcileBrokerService(c *pulsarv1alpha1.Pulsar
 		}
 
 		if err = r.client.Create(context.TODO(), sCreate); err == nil {
-			r.log.Info("Create pulsar broker service success",
+			r.log.Info("Create pulsar proxy service success",
 				"Service.Namespace", c.Namespace,
 				"Service.Name", sCreate.GetName())
 		}

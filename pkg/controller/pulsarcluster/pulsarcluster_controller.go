@@ -146,7 +146,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		return reconcile.Result{}, err
 	}
 
-	// Set Pulsar Cluster Resource Spec Default
+	// Set pulsar cluster resource spec default
 	changed := instance.SpecSetDefault()
 	if changed {
 		r.log.Info("Setting spec default settings for pulsar-cluster")
@@ -156,7 +156,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		return reconcile.Result{Requeue: true}, nil
 	}
 
-	// Set Pulsar Cluster Resource Status Default
+	// Set pulsar cluster resource status default
 	changed = instance.StatusSetDefault()
 	if changed {
 		r.log.Info("Setting status default settings for pulsar-cluster")
@@ -166,11 +166,12 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		return reconcile.Result{Requeue: true}, nil
 	}
 
-	// Reconcile All Pulsar Cluster Child Resource
+	// Reconcile all pulsar cluster child resource
 	for _, fun := range []reconcileFunc{
 		r.reconcileZookeeper,
 		r.reconcileBookie,
 		r.reconcileBroker,
+		r.reconcileProxy,
 		r.reconcilePulsarCluster,
 	} {
 		if err = fun(instance); err != nil {
@@ -181,7 +182,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 	return reconcile.Result{}, nil
 }
 
-// Reconcile PulsarCluster Resource
+// Reconcile pulsarCluster resource
 func (r *ReconcilePulsarCluster) reconcilePulsarCluster(c *pulsarv1alpha1.PulsarCluster) error {
 	if err := r.reconcileInitPulsarClusterMetaData(c); err != nil {
 		return err
@@ -189,7 +190,7 @@ func (r *ReconcilePulsarCluster) reconcilePulsarCluster(c *pulsarv1alpha1.Pulsar
 	return nil
 }
 
-// Init Pulsar MetaData
+// Init pulsar metaData
 func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1alpha1.PulsarCluster) (err error) {
 	if c.Status.Phase == pulsarv1alpha1.PulsarClusterInitingPhase && r.isZookeeperRunning(c) {
 		job := metadata.MakeInitClusterMetaDataJob(c)
@@ -205,16 +206,16 @@ func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1a
 			}
 
 			if err = r.client.Create(context.TODO(), job); err == nil {
-				r.log.Info("Start Init Pulsar Cluster MetaData Job",
+				r.log.Info("Start init pulsar cluster metaData job",
 					"Job.Namespace", job.Namespace,
 					"Job.Name", job.Name)
 			}
 
 		} else if err == nil && jobCur.Status.Succeeded == 1 {
-			// Init Pulsar Cluster Success
+			// Init pulsar cluster success
 			c.Status.Phase = pulsarv1alpha1.PulsarClusterLaunchingPhase
 			if err = r.client.Status().Update(context.TODO(), c); err == nil {
-				r.log.Info("Init Pulsar Cluster MetaData Success",
+				r.log.Info("Init pulsar cluster metaData success",
 					"PulsarCluster.Namespace", c.Namespace,
 					"PulsarCluster.Name", c.Name)
 			}

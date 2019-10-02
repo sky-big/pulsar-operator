@@ -59,6 +59,20 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bo
 			cluster.Spec.Bookie.Image.PullPolicy = DefaultContainerPolicy
 			changed = true
 		}
+
+	case ProxyComponent:
+		if cluster.Spec.Proxy.Image.Repository == "" {
+			cluster.Spec.Proxy.Image.Repository = DefaultPulsarContainerRepository
+			changed = true
+		}
+		if cluster.Spec.Proxy.Image.Tag == "" {
+			cluster.Spec.Proxy.Image.Tag = DefaultPulsarContainerVersion
+			changed = true
+		}
+		if cluster.Spec.Proxy.Image.PullPolicy == "" {
+			cluster.Spec.Proxy.Image.PullPolicy = DefaultContainerPolicy
+			changed = true
+		}
 	}
 	return changed
 }

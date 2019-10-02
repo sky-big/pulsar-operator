@@ -1,34 +1,38 @@
 package v1alpha1
 
-// Service
+// service
 const (
 	Service = "pulsar"
 )
 
-// Pulsar Cluster Phase Status List
+// pulsar cluster phase
 const (
-	// InitIng Phase
+	// Initing phase
 	PulsarClusterInitingPhase = "Initing"
 
-	// Launching Phase
+	// Launching phase
 	PulsarClusterLaunchingPhase = "Launching"
 
-	// Running Phase
+	// Running phase
 	PulsarClusterRunningPhase = "Running"
 )
 
+// pulsar cluster components
 const (
-	// Zookeeper Component
+	// Zookeeper component
 	ZookeeperComponent = "zookeeper"
 
-	// Broker Component
+	// Broker component
 	BrokerComponent = "broker"
 
-	// Bookie Component
+	// Bookie component
 	BookieComponent = "bookie"
 
-	// Bookie AutoRecovery Child Component
+	// Bookie AutoRecovery child component
 	BookieAutoRecoveryComponent = "bookie-autorecovery"
+
+	// Proxy component
+	ProxyComponent = "proxy"
 )
 
 const (
@@ -78,23 +82,47 @@ func MakeAllLabels(c *PulsarCluster, component string, childComponent string) ma
 	return labels
 }
 
-// Service
+// service
 const (
-	// Service Domain
+	// service domain
 	ServiceDomain = "svc.cluster.local"
 )
 
-// Default Number
+// default number
 const (
-	// zookeeper number default num is 3
+	// Zookeeper number default num is 3
 	ZookeeperClusterDefaultNodeNum = 3
 
-	// broker number default num is 3
+	// Broker number default num is 3
 	BrokerClusterDefaultNodeNum = 3
 
-	// bookie number default num is 3
+	// Bookie number default num is 3
 	BookieClusterDefaultNodeNum = 3
 
-	// bookie autorecovery default num is 3
+	// Bookie Autorecovery default num is 3
 	BookieAutoRecoveryClusterDefaultNodeNum = 3
+
+	// Proxy number default num is 3
+	ProxyClusterDefaultNodeNum = 3
+)
+
+// All component ports
+const (
+	// Container client default port
+	ZookeeperContainerClientDefaultPort = 2181
+
+	// Container server default port
+	ZookeeperContainerServerDefaultPort = 2888
+
+	// Container leader election port
+	ZookeeperContainerLeaderElectionPort = 3888
+
+	// Broker service port
+	PulsarBrokerPulsarServicePort = 6650
+
+	// Broker http service port
+	PulsarBrokerHttpServicePort = 8080
+
+	// Bookie service port
+	BookieServerPort = 3181
 )

@@ -10,14 +10,12 @@ type Bookie struct {
 	// the bookie cluster.
 	Labels map[string]string `json:"labels,omitempty"`
 
-	// Size (DEPRECATED) is the expected size of the bookie cluster. This
-	// has been replaced with "Replicas"
-	//
+	// Size (DEPRECATED) is the expected size of the bookie cluster.
 	Size int32 `json:"size,omitempty"`
 
 	// Pod defines the policy to create pod for the bookie cluster.
 	//
-	// Updating the Pod does not take effect on any existing pods.
+	// Updating the pod does not take effect on any existing pods.
 	Pod PodPolicy `json:"pod,omitempty"`
 }
 

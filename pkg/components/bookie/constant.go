@@ -9,8 +9,6 @@ const (
 
 	StatsProviderClass = "org.apache.bookkeeper.stats.prometheus.PrometheusMetricsProvider"
 
-	BookieServerPort = 3181
-
 	BookieJournalDataMountPath = "/pulsar/data/bookkeeper/journal"
 
 	BookieLedgersDataMountPath = "/pulsar/data/bookkeeper/ledgers"

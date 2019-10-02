@@ -11,9 +11,5 @@ const (
 
 	FunctionsWorkerEnabled = "true"
 
-	PulsarBrokerHttpServicePort = 8080
-
-	PulsarBrokerPulsarServicePort = 6650
-
 	AdvertisedAddress = "advertisedAddress"
 )

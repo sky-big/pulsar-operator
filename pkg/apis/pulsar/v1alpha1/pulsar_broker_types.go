@@ -10,15 +10,12 @@ type Broker struct {
 	// the broker cluster.
 	Labels map[string]string `json:"labels,omitempty"`
 
-	// Size (DEPRECATED) is the expected size of the broker cluster. This
-	// has been replaced with "Replicas"
-	//
-	// The valid range of size is from 1 to 7.
+	// Size (DEPRECATED) is the expected size of the broker cluster.
 	Size int32 `json:"size,omitempty"`
 
 	// Pod defines the policy to create pod for the broker cluster.
 	//
-	// Updating the Pod does not take effect on any existing pods.
+	// Updating the pod does not take effect on any existing pods.
 	Pod PodPolicy `json:"pod,omitempty"`
 }
 

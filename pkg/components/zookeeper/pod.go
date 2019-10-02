@@ -104,17 +104,17 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
 			Name:          "client",
-			ContainerPort: ZookeeperContainerClientDefaultPort,
+			ContainerPort: pulsarv1alpha1.ZookeeperContainerClientDefaultPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 		{
 			Name:          "server",
-			ContainerPort: ZookeeperContainerServerDefaultPort,
+			ContainerPort: pulsarv1alpha1.ZookeeperContainerServerDefaultPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 		{
 			Name:          "leader-election",
-			ContainerPort: ZookeeperContainerLeaderElectionPort,
+			ContainerPort: pulsarv1alpha1.ZookeeperContainerLeaderElectionPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}

@@ -49,7 +49,7 @@ func (r *ReconcilePulsarCluster) reconcileBookieConfigMap(c *pulsarv1alpha1.Puls
 		}
 
 		if err = r.client.Create(context.TODO(), cmCreate); err == nil {
-			r.log.Info("Create Pulsar Bookie Config Map Success",
+			r.log.Info("Create pulsar bookie config map success",
 				"ConfigMap.Namespace", c.Namespace,
 				"ConfigMap.Name", cmCreate.GetName())
 		}
@@ -58,6 +58,42 @@ func (r *ReconcilePulsarCluster) reconcileBookieConfigMap(c *pulsarv1alpha1.Puls
 }
 
 func (r *ReconcilePulsarCluster) reconcileBookieStatefulSet(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	ssCreate := bookie.MakeStatefulSet(c)
+
+	ssCur := &appsv1.StatefulSet{}
+	err = r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      ssCreate.Name,
+		Namespace: ssCreate.Namespace,
+	}, ssCur)
+	if err != nil && errors.IsNotFound(err) {
+		if err = controllerutil.SetControllerReference(c, ssCreate, r.scheme); err != nil {
+			return err
+		}
+
+		if err = r.client.Create(context.TODO(), ssCreate); err == nil {
+			r.log.Info("Create pulsar bookie statefulSet success",
+				"StatefulSet.Namespace", c.Namespace,
+				"StatefulSet.Name", ssCreate.GetName())
+		}
+	} else if err != nil {
+		return err
+	} else {
+		if c.Spec.Bookie.Size != *ssCur.Spec.Replicas {
+			old := *ssCur.Spec.Replicas
+			ssCur.Spec.Replicas = &c.Spec.Bookie.Size
+			if err = r.client.Update(context.TODO(), ssCur); err == nil {
+				r.log.Info("Scale pulsar bookie statefulSet success",
+					"OldSize", old,
+					"NewSize", c.Spec.Bookie.Size)
+			}
+		}
+	}
+
+	r.log.Info("Bookie node num info",
+		"Replicas", ssCur.Status.Replicas,
+		"ReadyNum", ssCur.Status.ReadyReplicas,
+		"CurrentNum", ssCur.Status.CurrentReplicas,
+	)
 	return
 }
 
@@ -97,13 +133,13 @@ func (r *ReconcilePulsarCluster) reconcileBookieAutoRecoveryDeployment(c *pulsar
 		}
 
 		if err = r.client.Create(context.TODO(), dmCreate); err == nil {
-			r.log.Info("Create Pulsar Bookie AutoRecovery Deployment Success",
+			r.log.Info("Create pulsar bookie autoRecovery deployment success",
 				"Deployment.Namespace", c.Namespace,
 				"Deployment.Name", dmCreate.GetName())
 		}
 	}
 
-	r.log.Info("Bookie AutoRecovery Node Num Info",
+	r.log.Info("Bookie pulsar autoRecovery node num info",
 		"Replicas", dmCur.Status.Replicas,
 		"ReadyNum", dmCur.Status.ReadyReplicas,
 	)

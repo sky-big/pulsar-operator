@@ -36,7 +36,7 @@ func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
 	return []v1.ServicePort{
 		{
 			Name: "server",
-			Port: BookieServerPort,
+			Port: pulsarv1alpha1.BookieServerPort,
 		},
 	}
 }
