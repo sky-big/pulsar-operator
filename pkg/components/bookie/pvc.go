@@ -51,7 +51,7 @@ func makeLedgersDataVolumeClaimTemplate(c *pulsarv1alpha1.PulsarCluster) v1.Pers
 }
 
 func makeLedgersDataVolumeClaimName(c *pulsarv1alpha1.PulsarCluster) string {
-	return fmt.Sprint("%s-ledgers-disk", c.GetName())
+	return fmt.Sprintf("%s-ledgers-disk", c.GetName())
 }
 
 func makeLedgersDataVolumeClaimSpec(c *pulsarv1alpha1.PulsarCluster) v1.PersistentVolumeClaimSpec {
