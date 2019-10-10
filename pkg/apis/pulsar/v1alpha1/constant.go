@@ -126,3 +126,12 @@ const (
 	// Bookie service port
 	BookieServerPort = 3181
 )
+
+// Support storage volume
+const (
+	// EmptyDir volume
+	EmptyDirVolume = "EmptyDir"
+
+	// Local persistent volume
+	LocalVolume = "Local"
+)

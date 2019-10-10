@@ -30,7 +30,7 @@ func MakeStatefulSetName(c *pulsarv1alpha1.PulsarCluster) string {
 }
 
 func makeStatefulSetSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.StatefulSetSpec {
-	return appsv1.StatefulSetSpec{
+	s := appsv1.StatefulSetSpec{
 		ServiceName: MakeServiceName(c),
 		Selector: &metav1.LabelSelector{
 			MatchLabels: pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.BookieComponent),
@@ -41,8 +41,13 @@ func makeStatefulSetSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.StatefulSetSpec
 		UpdateStrategy: appsv1.StatefulSetUpdateStrategy{
 			Type: appsv1.RollingUpdateStatefulSetStrategyType,
 		},
-		VolumeClaimTemplates: makeVolumeClaimTemplates(c),
 	}
+
+	if c.Spec.Bookie.StorageVolume != pulsarv1alpha1.EmptyDirVolume {
+		s.VolumeClaimTemplates = makeVolumeClaimTemplates(c)
+	}
+
+	return s
 }
 
 func makeStatefulSetPodTemplate(c *pulsarv1alpha1.PulsarCluster) v1.PodTemplateSpec {

@@ -9,11 +9,17 @@ import (
 )
 
 func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
-	return v1.PodSpec{
+	p := v1.PodSpec{
 		Affinity:       c.Spec.Zookeeper.Pod.Affinity,
 		Containers:     []v1.Container{makeContainer(c)},
 		InitContainers: []v1.Container{makeInitContainer(c)},
 	}
+
+	if c.Spec.Bookie.StorageVolume == pulsarv1alpha1.EmptyDirVolume {
+		p.Volumes = makeEmptyDirVolume(c)
+	}
+
+	return p
 }
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
@@ -28,11 +34,11 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 
 		VolumeMounts: []v1.VolumeMount{
 			{
-				Name:      makeJournalDataVolumeClaimName(c),
+				Name:      makeJournalDataVolumeName(c),
 				MountPath: BookieJournalDataMountPath,
 			},
 			{
-				Name:      makeLedgersDataVolumeClaimName(c),
+				Name:      makeLedgersDataVolumeName(c),
 				MountPath: BookieLedgersDataMountPath,
 			},
 		},

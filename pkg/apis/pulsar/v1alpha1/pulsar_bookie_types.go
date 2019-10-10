@@ -17,6 +17,16 @@ type Bookie struct {
 	//
 	// Updating the pod does not take effect on any existing pods.
 	Pod PodPolicy `json:"pod,omitempty"`
+
+	// Storage volume
+	//
+	// Bookie component storage data volume(EmptyDir/Local).
+	StorageVolume string `json:"storageVolume,omitempty"`
+
+	// Storage class name
+	//
+	// PVC of storage class name
+	StorageClassName string `json:"storageClassName,omitempty"`
 }
 
 func (b *Bookie) SetDefault(cluster *PulsarCluster) bool {
@@ -34,5 +44,11 @@ func (b *Bookie) SetDefault(cluster *PulsarCluster) bool {
 	if b.Pod.SetDefault(cluster, BookieComponent) {
 		changed = true
 	}
+
+	if b.StorageVolume == "" {
+		b.StorageVolume = EmptyDirVolume
+		changed = true
+	}
+
 	return changed
 }
