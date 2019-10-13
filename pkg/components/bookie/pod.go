@@ -56,7 +56,7 @@ func makeContainerCommand() []string {
 
 func makeContainerCommandArgs() []string {
 	return []string{
-		"bin/apply-config-from-env.py conf/bookeeper.conf && " +
+		"bin/apply-config-from-env.py conf/bookkeeper.conf && " +
 			"bin/apply-config-from-env.py conf/pulsar_env.sh && " +
 			"bin/pulsar bookie",
 	}
@@ -106,7 +106,7 @@ func makeInitContainerCommand() []string {
 
 func makeInitContainerCommandArgs() []string {
 	return []string{
-		"bin/apply-config-from-env.py conf/bookeeper.conf && " +
+		"bin/apply-config-from-env.py conf/bookkeeper.conf && " +
 			"bin/bookkeeper shell metaformat --nonInteractive || true;",
 	}
 }

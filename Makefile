@@ -52,5 +52,17 @@ generate:
 # Example:
 #   make local
 local:
-	operator-sdk up local
+	deploy/install_local.sh
 .PHONY: local
+
+# install to kubernetes
+# Example:
+#   make install
+install:
+	deploy/install.sh
+
+# uninstall from kubernetes
+# Example:
+#   make uninstall
+uninstall:
+	deploy/uninstall.sh

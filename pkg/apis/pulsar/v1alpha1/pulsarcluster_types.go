@@ -24,7 +24,10 @@ type PulsarClusterSpec struct {
 	Broker Broker `json:"broker,omitempty"`
 
 	// Proxy defines the desired state of Proxy
-	Proxy Broker `json:"proxy,omitempty"`
+	Proxy Proxy `json:"proxy,omitempty"`
+
+	// Monitor defines the desired state of Monitor
+	Monitor Monitor `json:"monitor,omitempty"`
 }
 
 func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
@@ -39,6 +42,14 @@ func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
 	}
 
 	if s.Broker.SetDefault(cluster) {
+		changed = true
+	}
+
+	if s.Proxy.SetDefault(cluster) {
+		changed = true
+	}
+
+	if s.Monitor.SetDefault(cluster) {
 		changed = true
 	}
 	return changed

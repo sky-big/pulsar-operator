@@ -173,6 +173,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 		r.reconcileBroker,
 		r.reconcileProxy,
 		r.reconcilePulsarCluster,
+		r.reconcileMonitor,
 	} {
 		if err = fun(instance); err != nil {
 			return reconcile.Result{}, err

@@ -19,7 +19,6 @@ func (r *ReconcilePulsarCluster) reconcileProxy(c *pulsarv1alpha1.PulsarCluster)
 		return nil
 	}
 
-	r.log.Info("Reconciling PulsarCluster Proxy")
 	for _, fun := range []reconcileFunc{
 		r.reconcileProxyConfigMap,
 		r.reconcileProxyDeployment,
@@ -86,11 +85,6 @@ func (r *ReconcilePulsarCluster) reconcileProxyDeployment(c *pulsarv1alpha1.Puls
 			}
 		}
 	}
-
-	r.log.Info("Proxy node num info",
-		"Replicas", dmCur.Status.Replicas,
-		"ReadyNum", dmCur.Status.ReadyReplicas,
-	)
 	return
 }
 

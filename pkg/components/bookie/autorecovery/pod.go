@@ -35,7 +35,7 @@ func makeContainerCommand() []string {
 
 func makeContainerCommandArgs() []string {
 	return []string{
-		"bin/apply-config-from-env.py conf/bookeeper.conf && " +
+		"bin/apply-config-from-env.py conf/bookkeeper.conf && " +
 			"bin/bookkeeper autorecovery",
 	}
 }

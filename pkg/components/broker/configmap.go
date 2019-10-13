@@ -22,8 +22,8 @@ func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 		},
 		Data: map[string]string{
 			"PULSAR_MEM":                       PulsarMemData,
-			"zookeeperServers":                 zookeeper.MakeConfigMapName(c),
-			"configurationStoreServers":        zookeeper.MakeConfigMapName(c),
+			"zookeeperServers":                 zookeeper.MakeServiceName(c),
+			"configurationStoreServers":        zookeeper.MakeServiceName(c),
 			"clusterName":                      c.GetName(),
 			"managedLedgerDefaultEnsembleSize": ManagedLedgerDefaultEnsembleSize,
 			"managedLedgerDefaultWriteQuorum":  ManagedLedgerDefaultWriteQuorum,

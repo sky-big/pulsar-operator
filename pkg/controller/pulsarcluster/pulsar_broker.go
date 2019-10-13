@@ -19,7 +19,6 @@ func (r *ReconcilePulsarCluster) reconcileBroker(c *pulsarv1alpha1.PulsarCluster
 		return nil
 	}
 
-	r.log.Info("Reconciling PulsarCluster Broker")
 	for _, fun := range []reconcileFunc{
 		r.reconcileBrokerConfigMap,
 		r.reconcileBrokerDeployment,
@@ -86,11 +85,6 @@ func (r *ReconcilePulsarCluster) reconcileBrokerDeployment(c *pulsarv1alpha1.Pul
 			}
 		}
 	}
-
-	r.log.Info("Broker node num info",
-		"Replicas", dmCur.Status.Replicas,
-		"ReadyNum", dmCur.Status.ReadyReplicas,
-	)
 	return
 }
 

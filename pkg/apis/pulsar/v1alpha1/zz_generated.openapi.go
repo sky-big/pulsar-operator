@@ -14,7 +14,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Bookie":              schema_pkg_apis_pulsar_v1alpha1_Bookie(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker":              schema_pkg_apis_pulsar_v1alpha1_Broker(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage":      schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref),
+		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor":             schema_pkg_apis_pulsar_v1alpha1_Monitor(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy":           schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref),
+		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Proxy":               schema_pkg_apis_pulsar_v1alpha1_Proxy(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarCluster":       schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterSpec":   schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PulsarClusterStatus": schema_pkg_apis_pulsar_v1alpha1_PulsarClusterStatus(ref),
@@ -50,15 +52,29 @@ func schema_pkg_apis_pulsar_v1alpha1_Bookie(ref common.ReferenceCallback) common
 					},
 					"size": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Size (DEPRECATED) is the expected size of the bookie cluster. This has been replaced with \"Replicas\"\n\nThe valid range of size is from 1 to 7.",
+							Description: "Size (DEPRECATED) is the expected size of the bookie cluster.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},
 					},
 					"pod": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Pod defines the policy to create pod for the bookie cluster.\n\nUpdating the Pod does not take effect on any existing pods.",
+							Description: "Pod defines the policy to create pod for the bookie cluster.\n\nUpdating the pod does not take effect on any existing pods.",
 							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy"),
+						},
+					},
+					"storageVolume": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Storage volume\n\nBookie component storage data volume(EmptyDir/Local).",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"storageClassName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Storage class name\n\nPVC of storage class name",
+							Type:        []string{"string"},
+							Format:      "",
 						},
 					},
 				},
@@ -97,14 +113,14 @@ func schema_pkg_apis_pulsar_v1alpha1_Broker(ref common.ReferenceCallback) common
 					},
 					"size": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Size (DEPRECATED) is the expected size of the broker cluster. This has been replaced with \"Replicas\"\n\nThe valid range of size is from 1 to 7.",
+							Description: "Size (DEPRECATED) is the expected size of the broker cluster.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},
 					},
 					"pod": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Pod defines the policy to create pod for the broker cluster.\n\nUpdating the Pod does not take effect on any existing pods.",
+							Description: "Pod defines the policy to create pod for the broker cluster.\n\nUpdating the pod does not take effect on any existing pods.",
 							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy"),
 						},
 					},
@@ -138,6 +154,47 @@ func schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref common.ReferenceCallback
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{},
+	}
+}
+
+func schema_pkg_apis_pulsar_v1alpha1_Monitor(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Monitor defines the desired state of Monitor",
+				Properties: map[string]spec.Schema{
+					"isActive": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Is active pulsar cluster monitor flag.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"dashboardPort": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DashboardPort (DEPRECATED) is the expected port of the pulsar dashboard.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"prometheusPort": {
+						SchemaProps: spec.SchemaProps{
+							Description: "PrometheusPort (DEPRECATED) is the expected port of the pulsar prometheus.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"grafanaPort": {
+						SchemaProps: spec.SchemaProps{
+							Description: "GrafanaPort (DEPRECATED) is the expected port of the pulsar grafana.",
+							Type:        []string{"integer"},
+							Format:      "int32",
 						},
 					},
 				},
@@ -254,6 +311,53 @@ func schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref common.ReferenceCallback) com
 	}
 }
 
+func schema_pkg_apis_pulsar_v1alpha1_Proxy(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Proxy defines the desired state of Proxy",
+				Properties: map[string]spec.Schema{
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Image is the  container image. default is apachepulsar/pulsar:latest",
+							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage"),
+						},
+					},
+					"labels": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Labels specifies the labels to attach to pods the operator creates for the proxy cluster.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"size": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Size (DEPRECATED) is the expected size of the proxy cluster.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"pod": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Pod defines the policy to create pod for the proxy cluster.\n\nUpdating the pod does not take effect on any existing pods.",
+							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy"},
+	}
+}
+
 func schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -321,11 +425,23 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref common.ReferenceCallb
 							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker"),
 						},
 					},
+					"proxy": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Proxy defines the desired state of Proxy",
+							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Proxy"),
+						},
+					},
+					"monitor": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Monitor defines the desired state of Monitor",
+							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Bookie", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Zookeeper"},
+			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Bookie", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Proxy", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Zookeeper"},
 	}
 }
 
@@ -337,7 +453,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterStatus(ref common.ReferenceCal
 				Properties: map[string]spec.Schema{
 					"phase": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Pulsar Cluster Phase",
+							Description: "Pulsar cluster phase",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -377,14 +493,14 @@ func schema_pkg_apis_pulsar_v1alpha1_Zookeeper(ref common.ReferenceCallback) com
 					},
 					"size": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Size (DEPRECATED) is the expected size of the zookeeper cluster. This has been replaced with \"Replicas\"\n\nThe valid range of size is from 1 to 7.",
+							Description: "Size (DEPRECATED) is the expected size of the zookeeper cluster.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},
 					},
 					"pod": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Pod defines the policy to create pod for the zookeeper cluster.\n\nUpdating the Pod does not take effect on any existing pods.",
+							Description: "Pod defines the policy to create pod for the zookeeper cluster.\n\nUpdating the pod does not take effect on any existing pods.",
 							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy"),
 						},
 					},

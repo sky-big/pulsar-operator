@@ -28,11 +28,29 @@ const (
 	// Bookie component
 	BookieComponent = "bookie"
 
-	// Bookie AutoRecovery child component
-	BookieAutoRecoveryComponent = "bookie-autorecovery"
-
 	// Proxy component
 	ProxyComponent = "proxy"
+
+	// Monitor component
+	MonitorComponent = "monitor"
+)
+
+// bookie child component
+const (
+	// Bookie AutoRecovery child component
+	BookieAutoRecoveryComponent = "bookie-autorecovery"
+)
+
+// monitor child component
+const (
+	// Monitor dashbaord component
+	MonitorDashboardComponent = "monitor-dashboard"
+
+	// Monitor prometheus component
+	MonitorPrometheusComponent = "monitor-prometheus"
+
+	// Monitor grafana component
+	MonitorGrafanaComponent = "monitor-grafana"
 )
 
 const (

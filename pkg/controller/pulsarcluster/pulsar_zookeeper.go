@@ -17,7 +17,6 @@ import (
 
 // Reconcile For All Resource About Zookeeper
 func (r *ReconcilePulsarCluster) reconcileZookeeper(c *pulsarv1alpha1.PulsarCluster) error {
-	r.log.Info("Reconciling PulsarCluster Zookeeper")
 	for _, fun := range []reconcileFunc{
 		r.reconcileZookeeperConfigMap,
 		r.reconcileZookeeperStatefulSet,

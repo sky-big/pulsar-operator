@@ -20,7 +20,6 @@ func (r *ReconcilePulsarCluster) reconcileBookie(c *pulsarv1alpha1.PulsarCluster
 		return nil
 	}
 
-	r.log.Info("Reconciling PulsarCluster Bookie")
 	for _, fun := range []reconcileFunc{
 		r.reconcileBookieConfigMap,
 		r.reconcileBookieStatefulSet,
