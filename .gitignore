@@ -10,6 +10,7 @@ _output
 .kube
 .vscode
 .idea
+.git
 
 # bin
 bin/
