@@ -58,14 +58,14 @@ uninstall:
 # Example:
 #   make start-local
 start-local:
-	test/install.sh
+	test/local/install.sh
 .PHONY: start-local
 
 # stop local test
 # Example:
 #   make stop-local
 stop-local:
-	test/uninstall.sh
+	test/local/uninstall.sh
 .PHONY: stop-local
 
 # clean all binaries
