@@ -12,6 +12,3 @@ kubectl create -f ${WORK_DIR}/service_account.yaml
 
 # install pulsar cluster operator
 kubectl create -f ${WORK_DIR}/operator.yaml
-
-# create one example pulsar cluster
-kubectl create -f ${WORK_DIR}/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml

@@ -2,9 +2,6 @@
 
 export WORK_DIR=$(cd `dirname $0`; pwd)
 
-# delete one example pulsar cluster
-kubectl delete -f ${WORK_DIR}/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
-
 # delete pulsar cluster operator
 kubectl delete -f ${WORK_DIR}/operator.yaml
 
