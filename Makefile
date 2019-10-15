@@ -30,14 +30,6 @@ push:
 	pushd docker && sh ./push-image.sh && popd
 .PHONY: push
 
-# clean all binaries
-#
-# Example:
-#   make clean
-clean:
-	rm -rf ./bin
-.PHONY: clean
-
 # generate code(zz_generated*)
 # generate go mod list to vendor
 # Example:
@@ -47,22 +39,39 @@ generate:
 	operator-sdk generate openapi
 	go mod vendor
 .PHONY: generate
-	
-# local test
-# Example:
-#   make local
-local:
-	deploy/install_local.sh
-.PHONY: local
 
 # install to kubernetes
 # Example:
 #   make install
 install:
 	deploy/install.sh
+.PHONY: install
 
 # uninstall from kubernetes
 # Example:
 #   make uninstall
 uninstall:
 	deploy/uninstall.sh
+.PHONY: uninstall
+
+# start local test
+# Example:
+#   make start-local
+start-local:
+	test/install.sh
+.PHONY: start-local
+
+# stop local test
+# Example:
+#   make stop-local
+stop-local:
+	test/uninstall.sh
+.PHONY: stop-local
+
+# clean all binaries
+#
+# Example:
+#   make clean
+clean:
+	rm -rf ./bin
+.PHONY: clean

@@ -20,7 +20,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitor(c *pulsarv1alpha1.PulsarCluste
 	if c.Status.Phase == pulsarv1alpha1.PulsarClusterInitingPhase {
 		return nil
 	}
-	if c.Spec.Monitor.IsActive != pulsarv1alpha1.MonitorActived {
+	if !c.Spec.Monitor.IsActive {
 		return nil
 	}
 

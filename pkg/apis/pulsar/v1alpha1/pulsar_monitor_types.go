@@ -1,9 +1,6 @@
 package v1alpha1
 
 const (
-	// Pulsar cluster active flag
-	MonitorActived = "true"
-
 	// Dashboard image
 	MonitorDashboardImage = "apachepulsar/pulsar-dashboard:latest"
 
@@ -18,7 +15,7 @@ const (
 // +k8s:openapi-gen=true
 type Monitor struct {
 	// Is active pulsar cluster monitor flag.
-	IsActive string `json:"isActive,omitempty"`
+	IsActive bool `json:"isActive,omitempty"`
 
 	// DashboardPort (DEPRECATED) is the expected port of the pulsar dashboard.
 	DashboardPort int32 `json:"dashboardPort,omitempty"`
@@ -31,11 +28,5 @@ type Monitor struct {
 }
 
 func (m *Monitor) SetDefault(cluster *PulsarCluster) bool {
-	changed := false
-
-	if m.IsActive == "" {
-		m.IsActive = "false"
-		changed = true
-	}
-	return changed
+	return false
 }

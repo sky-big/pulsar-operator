@@ -11,3 +11,8 @@ spec:
     size: 3
   proxy:
     size: 3
+  monitor:
+    isActive: true
+    dashboardPort: 30001
+    prometheusPort: 30002
+    grafanaPort: 30003
