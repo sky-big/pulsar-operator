@@ -14,5 +14,5 @@ kubectl create -f ${WORK_DIR}/deploy/service_account.yaml
 kubectl create -f ${WORK_DIR}/deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 
 # start pulsar operator local
-cd ${WORK_DIR}/..
+cd ${WORK_DIR}
 operator-sdk up local
