@@ -29,6 +29,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Bookie(ref common.ReferenceCallback) common
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "Bookie defines the desired state of Bookie",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"image": {
 						SchemaProps: spec.SchemaProps{
@@ -41,6 +42,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Bookie(ref common.ReferenceCallback) common
 							Description: "Labels specifies the labels to attach to pods the operator creates for the bookie cluster.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
@@ -90,6 +92,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Broker(ref common.ReferenceCallback) common
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "Broker defines the desired state of Broker",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"image": {
 						SchemaProps: spec.SchemaProps{
@@ -102,6 +105,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Broker(ref common.ReferenceCallback) common
 							Description: "Labels specifies the labels to attach to pods the operator creates for the broker cluster.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
@@ -137,6 +141,7 @@ func schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref common.ReferenceCallback
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "ContainerImage defines the fields needed for a Docker repository image. The format here matches the predominant format used in Helm charts.",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"repository": {
 						SchemaProps: spec.SchemaProps{
@@ -159,7 +164,6 @@ func schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref common.ReferenceCallback
 				},
 			},
 		},
-		Dependencies: []string{},
 	}
 }
 
@@ -168,11 +172,12 @@ func schema_pkg_apis_pulsar_v1alpha1_Monitor(ref common.ReferenceCallback) commo
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "Monitor defines the desired state of Monitor",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"isActive": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Is active pulsar cluster monitor flag.",
-							Type:        []string{"string"},
+							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
@@ -200,7 +205,6 @@ func schema_pkg_apis_pulsar_v1alpha1_Monitor(ref common.ReferenceCallback) commo
 				},
 			},
 		},
-		Dependencies: []string{},
 	}
 }
 
@@ -209,12 +213,14 @@ func schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref common.ReferenceCallback) com
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "PodPolicy defines the common pod configuration for Pods, including when used in deployments, stateful-sets, etc.",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"labels": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Labels specifies the labels to attach to pods the operator creates for the pulsar cluster.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
@@ -229,6 +235,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref common.ReferenceCallback) com
 							Description: "NodeSelector specifies a map of key-value pairs. For the pod to be eligible to run on a node, the node must have each of the indicated key-value pairs as labels.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
@@ -281,6 +288,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref common.ReferenceCallback) com
 							Description: "Annotations specifies the annotations to attach to pods the operator creates.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
@@ -316,6 +324,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Proxy(ref common.ReferenceCallback) common.
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "Proxy defines the desired state of Proxy",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"image": {
 						SchemaProps: spec.SchemaProps{
@@ -328,6 +337,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Proxy(ref common.ReferenceCallback) common.
 							Description: "Labels specifies the labels to attach to pods the operator creates for the proxy cluster.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
@@ -363,6 +373,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref common.ReferenceCallback)
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "PulsarCluster is the Schema for the pulsarclusters API",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"kind": {
 						SchemaProps: spec.SchemaProps{
@@ -406,6 +417,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref common.ReferenceCallb
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "PulsarClusterSpec defines the desired state of PulsarCluster",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"zookeeper": {
 						SchemaProps: spec.SchemaProps{
@@ -450,6 +462,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterStatus(ref common.ReferenceCal
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "PulsarClusterStatus defines the observed state of PulsarCluster",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"phase": {
 						SchemaProps: spec.SchemaProps{
@@ -461,7 +474,6 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterStatus(ref common.ReferenceCal
 				},
 			},
 		},
-		Dependencies: []string{},
 	}
 }
 
@@ -470,6 +482,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Zookeeper(ref common.ReferenceCallback) com
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
 				Description: "Zookeeper defines the desired state of Zookeeper",
+				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"image": {
 						SchemaProps: spec.SchemaProps{
@@ -482,6 +495,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Zookeeper(ref common.ReferenceCallback) com
 							Description: "Labels specifies the labels to attach to pods the operator creates for the zookeeper cluster.",
 							Type:        []string{"object"},
 							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Type:   []string{"string"},
