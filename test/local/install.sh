@@ -11,7 +11,7 @@ kubectl create -f ${WORK_DIR}/deploy/role_binding.yaml
 kubectl create -f ${WORK_DIR}/deploy/service_account.yaml
 
 # create one example pulsar cluster
-kubectl create -f ${WORK_DIR}/deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
+kubectl create -f ${WORK_DIR}/test/local/pulsar_v1alpha1_pulsarcluster_cr.yaml
 
 # start pulsar operator local
 cd ${WORK_DIR}
