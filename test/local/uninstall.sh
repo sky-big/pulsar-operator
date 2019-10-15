@@ -11,4 +11,4 @@ kubectl delete -f ${WORK_DIR}/deploy/role_binding.yaml
 kubectl delete -f ${WORK_DIR}/deploy/service_account.yaml
 
 # delete pulsar cluster crd
-kubectl delete -f ${WORK_DIR}/deploy/crds/pulsar_v1alpha1_pulsarcluster_crd.yaml
+kubectl delete -f ${WORK_DIR}/deploy/crds/pulsar.apache.org_pulsarclusters_crd.yaml

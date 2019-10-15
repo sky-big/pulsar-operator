@@ -3,7 +3,7 @@
 export WORK_DIR=$(cd `dirname $0`; cd ../..; pwd)
 
 # create pulsar cluster crd
-kubectl create -f ${WORK_DIR}/deploy/crds/pulsar_v1alpha1_pulsarcluster_crd.yaml
+kubectl create -f ${WORK_DIR}/deploy/crds/pulsar.apache.org_pulsarclusters_crd.yaml
 
 # create pulsar cluster operator account and role
 kubectl create -f ${WORK_DIR}/deploy/role.yaml
