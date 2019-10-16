@@ -152,3 +152,30 @@ spec:
 ```
 $ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 ```
+
+## Local Test On Kubernetes
+
+## Start Local Test
+
+1. Install kubernetes cluster
+
+2. Install golang on kubernetes master node
+
+3. Install operator sdk[Install Operator SDK](https://github.com/operator-framework/operator-sdk/blob/master/doc/user/install-operator-sdk.md) on kubernetes master node
+
+4. Clone project to the kubernetes master node:
+```
+$ git clone https://github.com/sky-big/pulsar-operator.git
+$ cd pulsar-operator
+```
+
+5. Execute script on kubernetes master node:
+```
+$ make start-local
+```
+
+## Stop Local Test
+1. Execute script on kubernetes master node:
+```
+$ make stop-local
+```
