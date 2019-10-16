@@ -101,9 +101,7 @@ example-pulsarcluster-zookeeper-statefulset-2                     1/1     Runnin
 
 ### Scale Pulsar Proxy
 
-1. If you want to enlarge your proxy component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want:
-
-for example, from ```size: 3``` to ```size: 5```
+1. If you want to enlarge your proxy component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want, for example, from ```size: 3``` to ```size: 5```
 ```
 apiVersion: pulsar.apache.org/v1alpha1
 kind: PulsarCluster
@@ -121,9 +119,7 @@ $ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 
 ### Scale Pulsar Broker
 
-1. If you want to enlarge your broker component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want:
-
-for example, from ```size: 3``` to ```size: 5```
+1. If you want to enlarge your broker component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want, for example, from ```size: 3``` to ```size: 5```
 ```
 apiVersion: pulsar.apache.org/v1alpha1
 kind: PulsarCluster
@@ -141,9 +137,7 @@ $ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 
 ### Scale Pulsar Bookie
 
-1. If you want to enlarge your bookie component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want:
-
-for example, from ```size: 3``` to ```size: 5```
+1. If you want to enlarge your bookie component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want, for example, from ```size: 3``` to ```size: 5```
 ```
 apiVersion: pulsar.apache.org/v1alpha1
 kind: PulsarCluster
