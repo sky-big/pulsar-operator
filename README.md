@@ -27,12 +27,55 @@ NAME                                      READY   STATUS    RESTARTS   AGE
 pulsar-operator-564b5d75d-jllzk           1/1     Running   0          108s
 ```
 
-4. Now you can use the CRDs provide by Pulsar Operator to deploy your Pulsar Cluster, Start one example pulsar cluster:
+Now you can use the CRDs provide by Pulsar Operator to deploy your Pulsar Cluster.
+
+### Define Your Pulsar Cluster
+
+1. Check the file ```pulsar_v1alpha1_pulsarcluster_cr.yaml```in the deploy/crd directory, for example:
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  bookie:
+    size: 3
+  broker:
+    size: 3
+  proxy:
+    size: 3
+```
+
+which defines pulsar cluster zookeeper, bookkeeper, broker, proxy components configuration
+
+2. If you need pulsar dashboard, prometheus, grafana need configuration, for example:
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  bookie:
+    size: 3
+  broker:
+    size: 3
+  proxy:
+    size: 3
+  monitor:
+    isActive: true              // true/false: active monitor
+    dashboardPort: 30001        // pulsar dashboard expose port on kubernetes
+    prometheusPort: 30002       // prometheus expose port on kubernetes
+    grafanaPort: 30003          // grafana expose port on kubernetes
+```
+
+### Create Your Pulsar Cluster
+
+1. Deploy the pulsar cluster by running:
 ```
 $ kubectl create -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 ```
 
-5. Use command ```kubectl get pods```to check example Pulsar Cluster status like:
+2. Use command ```kubectl get pods```to check example Pulsar Cluster status like:
 ```
 $ kubectl get pods
 NAME                                                              READY   STATUS      RESTARTS   AGE
@@ -52,4 +95,66 @@ example-pulsarcluster-proxy-deployment-6555968487-cxhc6           1/1     Runnin
 example-pulsarcluster-zookeeper-statefulset-0                     1/1     Running     0          2m2s
 example-pulsarcluster-zookeeper-statefulset-1                     1/1     Running     0          109s
 example-pulsarcluster-zookeeper-statefulset-2                     1/1     Running     0          95s
+```
+
+## Horizontal Scale Pulsar Cluster
+
+### Scale Pulsar Proxy
+
+1. If you want to enlarge your proxy component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want:
+
+for example, from ```size: 3``` to ```size: 5```
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  proxy:
+    size: 5
+```
+
+2. After configuring the size fields, simply run:
+```
+$ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
+```
+
+### Scale Pulsar Broker
+
+1. If you want to enlarge your broker component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want:
+
+for example, from ```size: 3``` to ```size: 5```
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  broker:
+    size: 5
+```
+
+2. After configuring the size fields, simply run:
+```
+$ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
+```
+
+### Scale Pulsar Bookie
+
+1. If you want to enlarge your bookie component. Modify your CR file pulsar_v1alpha1_pulsarcluster_cr.yaml, increase the field size to the number you want:
+
+for example, from ```size: 3``` to ```size: 5```
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  bookie:
+    size: 5
+```
+
+2. After configuring the size fields, simply run:
+```
+$ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 ```
