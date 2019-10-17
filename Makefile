@@ -19,7 +19,7 @@ build:
 # Example:
 #   make image
 image:
-	pushd docker && sh ./build-image.sh && popd
+	docker/build-image.sh
 .PHONY: image
 
 # Push the docker image
@@ -27,7 +27,7 @@ image:
 # Example:
 #   make push
 push:
-	pushd docker && sh ./push-image.sh && popd
+	docker/push-image.sh
 .PHONY: push
 
 # generate code(zz_generated*)

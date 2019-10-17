@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export WORK_DIR=$(cd `dirname $0`; pwd)
+cd ${WORK_DIR}
+
 IMAGE=skybig/pulsar-operator:latest
 
 # build operator
