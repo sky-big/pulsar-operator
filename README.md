@@ -97,6 +97,13 @@ example-pulsarcluster-zookeeper-statefulset-1                     1/1     Runnin
 example-pulsarcluster-zookeeper-statefulset-2                     1/1     Running     0          95s
 ```
 
+### Storage of Pulsar Cluster
+
+1. EmptyDir Volume(Default) For Test
+
+
+2. Local Volume(Next TODO)
+
 ## Horizontal Scale Pulsar Cluster
 
 ### Scale Pulsar Proxy
