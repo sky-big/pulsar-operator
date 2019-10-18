@@ -186,3 +186,18 @@ $ make start-local
 ```
 $ make stop-local
 ```
+
+## Compile Pulsar Operator
+```
+$ make build
+```
+
+## Build Pulsar Operator Image
+```
+$ make image
+```
+
+## Generate CRD Code And Project Vendor Code
+```
+$ make generate
+```
