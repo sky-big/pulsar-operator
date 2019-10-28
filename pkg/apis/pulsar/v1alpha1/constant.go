@@ -117,9 +117,6 @@ const (
 	// Bookie number default num is 3
 	BookieClusterDefaultNodeNum = 3
 
-	// Bookie Autorecovery default num is 3
-	BookieAutoRecoveryClusterDefaultNodeNum = 3
-
 	// Proxy number default num is 3
 	ProxyClusterDefaultNodeNum = 3
 )
@@ -145,11 +142,11 @@ const (
 	BookieServerPort = 3181
 )
 
-// Support storage volume
+// Storage default capacity
 const (
-	// EmptyDir volume
-	EmptyDirVolume = "EmptyDir"
+	// journal storage default capacity
+	JournalStorageDefaultCapacity = 1
 
-	// Local persistent volume
-	LocalVolume = "Local"
+	// ledgers storage default capacity
+	LedgersStorageDefaultCapacity = 10
 )

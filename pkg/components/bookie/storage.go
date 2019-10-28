@@ -37,9 +37,10 @@ func makeJournalDataVolumeClaimTemplate(c *pulsarv1alpha1.PulsarCluster) v1.Pers
 }
 
 func makeJournalDataVolumeClaimSpec(c *pulsarv1alpha1.PulsarCluster) v1.PersistentVolumeClaimSpec {
+	capacity := fmt.Sprintf("%dGi", c.Spec.Bookie.JournalStorageCapacity)
 	return v1.PersistentVolumeClaimSpec{
 		AccessModes:      []v1.PersistentVolumeAccessMode{v1.ReadWriteOnce},
-		Resources:        v1.ResourceRequirements{Requests: v1.ResourceList{v1.ResourceStorage: resource.MustParse("100Gi")}},
+		Resources:        v1.ResourceRequirements{Requests: v1.ResourceList{v1.ResourceStorage: resource.MustParse(capacity)}},
 		StorageClassName: &c.Spec.Bookie.StorageClassName,
 	}
 }
@@ -55,9 +56,10 @@ func makeLedgersDataVolumeClaimTemplate(c *pulsarv1alpha1.PulsarCluster) v1.Pers
 }
 
 func makeLedgersDataVolumeClaimSpec(c *pulsarv1alpha1.PulsarCluster) v1.PersistentVolumeClaimSpec {
+	capacity := fmt.Sprintf("%dGi", c.Spec.Bookie.LedgersStorageCapacity)
 	return v1.PersistentVolumeClaimSpec{
 		AccessModes:      []v1.PersistentVolumeAccessMode{v1.ReadWriteOnce},
-		Resources:        v1.ResourceRequirements{Requests: v1.ResourceList{v1.ResourceStorage: resource.MustParse("100Gi")}},
+		Resources:        v1.ResourceRequirements{Requests: v1.ResourceList{v1.ResourceStorage: resource.MustParse(capacity)}},
 		StorageClassName: &c.Spec.Bookie.StorageClassName,
 	}
 }

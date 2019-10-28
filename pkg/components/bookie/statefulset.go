@@ -43,7 +43,7 @@ func makeStatefulSetSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.StatefulSetSpec
 		},
 	}
 
-	if c.Spec.Bookie.StorageVolume != pulsarv1alpha1.EmptyDirVolume {
+	if !isUseEmptyDirVolume(c) {
 		s.VolumeClaimTemplates = makeVolumeClaimTemplates(c)
 	}
 

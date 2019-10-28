@@ -30,12 +30,11 @@ func MakeDeploymentName(c *pulsarv1alpha1.PulsarCluster) string {
 }
 
 func makeDeploymentSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.DeploymentSpec {
-	var podNum int32 = 3
 	return appsv1.DeploymentSpec{
 		Selector: &metav1.LabelSelector{
 			MatchLabels: pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
 		},
-		Replicas: &podNum,
+		Replicas: &c.Spec.Bookie.Size,
 		Template: makeDeploymentPodTemplate(c),
 	}
 }

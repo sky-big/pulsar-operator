@@ -15,7 +15,7 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 		InitContainers: []v1.Container{makeInitContainer(c)},
 	}
 
-	if c.Spec.Bookie.StorageVolume == pulsarv1alpha1.EmptyDirVolume {
+	if isUseEmptyDirVolume(c) {
 		p.Volumes = makeEmptyDirVolume(c)
 	}
 
@@ -119,4 +119,8 @@ func makeInitContainerEnvFrom(c *pulsarv1alpha1.PulsarCluster) []v1.EnvFromSourc
 
 	froms = append(froms, v1.EnvFromSource{ConfigMapRef: &configRef})
 	return froms
+}
+
+func isUseEmptyDirVolume(c *pulsarv1alpha1.PulsarCluster) bool {
+	return c.Spec.Bookie.StorageClassName == ""
 }
