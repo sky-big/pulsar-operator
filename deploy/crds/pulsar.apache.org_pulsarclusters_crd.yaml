@@ -46,12 +46,20 @@ spec:
                     tag:
                       type: string
                   type: object
+                journalStorageCapacity:
+                  description: Storage request capacity(Gi unit) for journal
+                  format: int32
+                  type: integer
                 labels:
                   additionalProperties:
                     type: string
                   description: Labels specifies the labels to attach to pods the operator
                     creates for the bookie cluster.
                   type: object
+                ledgersStorageCapacity:
+                  description: Storage request capacity(Gi unit) for ledgers
+                  format: int32
+                  type: integer
                 pod:
                   description: "Pod defines the policy to create pod for the bookie
                     cluster. \n Updating the pod does not take effect on any existing
@@ -982,9 +990,6 @@ spec:
                   type: integer
                 storageClassName:
                   description: "Storage class name \n PVC of storage class name"
-                  type: string
-                storageVolume:
-                  description: "Storage volume \n Bookie component storage data volume(EmptyDir/Local)."
                   type: string
               type: object
             broker:

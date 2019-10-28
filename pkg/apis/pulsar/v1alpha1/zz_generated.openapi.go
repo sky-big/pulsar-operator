@@ -65,18 +65,25 @@ func schema_pkg_apis_pulsar_v1alpha1_Bookie(ref common.ReferenceCallback) common
 							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy"),
 						},
 					},
-					"storageVolume": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Storage volume\n\nBookie component storage data volume(EmptyDir/Local).",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
 					"storageClassName": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Storage class name\n\nPVC of storage class name",
 							Type:        []string{"string"},
 							Format:      "",
+						},
+					},
+					"journalStorageCapacity": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Storage request capacity(Gi unit) for journal",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+					"ledgersStorageCapacity": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Storage request capacity(Gi unit) for ledgers",
+							Type:        []string{"integer"},
+							Format:      "int32",
 						},
 					},
 				},
