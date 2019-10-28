@@ -99,9 +99,9 @@ example-pulsarcluster-zookeeper-statefulset-2                     1/1     Runnin
 
 ### Storage of Pulsar Cluster
 
-1. Use EmptyDir Volume(Default) For Test
+1. Use EmptyDir Volume For Test(Default)
 
-2. Use Pvc For Storage
+2. Use PVC For Storage
 ```
 apiVersion: pulsar.apache.org/v1alpha1
 kind: PulsarCluster
