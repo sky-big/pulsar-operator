@@ -10,3 +10,11 @@ kubectl delete -f ${WORK_DIR}/deploy/rbac/default_namespace_rbac.yaml
 
 # delete pulsar cluster crd
 kubectl delete -f ${WORK_DIR}/deploy/crds/pulsar.apache.org_pulsarclusters_crd.yaml
+
+# delete pvc
+kubectl delete pvc journal-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-0
+kubectl delete pvc journal-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-1
+kubectl delete pvc journal-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-2
+kubectl delete pvc ledgers-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-0
+kubectl delete pvc ledgers-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-1
+kubectl delete pvc ledgers-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-2

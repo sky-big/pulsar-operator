@@ -11,11 +11,11 @@ import (
 )
 
 func makeJournalDataVolumeName(c *pulsarv1alpha1.PulsarCluster) string {
-	return fmt.Sprintf("%s-journal-disk-volume", c.GetName())
+	return fmt.Sprintf("journal-disk-volume-pvc")
 }
 
 func makeLedgersDataVolumeName(c *pulsarv1alpha1.PulsarCluster) string {
-	return fmt.Sprintf("%s-ledgers-disk-volume", c.GetName())
+	return fmt.Sprintf("ledgers-disk-volume-pvc")
 }
 
 // PV/PVC
