@@ -99,10 +99,36 @@ example-pulsarcluster-zookeeper-statefulset-2                     1/1     Runnin
 
 ### Storage of Pulsar Cluster
 
-1. EmptyDir Volume(Default) For Test
+1. Use EmptyDir Volume(Default) For Test
 
-
-2. Local Volume(Next TODO)
+2. Use Pvc For Storage
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  zookeeper:
+    size: 3
+  bookie:
+    size: 3
+    storageClassName: "fast"                // storage class name
+    journalStorageCapacity: 10              // bookie journal volume capacity(Gi)
+    ledgersStorageCapacity: 10              // bookie ledgers volume capacity(Gi)
+  broker:
+    size: 3
+  proxy:
+    size: 3
+    
+$ kubectl get pvc
+NAME                                                                 STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+journal-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-0   Bound    pvc-8c7247e0-9a1f-4eba-9a1f-8ad10847d54d   10Gi       RWO            fast           2m
+journal-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-1   Bound    pvc-27e5b83b-6ea2-47e2-a64e-783772506959   10Gi       RWO            fast           84s
+journal-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-2   Bound    pvc-88ccca2e-0f6b-4ae9-b5c6-1b7bb57bdc69   10Gi       RWO            fast           62s
+ledgers-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-0   Bound    pvc-3afc1103-7992-41e1-9aa5-762681ac5e5d   10Gi       RWO            fast           2m
+ledgers-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-1   Bound    pvc-dd848627-6838-4cda-be77-83fe5b0b7c53   10Gi       RWO            fast           84s
+ledgers-disk-volume-pvc-example-pulsarcluster-bookie-statefulset-2   Bound    pvc-98aea962-1a7a-4c4c-a058-cef9bccacb6c   10Gi       RWO            fast           62s
+```
 
 ## Horizontal Scale Pulsar Cluster
 
