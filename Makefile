@@ -68,6 +68,20 @@ stop-local:
 	test/local/uninstall.sh
 .PHONY: stop-local
 
+# start pvc test
+# Example:
+#   make start-pvc
+start-pvc:
+	test/pvc/install.sh
+.PHONY: start-pvc
+
+# stop pvc test
+# Example:
+#   make stop-pvc
+stop-pvc:
+	test/pvc/uninstall.sh
+.PHONY: stop-pvc
+
 # clean all binaries
 #
 # Example:
