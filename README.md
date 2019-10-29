@@ -196,7 +196,7 @@ $ kubectl apply -f deploy/crds/pulsar_v1alpha1_pulsarcluster_cr.yaml
 
 3. Install operator sdk[Install Operator SDK](https://github.com/operator-framework/operator-sdk/blob/master/doc/user/install-operator-sdk.md) on kubernetes master node
 
-4. Clone project to the kubernetes master node:
+4. Clone project to the kubernetes master node(project must in GOPATH):
 ```
 $ git clone https://github.com/sky-big/pulsar-operator.git
 $ cd pulsar-operator
