@@ -16,9 +16,10 @@ func MakeService(c *pulsarv1alpha1.PulsarCluster) *v1.Service {
 			APIVersion: "v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      MakeServiceName(c),
-			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Name:        MakeServiceName(c),
+			Namespace:   c.Namespace,
+			Labels:      pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Annotations: ServiceAnnotations,
 		},
 		Spec: v1.ServiceSpec{
 			Ports:     makeServicePorts(c),

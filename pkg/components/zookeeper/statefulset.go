@@ -18,9 +18,10 @@ func MakeStatefulSet(c *pulsarv1alpha1.PulsarCluster) *appsv1.StatefulSet {
 			APIVersion: "apps/v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      MakeStatefulSetName(c),
-			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Name:        MakeStatefulSetName(c),
+			Namespace:   c.Namespace,
+			Labels:      pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Annotations: StatefulSetAnnotations,
 		},
 		Spec: makeStatefulSetSpec(c),
 	}
