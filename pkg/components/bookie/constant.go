@@ -13,3 +13,12 @@ const (
 
 	BookieLedgersDataMountPath = "/pulsar/data/bookkeeper/ledgers"
 )
+
+// Annotations
+var StatefulSetAnnotations map[string]string
+
+func init() {
+	StatefulSetAnnotations = make(map[string]string)
+	StatefulSetAnnotations["prometheus.io/scrape"] = "true"
+	StatefulSetAnnotations["prometheus.io/port"] = "8000"
+}

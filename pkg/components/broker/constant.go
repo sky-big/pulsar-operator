@@ -13,3 +13,12 @@ const (
 
 	AdvertisedAddress = "advertisedAddress"
 )
+
+// Annotations
+var DeploymentAnnotations map[string]string
+
+func init() {
+	DeploymentAnnotations = make(map[string]string)
+	DeploymentAnnotations["prometheus.io/scrape"] = "true"
+	DeploymentAnnotations["prometheus.io/port"] = "8080"
+}

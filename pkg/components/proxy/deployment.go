@@ -17,9 +17,10 @@ func MakeDeployment(c *pulsarv1alpha1.PulsarCluster) *appsv1.Deployment {
 			APIVersion: "apps/v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      MakeDeploymentName(c),
-			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ProxyComponent),
+			Name:        MakeDeploymentName(c),
+			Namespace:   c.Namespace,
+			Labels:      pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ProxyComponent),
+			Annotations: DeploymentAnnotations,
 		},
 		Spec: makeDeploymentSpec(c),
 	}

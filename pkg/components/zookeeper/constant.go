@@ -24,17 +24,17 @@ const (
 )
 
 // Annotations
-var StatefulSetAnnotations map[string]string
 var ServiceAnnotations map[string]string
+var StatefulSetAnnotations map[string]string
 
 func init() {
+	// Init Service Annotations
+	ServiceAnnotations = make(map[string]string)
+	ServiceAnnotations["service.alpha.kubernetes.io/tolerate-unready-endpoints"] = "true"
+
 	// Init StatefulSet Annotations
 	StatefulSetAnnotations = make(map[string]string)
 	StatefulSetAnnotations["pod.alpha.kubernetes.io/initialized"] = "true"
 	StatefulSetAnnotations["prometheus.io/scrape"] = "true"
 	StatefulSetAnnotations["prometheus.io/port"] = "8080"
-
-	// Init Service Annotations
-	ServiceAnnotations = make(map[string]string)
-	ServiceAnnotations["service.alpha.kubernetes.io/tolerate-unready-endpoints"] = "true"
 }
