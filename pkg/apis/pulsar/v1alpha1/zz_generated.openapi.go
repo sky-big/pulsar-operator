@@ -192,9 +192,9 @@ func schema_pkg_apis_pulsar_v1alpha1_Dashboard(ref common.ReferenceCallback) com
 							Format:      "",
 						},
 					},
-					"port": {
+					"nodePort": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Port (DEPRECATED) is the expected port of the pulsar dashboard.",
+							Description: "NodePort (DEPRECATED) is the expected port of the pulsar dashboard.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},
@@ -219,9 +219,9 @@ func schema_pkg_apis_pulsar_v1alpha1_Grafana(ref common.ReferenceCallback) commo
 							Format:      "",
 						},
 					},
-					"port": {
+					"nodePort": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Port (DEPRECATED) is the expected port of the pulsar grafana.",
+							Description: "NodePort (DEPRECATED) is the expected port of the pulsar grafana.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},
@@ -438,9 +438,9 @@ func schema_pkg_apis_pulsar_v1alpha1_Prometheus(ref common.ReferenceCallback) co
 							Format:      "",
 						},
 					},
-					"port": {
+					"nodePort": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Port (DEPRECATED) is the expected port of the pulsar prometheus.",
+							Description: "NodePort (DEPRECATED) is the expected port of the pulsar prometheus.",
 							Type:        []string{"integer"},
 							Format:      "int32",
 						},

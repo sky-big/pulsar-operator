@@ -1952,9 +1952,9 @@ spec:
                       description: Host (DEPRECATED) is the expected host of the pulsar
                         dashboard.
                       type: string
-                    port:
-                      description: Port (DEPRECATED) is the expected port of the pulsar
-                        dashboard.
+                    nodePort:
+                      description: NodePort (DEPRECATED) is the expected port of the
+                        pulsar dashboard.
                       format: int32
                       type: integer
                   type: object
@@ -1968,9 +1968,9 @@ spec:
                       description: Host (DEPRECATED) is the expected host of the pulsar
                         grafana.
                       type: string
-                    port:
-                      description: Port (DEPRECATED) is the expected port of the pulsar
-                        grafana.
+                    nodePort:
+                      description: NodePort (DEPRECATED) is the expected port of the
+                        pulsar grafana.
                       format: int32
                       type: integer
                   type: object
@@ -1993,9 +1993,9 @@ spec:
                       description: Host (DEPRECATED) is the expected host of the pulsar
                         prometheus.
                       type: string
-                    port:
-                      description: Port (DEPRECATED) is the expected port of the pulsar
-                        prometheus.
+                    nodePort:
+                      description: NodePort (DEPRECATED) is the expected port of the
+                        pulsar prometheus.
                       format: int32
                       type: integer
                   type: object
