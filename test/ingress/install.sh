@@ -9,7 +9,7 @@ kubectl create -f ${WORK_DIR}/deploy/crds/pulsar.apache.org_pulsarclusters_crd.y
 kubectl create -f ${WORK_DIR}/deploy/rbac/default_namespace_rbac.yaml
 
 # create one example pulsar cluster
-kubectl create -f ${WORK_DIR}/test/local/pulsar_v1alpha1_pulsarcluster_cr.yaml
+kubectl create -f ${WORK_DIR}/test/ingress/pulsar_v1alpha1_pulsarcluster_cr.yaml
 
 # start pulsar operator local
 cd ${WORK_DIR}
