@@ -27,7 +27,7 @@ func MakeInitClusterMetaDataJob(c *v1alpha1.PulsarCluster) *v1.Job {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      MakeInitClusterMetaDataJobName(c),
 			Namespace: c.Namespace,
-			Labels:    v1alpha1.MakeLabels(c, ComponentName),
+			Labels:    v1alpha1.MakeComponentLabels(c, ComponentName),
 		},
 		Spec: makeJobSpec(c),
 	}
@@ -47,7 +47,7 @@ func makePodTemplate(c *v1alpha1.PulsarCluster) corev1.PodTemplateSpec {
 	return corev1.PodTemplateSpec{
 		ObjectMeta: metav1.ObjectMeta{
 			GenerateName: c.GetName(),
-			Labels:       v1alpha1.MakeLabels(c, ComponentName),
+			Labels:       v1alpha1.MakeComponentLabels(c, ComponentName),
 		},
 		Spec: corev1.PodSpec{
 			Containers:    []corev1.Container{makeContainer(c)},

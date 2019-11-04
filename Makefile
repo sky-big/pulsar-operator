@@ -82,6 +82,20 @@ stop-pvc:
 	test/pvc/uninstall.sh
 .PHONY: stop-pvc
 
+# start ingress test
+# Example:
+#   make start-ingress
+start-ingress:
+	test/ingress/install.sh
+.PHONY: start-ingress
+
+# stop ingress test
+# Example:
+#   make stop-ingress
+stop-ingress:
+	test/ingress/uninstall.sh
+.PHONY: stop-ingress
+
 # clean all binaries
 #
 # Example:

@@ -26,7 +26,7 @@ func MakePodDisruptionBudget(c *pulsarv1alpha1.PulsarCluster) *v1beta1.PodDisrup
 		Spec: v1beta1.PodDisruptionBudgetSpec{
 			MaxUnavailable: &count,
 			Selector: &metav1.LabelSelector{
-				MatchLabels: pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+				MatchLabels: pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ZookeeperComponent),
 			},
 		},
 	}

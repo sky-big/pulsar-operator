@@ -18,12 +18,12 @@ func MakeService(c *pulsarv1alpha1.PulsarCluster) *v1.Service {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      MakeServiceName(c),
 			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ProxyComponent),
+			Labels:    pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ProxyComponent),
 		},
 		Spec: v1.ServiceSpec{
 			Ports:     makeServicePorts(c),
 			ClusterIP: v1.ClusterIPNone,
-			Selector:  pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ProxyComponent),
+			Selector:  pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ProxyComponent),
 		},
 	}
 }

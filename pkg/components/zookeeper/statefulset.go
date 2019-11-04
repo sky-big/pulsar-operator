@@ -20,7 +20,7 @@ func MakeStatefulSet(c *pulsarv1alpha1.PulsarCluster) *appsv1.StatefulSet {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        MakeStatefulSetName(c),
 			Namespace:   c.Namespace,
-			Labels:      pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Labels:      pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ZookeeperComponent),
 			Annotations: StatefulSetAnnotations,
 		},
 		Spec: makeStatefulSetSpec(c),
@@ -43,7 +43,7 @@ func makeStatefulSetSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.StatefulSetSpec
 	return appsv1.StatefulSetSpec{
 		ServiceName: MakeServiceName(c),
 		Selector: &metav1.LabelSelector{
-			MatchLabels: pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			MatchLabels: pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ZookeeperComponent),
 		},
 		Replicas:            &c.Spec.Zookeeper.Size,
 		Template:            makeStatefulSetPodTemplate(c),
@@ -58,7 +58,7 @@ func makeStatefulSetPodTemplate(c *pulsarv1alpha1.PulsarCluster) v1.PodTemplateS
 	return v1.PodTemplateSpec{
 		ObjectMeta: metav1.ObjectMeta{
 			GenerateName: c.GetName(),
-			Labels:       pulsarv1alpha1.MakeLabels(c, pulsarv1alpha1.ZookeeperComponent),
+			Labels:       pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ZookeeperComponent),
 		},
 		Spec: makePodSpec(c),
 	}

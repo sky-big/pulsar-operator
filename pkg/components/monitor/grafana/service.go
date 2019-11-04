@@ -36,7 +36,7 @@ func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
 	return []v1.ServicePort{
 		{
 			Name:     "grafana",
-			NodePort: c.Spec.Monitor.GrafanaPort,
+			NodePort: c.Spec.Monitor.Grafana.Port,
 			Port:     PulsarGrafanaContainerPort,
 		},
 	}

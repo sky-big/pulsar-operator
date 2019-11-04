@@ -6,10 +6,12 @@ import (
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
 	"github.com/sky-big/pulsar-operator/pkg/components/monitor/dashboard"
 	"github.com/sky-big/pulsar-operator/pkg/components/monitor/grafana"
+	"github.com/sky-big/pulsar-operator/pkg/components/monitor/ingress"
 	"github.com/sky-big/pulsar-operator/pkg/components/monitor/prometheus"
 
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/api/extensions/v1beta1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -20,7 +22,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitor(c *pulsarv1alpha1.PulsarCluste
 	if c.Status.Phase == pulsarv1alpha1.PulsarClusterInitingPhase {
 		return nil
 	}
-	if !c.Spec.Monitor.IsActive {
+	if !c.Spec.Monitor.Enable {
 		return nil
 	}
 
@@ -34,11 +36,21 @@ func (r *ReconcilePulsarCluster) reconcileMonitor(c *pulsarv1alpha1.PulsarCluste
 			return err
 		}
 	}
+
+	if c.Spec.Monitor.Ingress.Enable &&
+		(c.Spec.Monitor.Dashboard.Host != "" ||
+			c.Spec.Monitor.Grafana.Host != "" ||
+			c.Spec.Monitor.Prometheus.Host != "") {
+		if err := r.reconcileIngress(c); err != nil {
+			r.log.Error(err, "Reconciling PulsarCluster Monitor Ingress Error", c)
+			return err
+		}
+	}
 	return nil
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorDashboard(c *pulsarv1alpha1.PulsarCluster) error {
-	if c.Spec.Monitor.DashboardPort == 0 {
+	if c.Spec.Monitor.Dashboard.Port == 0 {
 		return nil
 	}
 
@@ -98,7 +110,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitorDashboardService(c *pulsarv1alp
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorPrometheus(c *pulsarv1alpha1.PulsarCluster) error {
-	if c.Spec.Monitor.PrometheusPort == 0 {
+	if c.Spec.Monitor.Prometheus.Port == 0 {
 		return nil
 	}
 
@@ -181,7 +193,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitorPrometheusService(c *pulsarv1al
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorGrafana(c *pulsarv1alpha1.PulsarCluster) error {
-	if c.Spec.Monitor.GrafanaPort == 0 {
+	if c.Spec.Monitor.Grafana.Port == 0 {
 		return nil
 	}
 
@@ -235,6 +247,28 @@ func (r *ReconcilePulsarCluster) reconcileMonitorGrafanaService(c *pulsarv1alpha
 			r.log.Info("Create pulsar monitor grafana service success",
 				"Service.Namespace", c.Namespace,
 				"Service.Name", sCreate.GetName())
+		}
+	}
+	return
+}
+
+func (r *ReconcilePulsarCluster) reconcileIngress(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	inCreate := ingress.MakeIngress(c)
+
+	inCur := &v1beta1.Ingress{}
+	err = r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      inCreate.Name,
+		Namespace: inCreate.Namespace,
+	}, inCur)
+	if err != nil && errors.IsNotFound(err) {
+		if err = controllerutil.SetControllerReference(c, inCreate, r.scheme); err != nil {
+			return err
+		}
+
+		if err = r.client.Create(context.TODO(), inCreate); err == nil {
+			r.log.Info("Create pulsar monitor ingress success",
+				"Ingress.Namespace", c.Namespace,
+				"Ingress.Name", inCreate.GetName())
 		}
 	}
 	return

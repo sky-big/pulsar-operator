@@ -85,7 +85,7 @@ const (
 	LabelChildComponent = "child-component"
 )
 
-func MakeLabels(c *PulsarCluster, component string) map[string]string {
+func MakeComponentLabels(c *PulsarCluster, component string) map[string]string {
 	return MakeAllLabels(c, component, "")
 }
 
@@ -97,6 +97,13 @@ func MakeAllLabels(c *PulsarCluster, component string, childComponent string) ma
 	if childComponent != "" {
 		labels[LabelChildComponent] = childComponent
 	}
+	return labels
+}
+
+func MakeIngressLabels(c *PulsarCluster) map[string]string {
+	labels := make(map[string]string)
+	labels[LabelService] = Service
+	labels[LabelCluster] = c.GetName()
 	return labels
 }
 

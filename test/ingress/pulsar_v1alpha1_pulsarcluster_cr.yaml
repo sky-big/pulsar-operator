@@ -7,9 +7,6 @@ spec:
     size: 3
   bookie:
     size: 3
-    storageClassName: "fast"
-    journalStorageCapacity: 10
-    ledgersStorageCapacity: 10
   broker:
     size: 3
   proxy:
@@ -22,3 +19,7 @@ spec:
       port: 30006
     grafana:
       port: 30007
+    ingress:
+      enable: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"

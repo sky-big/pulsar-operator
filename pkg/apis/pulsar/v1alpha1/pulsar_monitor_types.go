@@ -14,17 +14,60 @@ const (
 // Monitor defines the desired state of Monitor
 // +k8s:openapi-gen=true
 type Monitor struct {
-	// Is active pulsar cluster monitor flag.
-	IsActive bool `json:"isActive,omitempty"`
+	// Is enable pulsar cluster monitor flag.
+	Enable bool `json:"enable,omitempty"`
 
-	// DashboardPort (DEPRECATED) is the expected port of the pulsar dashboard.
-	DashboardPort int32 `json:"dashboardPort,omitempty"`
+	// Dashboard
+	Dashboard Dashboard `json:"dashboard,omitempty"`
 
-	// PrometheusPort (DEPRECATED) is the expected port of the pulsar prometheus.
-	PrometheusPort int32 `json:"prometheusPort,omitempty"`
+	// Prometheus
+	Prometheus Prometheus `json:"prometheus,omitempty"`
 
-	// GrafanaPort (DEPRECATED) is the expected port of the pulsar grafana.
-	GrafanaPort int32 `json:"grafanaPort,omitempty"`
+	// Grafana
+	Grafana Grafana `json:"grafana,omitempty"`
+
+	// Ingress
+	Ingress MonitorIngress `json:"ingress,omitempty"`
+}
+
+// Pulsar cluster dashboard spec
+// +k8s:openapi-gen=true
+type Dashboard struct {
+	// Host (DEPRECATED) is the expected host of the pulsar dashboard.
+	Host string `json:"host,omitempty"`
+
+	// Port (DEPRECATED) is the expected port of the pulsar dashboard.
+	Port int32 `json:"port,omitempty"`
+}
+
+// Pulsar cluster prometheus spec
+// +k8s:openapi-gen=true
+type Prometheus struct {
+	// Host (DEPRECATED) is the expected host of the pulsar prometheus.
+	Host string `json:"host,omitempty"`
+
+	// Port (DEPRECATED) is the expected port of the pulsar prometheus.
+	Port int32 `json:"port,omitempty"`
+}
+
+// Pulsar cluster grafana spec
+// +k8s:openapi-gen=true
+type Grafana struct {
+	// Host (DEPRECATED) is the expected host of the pulsar grafana.
+	Host string `json:"host,omitempty"`
+
+	// Port (DEPRECATED) is the expected port of the pulsar grafana.
+	Port int32 `json:"port,omitempty"`
+}
+
+// MonitorIngress defines the pulsar cluster exposed
+// +k8s:openapi-gen=true
+type MonitorIngress struct {
+	// enable ingress
+	Enable bool `json:"enable,omitempty"`
+
+	// Ingress additional annotation
+	Annotations map[string]string `json:"annotations,omitempty"`
 }
 
 func (m *Monitor) SetDefault(cluster *PulsarCluster) bool {
