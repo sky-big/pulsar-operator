@@ -1945,24 +1945,60 @@ spec:
             monitor:
               description: Monitor defines the desired state of Monitor
               properties:
-                dashboardPort:
-                  description: DashboardPort (DEPRECATED) is the expected port of
-                    the pulsar dashboard.
-                  format: int32
-                  type: integer
-                grafanaPort:
-                  description: GrafanaPort (DEPRECATED) is the expected port of the
-                    pulsar grafana.
-                  format: int32
-                  type: integer
-                isActive:
-                  description: Is active pulsar cluster monitor flag.
+                dashboard:
+                  description: Dashboard
+                  properties:
+                    host:
+                      description: Host (DEPRECATED) is the expected host of the pulsar
+                        dashboard.
+                      type: string
+                    port:
+                      description: Port (DEPRECATED) is the expected port of the pulsar
+                        dashboard.
+                      format: int32
+                      type: integer
+                  type: object
+                enable:
+                  description: Is enable pulsar cluster monitor flag.
                   type: boolean
-                prometheusPort:
-                  description: PrometheusPort (DEPRECATED) is the expected port of
-                    the pulsar prometheus.
-                  format: int32
-                  type: integer
+                grafana:
+                  description: Grafana
+                  properties:
+                    host:
+                      description: Host (DEPRECATED) is the expected host of the pulsar
+                        grafana.
+                      type: string
+                    port:
+                      description: Port (DEPRECATED) is the expected port of the pulsar
+                        grafana.
+                      format: int32
+                      type: integer
+                  type: object
+                ingress:
+                  description: Ingress
+                  properties:
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: Ingress additional annotation
+                      type: object
+                    enable:
+                      description: enable ingress
+                      type: boolean
+                  type: object
+                prometheus:
+                  description: Prometheus
+                  properties:
+                    host:
+                      description: Host (DEPRECATED) is the expected host of the pulsar
+                        prometheus.
+                      type: string
+                    port:
+                      description: Port (DEPRECATED) is the expected port of the pulsar
+                        prometheus.
+                      format: int32
+                      type: integer
+                  type: object
               type: object
             proxy:
               description: Proxy defines the desired state of Proxy
