@@ -62,6 +62,7 @@ func makeDashboardRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		},
 	}
 	path := v1beta1.HTTPIngressPath{
+		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: dashboard.MakeServiceName(c),
 			ServicePort: intstr.FromInt(int(c.Spec.Monitor.Dashboard.Port)),
@@ -73,7 +74,7 @@ func makeDashboardRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 
 func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 	r := v1beta1.IngressRule{
-		Host: c.Spec.Monitor.Dashboard.Host,
+		Host: c.Spec.Monitor.Grafana.Host,
 		IngressRuleValue: v1beta1.IngressRuleValue{
 			HTTP: &v1beta1.HTTPIngressRuleValue{
 				Paths: make([]v1beta1.HTTPIngressPath, 0),
@@ -81,6 +82,7 @@ func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		},
 	}
 	path := v1beta1.HTTPIngressPath{
+		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: grafana.MakeServiceName(c),
 			ServicePort: intstr.FromInt(int(c.Spec.Monitor.Grafana.Port)),
@@ -92,7 +94,7 @@ func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 
 func makePrometheusRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 	r := v1beta1.IngressRule{
-		Host: c.Spec.Monitor.Dashboard.Host,
+		Host: c.Spec.Monitor.Prometheus.Host,
 		IngressRuleValue: v1beta1.IngressRuleValue{
 			HTTP: &v1beta1.HTTPIngressRuleValue{
 				Paths: make([]v1beta1.HTTPIngressPath, 0),
@@ -100,6 +102,7 @@ func makePrometheusRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		},
 	}
 	path := v1beta1.HTTPIngressPath{
+		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: prometheus.MakeServiceName(c),
 			ServicePort: intstr.FromInt(int(c.Spec.Monitor.Prometheus.Port)),
