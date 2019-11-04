@@ -26,7 +26,6 @@ rules:
   - events
   - configmaps
   - secrets
-  - ingress
   verbs:
   - "*"
 - apiGroups:
@@ -47,6 +46,12 @@ rules:
   - policy
   resources:
   - poddisruptionbudgets
+  verbs:
+  - "*"
+- apiGroups:
+  - "extensions"
+  resources:
+  - ingresses
   verbs:
   - "*"
 
