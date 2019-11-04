@@ -144,3 +144,15 @@ func (r *ReconcilePulsarCluster) reconcileBookieAutoRecoveryDeployment(c *pulsar
 	)
 	return
 }
+
+func (r *ReconcilePulsarCluster) isBookieRunning(c *pulsarv1alpha1.PulsarCluster) bool {
+	ss := &appsv1.StatefulSet{}
+	err := r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      bookie.MakeStatefulSetName(c),
+		Namespace: c.Namespace,
+	}, ss)
+	if err == nil {
+		return ss.Status.ReadyReplicas == c.Spec.Bookie.Size
+	}
+	return false
+}

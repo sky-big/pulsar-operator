@@ -188,6 +188,10 @@ func (r *ReconcilePulsarCluster) reconcilePulsarCluster(c *pulsarv1alpha1.Pulsar
 	if err := r.reconcileInitPulsarClusterMetaData(c); err != nil {
 		return err
 	}
+
+	if err := r.reconcilePulsarClusterPhase(c); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -220,6 +224,22 @@ func (r *ReconcilePulsarCluster) reconcileInitPulsarClusterMetaData(c *pulsarv1a
 					"PulsarCluster.Namespace", c.Namespace,
 					"PulsarCluster.Name", c.Name)
 			}
+		}
+	}
+	return
+}
+
+func (r *ReconcilePulsarCluster) reconcilePulsarClusterPhase(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	if c.Status.Phase == pulsarv1alpha1.PulsarClusterLaunchingPhase &&
+		r.isZookeeperRunning(c) &&
+		r.isBookieRunning(c) &&
+		r.isBrokerRunning(c) &&
+		r.isProxyRunning(c) {
+		c.Status.Phase = pulsarv1alpha1.PulsarClusterRunningPhase
+		if err = r.client.Status().Update(context.TODO(), c); err == nil {
+			r.log.Info("start pulsar cluster success",
+				"PulsarCluster.Namespace", c.Namespace,
+				"PulsarCluster.Name", c.Name)
 		}
 	}
 	return

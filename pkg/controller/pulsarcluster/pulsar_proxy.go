@@ -109,3 +109,14 @@ func (r *ReconcilePulsarCluster) reconcileProxyService(c *pulsarv1alpha1.PulsarC
 	}
 	return
 }
+
+func (r *ReconcilePulsarCluster) isProxyRunning(c *pulsarv1alpha1.PulsarCluster) bool {
+	dm := proxy.MakeDeployment(c)
+
+	dmCur := &appsv1.Deployment{}
+	err := r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      dm.Name,
+		Namespace: dm.Namespace,
+	}, dmCur)
+	return err == nil && dmCur.Status.ReadyReplicas == c.Spec.Proxy.Size
+}

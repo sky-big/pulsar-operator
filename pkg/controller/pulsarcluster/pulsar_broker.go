@@ -109,3 +109,14 @@ func (r *ReconcilePulsarCluster) reconcileBrokerService(c *pulsarv1alpha1.Pulsar
 	}
 	return
 }
+
+func (r *ReconcilePulsarCluster) isBrokerRunning(c *pulsarv1alpha1.PulsarCluster) bool {
+	dm := broker.MakeDeployment(c)
+
+	dmCur := &appsv1.Deployment{}
+	err := r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      dm.Name,
+		Namespace: dm.Namespace,
+	}, dmCur)
+	return err == nil && dmCur.Status.ReadyReplicas == c.Spec.Broker.Size
+}
