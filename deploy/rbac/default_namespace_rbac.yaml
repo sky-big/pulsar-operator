@@ -27,6 +27,7 @@ rules:
   - events
   - configmaps
   - secrets
+  - ingress
   verbs:
   - "*"
 - apiGroups:
