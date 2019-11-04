@@ -10,6 +10,13 @@ import (
 )
 
 func MakeService(c *pulsarv1alpha1.PulsarCluster) *v1.Service {
+	var serviceType v1.ServiceType
+	if c.Spec.Monitor.Prometheus.NodePort == 0 {
+		serviceType = v1.ServiceTypeClusterIP
+	} else {
+		serviceType = v1.ServiceTypeNodePort
+	}
+
 	return &v1.Service{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Service",
@@ -22,7 +29,7 @@ func MakeService(c *pulsarv1alpha1.PulsarCluster) *v1.Service {
 		},
 		Spec: v1.ServiceSpec{
 			Ports:    makeServicePorts(c),
-			Type:     v1.ServiceTypeNodePort,
+			Type:     serviceType,
 			Selector: pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.MonitorComponent, pulsarv1alpha1.MonitorPrometheusComponent),
 		},
 	}
@@ -33,11 +40,20 @@ func MakeServiceName(c *pulsarv1alpha1.PulsarCluster) string {
 }
 
 func makeServicePorts(c *pulsarv1alpha1.PulsarCluster) []v1.ServicePort {
-	return []v1.ServicePort{
-		{
-			Name:     "prometheus",
-			NodePort: c.Spec.Monitor.Prometheus.Port,
-			Port:     PulsarPrometheusContainerPort,
-		},
+	if c.Spec.Monitor.Prometheus.NodePort == 0 {
+		return []v1.ServicePort{
+			{
+				Name: "prometheus",
+				Port: PulsarPrometheusContainerPort,
+			},
+		}
+	} else {
+		return []v1.ServicePort{
+			{
+				Name:     "prometheus",
+				NodePort: c.Spec.Monitor.Prometheus.NodePort,
+				Port:     PulsarPrometheusContainerPort,
+			},
+		}
 	}
 }

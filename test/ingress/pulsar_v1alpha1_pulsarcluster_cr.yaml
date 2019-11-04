@@ -15,13 +15,11 @@ spec:
     enable: true
     dashboard:
       host: dashboard.pulsar.com
-      port: 30005
+      nodePort: 30005
     prometheus:
       host: prometheus.pulsar.com
-      port: 30006
     grafana:
       host: grafana.pulsar.com
-      port: 30007
     ingress:
       enable: true
       annotations:

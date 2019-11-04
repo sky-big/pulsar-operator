@@ -36,8 +36,8 @@ type Dashboard struct {
 	// Host (DEPRECATED) is the expected host of the pulsar dashboard.
 	Host string `json:"host,omitempty"`
 
-	// Port (DEPRECATED) is the expected port of the pulsar dashboard.
-	Port int32 `json:"port,omitempty"`
+	// NodePort (DEPRECATED) is the expected port of the pulsar dashboard.
+	NodePort int32 `json:"nodePort,omitempty"`
 }
 
 // Pulsar cluster prometheus spec
@@ -46,8 +46,8 @@ type Prometheus struct {
 	// Host (DEPRECATED) is the expected host of the pulsar prometheus.
 	Host string `json:"host,omitempty"`
 
-	// Port (DEPRECATED) is the expected port of the pulsar prometheus.
-	Port int32 `json:"port,omitempty"`
+	// NodePort (DEPRECATED) is the expected port of the pulsar prometheus.
+	NodePort int32 `json:"nodePort,omitempty"`
 }
 
 // Pulsar cluster grafana spec
@@ -56,8 +56,8 @@ type Grafana struct {
 	// Host (DEPRECATED) is the expected host of the pulsar grafana.
 	Host string `json:"host,omitempty"`
 
-	// Port (DEPRECATED) is the expected port of the pulsar grafana.
-	Port int32 `json:"port,omitempty"`
+	// NodePort (DEPRECATED) is the expected port of the pulsar grafana.
+	NodePort int32 `json:"nodePort,omitempty"`
 }
 
 // MonitorIngress defines the pulsar cluster exposed

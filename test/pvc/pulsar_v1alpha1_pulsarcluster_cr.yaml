@@ -17,8 +17,8 @@ spec:
   monitor:
     enable: true
     dashboard:
-      port: 30005
+      nodePort: 30005
     prometheus:
-      port: 30006
+      nodePort: 30006
     grafana:
-      port: 30007
+      nodePort: 30007

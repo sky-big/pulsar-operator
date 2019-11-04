@@ -50,10 +50,6 @@ func (r *ReconcilePulsarCluster) reconcileMonitor(c *pulsarv1alpha1.PulsarCluste
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorDashboard(c *pulsarv1alpha1.PulsarCluster) error {
-	if c.Spec.Monitor.Dashboard.Port == 0 {
-		return nil
-	}
-
 	for _, fun := range []reconcileFunc{
 		r.reconcileMonitorDashboardDeployment,
 		r.reconcileMonitorDashboardService,
@@ -110,10 +106,6 @@ func (r *ReconcilePulsarCluster) reconcileMonitorDashboardService(c *pulsarv1alp
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorPrometheus(c *pulsarv1alpha1.PulsarCluster) error {
-	if c.Spec.Monitor.Prometheus.Port == 0 {
-		return nil
-	}
-
 	for _, fun := range []reconcileFunc{
 		r.reconcileMonitorPrometheusConfigMap,
 		r.reconcileMonitorPrometheusDeployment,
@@ -193,10 +185,6 @@ func (r *ReconcilePulsarCluster) reconcileMonitorPrometheusService(c *pulsarv1al
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorGrafana(c *pulsarv1alpha1.PulsarCluster) error {
-	if c.Spec.Monitor.Grafana.Port == 0 {
-		return nil
-	}
-
 	for _, fun := range []reconcileFunc{
 		r.reconcileMonitorGrafanaDeployment,
 		r.reconcileMonitorGrafanaService,

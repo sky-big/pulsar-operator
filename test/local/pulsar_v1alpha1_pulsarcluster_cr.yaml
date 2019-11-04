@@ -13,6 +13,9 @@ spec:
     size: 3
   monitor:
     enable: true
-    dashboardPort: 30005
-    prometheusPort: 30006
-    grafanaPort: 30007
+    dashboard:
+      nodePort: 30005
+    prometheus:
+      nodePort: 30006
+    grafana:
+      nodePort: 30007

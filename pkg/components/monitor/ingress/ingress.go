@@ -65,7 +65,7 @@ func makeDashboardRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: dashboard.MakeServiceName(c),
-			ServicePort: intstr.FromInt(int(c.Spec.Monitor.Dashboard.Port)),
+			ServicePort: intstr.FromInt(dashboard.PulsarDashboardContainerPort),
 		},
 	}
 	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)
@@ -85,7 +85,7 @@ func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: grafana.MakeServiceName(c),
-			ServicePort: intstr.FromInt(int(c.Spec.Monitor.Grafana.Port)),
+			ServicePort: intstr.FromInt(grafana.PulsarGrafanaContainerPort),
 		},
 	}
 	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)
@@ -105,7 +105,7 @@ func makePrometheusRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: prometheus.MakeServiceName(c),
-			ServicePort: intstr.FromInt(int(c.Spec.Monitor.Prometheus.Port)),
+			ServicePort: intstr.FromInt(prometheus.PulsarPrometheusContainerPort),
 		},
 	}
 	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)
