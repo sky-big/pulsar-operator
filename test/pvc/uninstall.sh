@@ -4,6 +4,7 @@ export WORK_DIR=$(cd `dirname $0`; cd ../..; pwd)
 
 # delete one example pulsar cluster
 kubectl delete -f ${WORK_DIR}/test/pvc/pulsar_v1alpha1_pulsarcluster_cr.yaml
+kubectl delete -f ${WORK_DIR}/test/admin/admin.yaml
 
 # delete pulsar cluster operator account and role
 kubectl delete -f ${WORK_DIR}/deploy/rbac/default_namespace_rbac.yaml

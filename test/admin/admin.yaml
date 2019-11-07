@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pulsar-admin
+spec:
+  containers:
+  - name: pulsar-admin
+    image: apachepulsar/pulsar:latest
+    command: ["sh", "-c"]
+    args:
+    - >
+      bin/apply-config-from-env.py conf/client.conf &&
+      bin/apply-config-from-env.py conf/pulsar_env.sh &&
+      bin/apply-config-from-env.py conf/pulsar_tools_env.sh &&
+      sleep 10000000000
+    envFrom:
+    - configMapRef:
+        name: example-pulsarcluster-broker-configmap
+    env:
+    - name: webServiceUrl
+      value: "http://example-pulsarcluster-broker-service:8080/"
+    - name: brokerServiceUrl
+      value: "pulsar://example-pulsarcluster-broker-service:6650/"
+    - name: PULSAR_MEM
+      value: "\"-Xms64m -Xmx128m\""
