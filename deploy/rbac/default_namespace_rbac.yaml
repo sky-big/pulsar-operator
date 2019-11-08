@@ -27,7 +27,7 @@ rules:
   - events
   - configmaps
   - secrets
-  - serviceAccounts
+  - serviceaccounts
   verbs:
   - "*"
 - apiGroups:
