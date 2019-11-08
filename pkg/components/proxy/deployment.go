@@ -17,10 +17,9 @@ func MakeDeployment(c *pulsarv1alpha1.PulsarCluster) *appsv1.Deployment {
 			APIVersion: "apps/v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:        MakeDeploymentName(c),
-			Namespace:   c.Namespace,
-			Labels:      pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ProxyComponent),
-			Annotations: DeploymentAnnotations,
+			Name:      MakeDeploymentName(c),
+			Namespace: c.Namespace,
+			Labels:    pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ProxyComponent),
 		},
 		Spec: makeDeploymentSpec(c),
 	}
@@ -45,6 +44,7 @@ func makeDeploymentPodTemplate(c *pulsarv1alpha1.PulsarCluster) v1.PodTemplateSp
 		ObjectMeta: metav1.ObjectMeta{
 			GenerateName: c.GetName(),
 			Labels:       pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.ProxyComponent),
+			Annotations:  DeploymentAnnotations,
 		},
 		Spec: makePodSpec(c),
 	}
