@@ -8,8 +8,9 @@ import (
 
 func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 	return v1.PodSpec{
-		Containers: []v1.Container{makeContainer(c)},
-		Volumes:    makeVolumes(c),
+		Containers:         []v1.Container{makeContainer(c)},
+		Volumes:            makeVolumes(c),
+		ServiceAccountName: MakeServiceAccountName(c),
 	}
 }
 

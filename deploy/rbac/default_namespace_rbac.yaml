@@ -27,6 +27,7 @@ rules:
   - events
   - configmaps
   - secrets
+  - serviceAccounts
   verbs:
   - "*"
 - apiGroups:
@@ -53,6 +54,10 @@ rules:
   - "extensions"
   resources:
   - ingresses
+  verbs:
+  - "*"
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["clusterrolebindings"]
   verbs:
   - "*"
 

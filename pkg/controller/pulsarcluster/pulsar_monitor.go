@@ -12,6 +12,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
+	rbacv1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -107,6 +108,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitorDashboardService(c *pulsarv1alp
 
 func (r *ReconcilePulsarCluster) reconcileMonitorPrometheus(c *pulsarv1alpha1.PulsarCluster) error {
 	for _, fun := range []reconcileFunc{
+		r.reconcileMonitorPrometheusRBAC,
 		r.reconcileMonitorPrometheusConfigMap,
 		r.reconcileMonitorPrometheusDeployment,
 		r.reconcileMonitorPrometheusService,
@@ -116,6 +118,61 @@ func (r *ReconcilePulsarCluster) reconcileMonitorPrometheus(c *pulsarv1alpha1.Pu
 		}
 	}
 	return nil
+}
+
+func (r *ReconcilePulsarCluster) reconcileMonitorPrometheusRBAC(c *pulsarv1alpha1.PulsarCluster) (err error) {
+	// cluster role
+	crCreate := prometheus.MakeClusterRole(c)
+	crCur := &rbacv1.ClusterRole{}
+	err = r.client.Get(context.TODO(), types.NamespacedName{
+		Name: crCreate.Name,
+	}, crCur)
+	if err != nil && errors.IsNotFound(err) {
+		if err = controllerutil.SetControllerReference(c, crCreate, r.scheme); err != nil {
+			return err
+		}
+
+		if err = r.client.Create(context.TODO(), crCreate); err == nil {
+			r.log.Info("Create pulsar monitor prometheus cluster role success",
+				"ClusterRole.Name", crCreate.GetName())
+		}
+	}
+
+	// service account
+	saCreate := prometheus.MakeServiceAccount(c)
+	saCur := &v1.ServiceAccount{}
+	err = r.client.Get(context.TODO(), types.NamespacedName{
+		Name:      saCreate.Name,
+		Namespace: c.GetNamespace(),
+	}, saCur)
+	if err != nil && errors.IsNotFound(err) {
+		if err = controllerutil.SetControllerReference(c, saCreate, r.scheme); err != nil {
+			return err
+		}
+
+		if err = r.client.Create(context.TODO(), saCreate); err == nil {
+			r.log.Info("Create pulsar monitor prometheus service account success",
+				"ServiceAccount.Name", saCreate.GetName())
+		}
+	}
+
+	// cluster role and service account binding
+	rbCreate := prometheus.MakeClusterRoleBinding(c)
+	rbCur := &rbacv1.ClusterRoleBinding{}
+	err = r.client.Get(context.TODO(), types.NamespacedName{
+		Name: rbCreate.Name,
+	}, rbCur)
+	if err != nil && errors.IsNotFound(err) {
+		if err = controllerutil.SetControllerReference(c, rbCreate, r.scheme); err != nil {
+			return err
+		}
+
+		if err = r.client.Create(context.TODO(), rbCreate); err == nil {
+			r.log.Info("Create pulsar monitor prometheus cluster role binding success",
+				"ClusterRoleBinding.Name", rbCreate.GetName())
+		}
+	}
+	return
 }
 
 func (r *ReconcilePulsarCluster) reconcileMonitorPrometheusConfigMap(c *pulsarv1alpha1.PulsarCluster) (err error) {
