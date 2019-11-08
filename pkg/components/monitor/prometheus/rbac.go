@@ -89,7 +89,7 @@ func MakeClusterRoleBinding(c *pulsarv1alpha1.PulsarCluster) *rbacv1.ClusterRole
 			Labels: pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.MonitorComponent, pulsarv1alpha1.MonitorPrometheusComponent),
 		},
 		RoleRef: rbacv1.RoleRef{
-			APIGroup: "rbac.authorization.k8s.io/v1beta1",
+			APIGroup: "rbac.authorization.k8s.io",
 			Kind:     "ClusterRole",
 			Name:     MakeClusterRoleName(c),
 		},
