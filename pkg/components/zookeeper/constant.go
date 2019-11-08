@@ -36,5 +36,5 @@ func init() {
 	StatefulSetAnnotations = make(map[string]string)
 	StatefulSetAnnotations["pod.alpha.kubernetes.io/initialized"] = "true"
 	StatefulSetAnnotations["prometheus.io/scrape"] = "true"
-	StatefulSetAnnotations["prometheus.io/port"] = "8080"
+	StatefulSetAnnotations["prometheus.io/port"] = "8000"
 }
