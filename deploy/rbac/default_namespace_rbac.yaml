@@ -57,7 +57,7 @@ rules:
   verbs:
   - "*"
 - apiGroups: ["rbac.authorization.k8s.io"]
-  resources: ["clusterrolebindings"]
+  resources: ["clusterrolebindings","clusterroles"]
   verbs:
   - "*"
 
