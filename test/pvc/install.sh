@@ -7,7 +7,7 @@ kubectl apply -f ${WORK_DIR}/deploy/crds/pulsar.apache.org_pulsarclusters_crd.ya
 kubectl apply -f ${WORK_DIR}/test/admin/admin.yaml
 
 # create pulsar cluster operator account and role
-kubectl apply -f ${WORK_DIR}/deploy/rbac/default_namespace_rbac.yaml
+kubectl apply -f ${WORK_DIR}/deploy/rbac/all_namespace_rbac.yaml
 
 # create one example pulsar cluster
 kubectl apply -f ${WORK_DIR}/test/pvc/pulsar_v1alpha1_pulsarcluster_cr.yaml
