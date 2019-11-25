@@ -66,6 +66,10 @@ spec:
     dashboardPort: 30001        // pulsar dashboard expose port on kubernetes
     prometheusPort: 30002       // prometheus expose port on kubernetes
     grafanaPort: 30003          // grafana expose port on kubernetes
+    ingress:                    // ingress configuration
+      enable: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
 ```
 
 ### Create Your Pulsar Cluster
