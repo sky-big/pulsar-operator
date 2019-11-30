@@ -55,6 +55,10 @@ func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
 	if s.Monitor.SetDefault(cluster) {
 		changed = true
 	}
+
+	if s.Manager.SetDefault(cluster) {
+		changed = true
+	}
 	return changed
 }
 
