@@ -22,7 +22,7 @@ func MakeIngress(c *pulsarv1alpha1.PulsarCluster) *v1beta1.Ingress {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:        MakeIngressName(c),
 			Namespace:   c.Namespace,
-			Labels:      pulsarv1alpha1.MakeIngressLabels(c),
+			Labels:      pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.MonitorComponent),
 			Annotations: c.Spec.Monitor.Ingress.Annotations,
 		},
 		Spec: makeIngressSpec(c),
@@ -30,7 +30,7 @@ func MakeIngress(c *pulsarv1alpha1.PulsarCluster) *v1beta1.Ingress {
 }
 
 func MakeIngressName(c *pulsarv1alpha1.PulsarCluster) string {
-	return fmt.Sprintf("%s-ingress", c.GetName())
+	return fmt.Sprintf("%s-monitor-ingress", c.GetName())
 }
 
 func makeIngressSpec(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressSpec {
@@ -65,7 +65,7 @@ func makeDashboardRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: dashboard.MakeServiceName(c),
-			ServicePort: intstr.FromInt(dashboard.PulsarDashboardContainerPort),
+			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarDashboardServerPort),
 		},
 	}
 	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)
@@ -85,7 +85,7 @@ func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: grafana.MakeServiceName(c),
-			ServicePort: intstr.FromInt(grafana.PulsarGrafanaContainerPort),
+			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarGrafanaServerPort),
 		},
 	}
 	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)
@@ -105,7 +105,7 @@ func makePrometheusRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
 			ServiceName: prometheus.MakeServiceName(c),
-			ServicePort: intstr.FromInt(prometheus.PulsarPrometheusContainerPort),
+			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarPrometheusServerPort),
 		},
 	}
 	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)

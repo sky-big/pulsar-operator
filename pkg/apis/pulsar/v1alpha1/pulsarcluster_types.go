@@ -28,6 +28,9 @@ type PulsarClusterSpec struct {
 
 	// Monitor defines the desired state of Monitor
 	Monitor Monitor `json:"monitor,omitempty"`
+
+	// Manager defines the desired state of Manager
+	Manager Manager `json:"manager,omitempty"`
 }
 
 func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {

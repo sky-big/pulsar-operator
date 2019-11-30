@@ -46,12 +46,12 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
 			Name:          "http",
-			ContainerPort: pulsarv1alpha1.PulsarBrokerHttpServicePort,
+			ContainerPort: pulsarv1alpha1.PulsarBrokerHttpServerPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 		{
 			Name:          "pulsar",
-			ContainerPort: pulsarv1alpha1.PulsarBrokerPulsarServicePort,
+			ContainerPort: pulsarv1alpha1.PulsarBrokerPulsarServerPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}

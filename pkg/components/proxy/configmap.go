@@ -13,9 +13,9 @@ import (
 func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 	brokerServiceName := broker.MakeServiceName(c)
 	webServiceUrl := fmt.Sprintf("http://%s.%s.%s:%d",
-		brokerServiceName, c.Namespace, pulsarv1alpha1.ServiceDomain, pulsarv1alpha1.PulsarBrokerHttpServicePort)
+		brokerServiceName, c.Namespace, pulsarv1alpha1.ServiceDomain, pulsarv1alpha1.PulsarBrokerHttpServerPort)
 	brokerServiceUrl := fmt.Sprintf("pulsar://%s.%s.%s:%d",
-		brokerServiceName, c.Namespace, pulsarv1alpha1.ServiceDomain, pulsarv1alpha1.PulsarBrokerPulsarServicePort)
+		brokerServiceName, c.Namespace, pulsarv1alpha1.ServiceDomain, pulsarv1alpha1.PulsarBrokerPulsarServerPort)
 
 	return &v1.ConfigMap{
 		TypeMeta: metav1.TypeMeta{

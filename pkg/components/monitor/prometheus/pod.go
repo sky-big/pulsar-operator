@@ -27,7 +27,7 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
 			Name:          "prometheus",
-			ContainerPort: PulsarPrometheusContainerPort,
+			ContainerPort: pulsarv1alpha1.PulsarPrometheusServerPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}
