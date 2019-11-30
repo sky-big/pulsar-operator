@@ -96,6 +96,20 @@ stop-ingress:
 	test/ingress/uninstall.sh
 .PHONY: stop-ingress
 
+# start manager test
+# Example:
+#   make start-manager
+start-manager:
+	test/manager/install.sh
+.PHONY: start-manager
+
+# stop manager test
+# Example:
+#   make stop-manager
+stop-manager:
+	test/manager/uninstall.sh
+.PHONY: stop-manager
+
 # clean all binaries
 #
 # Example:

@@ -1,0 +1,30 @@
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  zookeeper:
+    size: 3
+  bookie:
+    size: 3
+  broker:
+    size: 3
+  proxy:
+    size: 3
+  manager:
+    host: manager.pulsar.com
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+  monitor:
+    enable: true
+    dashboard:
+      host: dashboard.pulsar.com
+      nodePort: 30005
+    prometheus:
+      host: prometheus.pulsar.com
+    grafana:
+      host: grafana.pulsar.com
+    ingress:
+      enable: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
