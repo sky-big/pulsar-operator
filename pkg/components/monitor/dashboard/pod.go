@@ -28,14 +28,14 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
 			Name:          "dashboard",
-			ContainerPort: PulsarDashboardContainerPort,
+			ContainerPort: pulsarv1alpha1.PulsarDashboardServerPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}
 }
 
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
-	brokerUrl := fmt.Sprintf("http://%s:%d/", broker.MakeServiceName(c), pulsarv1alpha1.PulsarBrokerHttpServicePort)
+	brokerUrl := fmt.Sprintf("http://%s:%d/", broker.MakeServiceName(c), pulsarv1alpha1.PulsarBrokerHttpServerPort)
 	env := make([]v1.EnvVar, 0)
 	broker := v1.EnvVar{
 		Name:  "SERVICE_URL",

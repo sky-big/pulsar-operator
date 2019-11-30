@@ -42,7 +42,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitor(c *pulsarv1alpha1.PulsarCluste
 		(c.Spec.Monitor.Dashboard.Host != "" ||
 			c.Spec.Monitor.Grafana.Host != "" ||
 			c.Spec.Monitor.Prometheus.Host != "") {
-		if err := r.reconcileIngress(c); err != nil {
+		if err := r.reconcileMonitorIngress(c); err != nil {
 			r.log.Error(err, "Reconciling PulsarCluster Monitor Ingress Error", c)
 			return err
 		}
@@ -297,7 +297,7 @@ func (r *ReconcilePulsarCluster) reconcileMonitorGrafanaService(c *pulsarv1alpha
 	return
 }
 
-func (r *ReconcilePulsarCluster) reconcileIngress(c *pulsarv1alpha1.PulsarCluster) (err error) {
+func (r *ReconcilePulsarCluster) reconcileMonitorIngress(c *pulsarv1alpha1.PulsarCluster) (err error) {
 	inCreate := ingress.MakeIngress(c)
 
 	inCur := &v1beta1.Ingress{}

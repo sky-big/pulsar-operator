@@ -1942,6 +1942,48 @@ spec:
                   format: int32
                   type: integer
               type: object
+            manager:
+              description: Manager defines the desired state of Manager
+              properties:
+                annotations:
+                  additionalProperties:
+                    type: string
+                  description: Ingress additional annotation
+                  type: object
+                host:
+                  description: Host (DEPRECATED) is the expected host of the pulsar
+                    manager.
+                  type: string
+                image:
+                  description: Image is the  container image. default is apachepulsar/pulsar-all:latest
+                  properties:
+                    pullPolicy:
+                      description: PullPolicy describes a policy for if/when to pull
+                        a container image
+                      type: string
+                    repository:
+                      type: string
+                    tag:
+                      type: string
+                  type: object
+                labels:
+                  additionalProperties:
+                    type: string
+                  description: Labels specifies the labels to attach to pods the operator
+                    creates for the broker cluster.
+                  type: object
+                nodePort:
+                  description: NodePort (DEPRECATED) is the expected port of the pulsar
+                    manager.
+                  format: int32
+                  type: integer
+                userName:
+                  description: User Name
+                  type: string
+                userPassword:
+                  description: User Password
+                  type: string
+              type: object
             monitor:
               description: Monitor defines the desired state of Monitor
               properties:

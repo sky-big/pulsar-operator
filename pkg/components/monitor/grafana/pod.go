@@ -28,14 +28,14 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
 			Name:          "grafana",
-			ContainerPort: PulsarGrafanaContainerPort,
+			ContainerPort: pulsarv1alpha1.PulsarGrafanaServerPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}
 }
 
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
-	prometheusUrl := fmt.Sprintf("http://%s:%d/", prometheus.MakeServiceName(c), prometheus.PulsarPrometheusContainerPort)
+	prometheusUrl := fmt.Sprintf("http://%s:%d/", prometheus.MakeServiceName(c), pulsarv1alpha1.PulsarPrometheusServerPort)
 	env := make([]v1.EnvVar, 0)
 	p := v1.EnvVar{
 		Name:  "PROMETHEUS_URL",
