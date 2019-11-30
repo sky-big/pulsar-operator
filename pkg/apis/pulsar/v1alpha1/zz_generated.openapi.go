@@ -16,6 +16,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage":      schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Dashboard":           schema_pkg_apis_pulsar_v1alpha1_Dashboard(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Grafana":             schema_pkg_apis_pulsar_v1alpha1_Grafana(ref),
+		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Manager":             schema_pkg_apis_pulsar_v1alpha1_Manager(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor":             schema_pkg_apis_pulsar_v1alpha1_Monitor(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.MonitorIngress":      schema_pkg_apis_pulsar_v1alpha1_MonitorIngress(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.PodPolicy":           schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref),
@@ -229,6 +230,85 @@ func schema_pkg_apis_pulsar_v1alpha1_Grafana(ref common.ReferenceCallback) commo
 				},
 			},
 		},
+	}
+}
+
+func schema_pkg_apis_pulsar_v1alpha1_Manager(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Manager defines the desired state of Manager",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"image": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Image is the  container image. default is apachepulsar/pulsar-all:latest",
+							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage"),
+						},
+					},
+					"labels": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Labels specifies the labels to attach to pods the operator creates for the broker cluster.",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"userName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "User Name",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"userPassword": {
+						SchemaProps: spec.SchemaProps{
+							Description: "User Password",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"host": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Host (DEPRECATED) is the expected host of the pulsar manager.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"annotations": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ingress additional annotation",
+							Type:        []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Type:   []string{"string"},
+										Format: "",
+									},
+								},
+							},
+						},
+					},
+					"nodePort": {
+						SchemaProps: spec.SchemaProps{
+							Description: "NodePort (DEPRECATED) is the expected port of the pulsar manager.",
+							Type:        []string{"integer"},
+							Format:      "int32",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage"},
 	}
 }
 
@@ -581,11 +661,17 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarClusterSpec(ref common.ReferenceCallb
 							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor"),
 						},
 					},
+					"manager": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Manager defines the desired state of Manager",
+							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Manager"),
+						},
+					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Bookie", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Proxy", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Zookeeper"},
+			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Bookie", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Manager", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Proxy", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Zookeeper"},
 	}
 }
 
