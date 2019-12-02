@@ -72,6 +72,25 @@ spec:
         kubernetes.io/ingress.class: "nginx"
 ```
 
+3. If you need pulsar manager expose by ingress, for example:
+```
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarCluster
+metadata:
+  name: example-pulsarcluster
+spec:
+  bookie:
+    size: 3
+  broker:
+    size: 3
+  proxy:
+    size: 3
+  manager:
+    host: manager.pulsar.com
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+```
+
 ### Create Your Pulsar Cluster
 
 1. Deploy the pulsar cluster by running:
