@@ -178,5 +178,5 @@ const (
 	ManagerDefaultUserName = "admin"
 
 	// manager user default password
-	ManagerDefaultUserPassword = "admin"
+	ManagerDefaultUserPassword = "admin123"
 )
