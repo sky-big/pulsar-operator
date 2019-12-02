@@ -175,8 +175,8 @@ const (
 // Manager component default user name and user password
 const (
 	// manager user default name
-	ManagerDefaultUserName = "admin"
+	ManagerDefaultUserName = "pulsar"
 
 	// manager user default password
-	ManagerDefaultUserPassword = "admin123"
+	ManagerDefaultUserPassword = "pulsar"
 )
