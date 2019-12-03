@@ -12,6 +12,7 @@ spec:
   proxy:
     size: 3
   manager:
+    enable: true
     host: manager.pulsar.com
     annotations:
       kubernetes.io/ingress.class: "nginx"
