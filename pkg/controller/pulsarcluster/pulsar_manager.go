@@ -19,6 +19,9 @@ func (r *ReconcilePulsarCluster) reconcileManager(c *pulsarv1alpha1.PulsarCluste
 	if c.Status.Phase == pulsarv1alpha1.PulsarClusterInitingPhase {
 		return nil
 	}
+	if !c.Spec.Manager.Enable {
+		return nil
+	}
 
 	for _, fun := range []reconcileFunc{
 		r.reconcileManagerDeployment,

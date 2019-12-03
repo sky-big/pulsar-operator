@@ -1950,6 +1950,9 @@ spec:
                     type: string
                   description: Ingress additional annotation
                   type: object
+                enable:
+                  description: Is enable pulsar cluster manager flag.
+                  type: boolean
                 host:
                   description: Host (DEPRECATED) is the expected host of the pulsar
                     manager.

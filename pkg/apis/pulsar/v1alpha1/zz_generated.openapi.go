@@ -240,6 +240,13 @@ func schema_pkg_apis_pulsar_v1alpha1_Manager(ref common.ReferenceCallback) commo
 				Description: "Manager defines the desired state of Manager",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
+					"enable": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Is enable pulsar cluster manager flag.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 					"image": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Image is the  container image. default is apachepulsar/pulsar-all:latest",

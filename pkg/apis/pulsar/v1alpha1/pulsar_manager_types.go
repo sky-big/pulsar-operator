@@ -3,6 +3,9 @@ package v1alpha1
 // Manager defines the desired state of Manager
 // +k8s:openapi-gen=true
 type Manager struct {
+	// Is enable pulsar cluster manager flag.
+	Enable bool `json:"enable,omitempty"`
+
 	// Image is the  container image. default is apachepulsar/pulsar-all:latest
 	Image ContainerImage `json:"image,omitempty"`
 
