@@ -443,7 +443,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PodPolicy(ref common.ReferenceCallback) com
 							Ref:         ref("k8s.io/api/core/v1.Affinity"),
 						},
 					},
-					"resources": {
+					"components": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Resources is the resource requirements for the container. This field cannot be updated once the cluster is created.",
 							Ref:         ref("k8s.io/api/core/v1.ResourceRequirements"),
@@ -603,7 +603,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref common.ReferenceCallback)
 					},
 					"apiVersion": {
 						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources",
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#components",
 							Type:        []string{"string"},
 							Format:      "",
 						},

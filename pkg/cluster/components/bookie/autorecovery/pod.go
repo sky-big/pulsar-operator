@@ -2,7 +2,7 @@ package autorecovery
 
 import (
 	"fmt"
-	bookie2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/bookie"
+	bookie2 "github.com/sky-big/pulsar-operator/pkg/cluster/components/bookie"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
 	"k8s.io/api/core/v1"

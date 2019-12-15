@@ -22,7 +22,7 @@ type PodPolicy struct {
 
 	// Resources is the resource requirements for the container.
 	// This field cannot be updated once the cluster is created.
-	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
+	Resources corev1.ResourceRequirements `json:"components,omitempty"`
 
 	// Tolerations specifies the pod's tolerations.
 	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`

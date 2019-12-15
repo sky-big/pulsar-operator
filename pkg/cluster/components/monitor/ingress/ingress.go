@@ -2,9 +2,9 @@ package ingress
 
 import (
 	"fmt"
-	dashboard2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/dashboard"
-	grafana2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/grafana"
-	prometheus2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/prometheus"
+	dashboard2 "github.com/sky-big/pulsar-operator/pkg/cluster/components/monitor/dashboard"
+	grafana2 "github.com/sky-big/pulsar-operator/pkg/cluster/components/monitor/grafana"
+	prometheus2 "github.com/sky-big/pulsar-operator/pkg/cluster/components/monitor/prometheus"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
 	"k8s.io/api/extensions/v1beta1"

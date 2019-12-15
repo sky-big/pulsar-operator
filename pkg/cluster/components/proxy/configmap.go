@@ -2,7 +2,7 @@ package proxy
 
 import (
 	"fmt"
-	broker2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/broker"
+	broker2 "github.com/sky-big/pulsar-operator/pkg/cluster/components/broker"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
 	"k8s.io/api/core/v1"

@@ -19,7 +19,7 @@ spec:
         apiVersion:
           description: 'APIVersion defines the versioned schema of this representation
             of an object. Servers should convert recognized schemas to the latest
-            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#components'
           type: string
         kind:
           description: 'Kind is a string value representing the REST resource this
@@ -310,7 +310,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -414,7 +414,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -514,7 +514,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -618,7 +618,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -760,7 +760,7 @@ spec:
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container:
-                                  only resources limits and requests (limits.cpu,
+                                  only components limits and requests (limits.cpu,
                                   limits.memory, limits.ephemeral-storage, requests.cpu,
                                   requests.memory and requests.ephemeral-storage)
                                   are currently supported.'
@@ -771,7 +771,7 @@ spec:
                                     type: string
                                   divisor:
                                     description: Specifies the output format of the
-                                      exposed resources, defaults to "1"
+                                      exposed components, defaults to "1"
                                     type: string
                                   resource:
                                     description: 'Required: resource to select'
@@ -827,16 +827,16 @@ spec:
                           additionalProperties:
                             type: string
                           description: 'Limits describes the maximum amount of compute
-                            resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            components allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                         requests:
                           additionalProperties:
                             type: string
                           description: 'Requests describes the minimum amount of compute
-                            resources required. If Requests is omitted for a container,
+                            components required. If Requests is omitted for a container,
                             it defaults to Limits if that is explicitly specified,
                             otherwise to an implementation-defined value. More info:
-                            https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                       type: object
                     securityContext:
@@ -1263,7 +1263,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -1367,7 +1367,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -1467,7 +1467,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -1571,7 +1571,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -1713,7 +1713,7 @@ spec:
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container:
-                                  only resources limits and requests (limits.cpu,
+                                  only components limits and requests (limits.cpu,
                                   limits.memory, limits.ephemeral-storage, requests.cpu,
                                   requests.memory and requests.ephemeral-storage)
                                   are currently supported.'
@@ -1724,7 +1724,7 @@ spec:
                                     type: string
                                   divisor:
                                     description: Specifies the output format of the
-                                      exposed resources, defaults to "1"
+                                      exposed components, defaults to "1"
                                     type: string
                                   resource:
                                     description: 'Required: resource to select'
@@ -1780,16 +1780,16 @@ spec:
                           additionalProperties:
                             type: string
                           description: 'Limits describes the maximum amount of compute
-                            resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            components allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                         requests:
                           additionalProperties:
                             type: string
                           description: 'Requests describes the minimum amount of compute
-                            resources required. If Requests is omitted for a container,
+                            components required. If Requests is omitted for a container,
                             it defaults to Limits if that is explicitly specified,
                             otherwise to an implementation-defined value. More info:
-                            https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                       type: object
                     securityContext:
@@ -2316,7 +2316,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -2420,7 +2420,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -2520,7 +2520,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -2624,7 +2624,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -2766,7 +2766,7 @@ spec:
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container:
-                                  only resources limits and requests (limits.cpu,
+                                  only components limits and requests (limits.cpu,
                                   limits.memory, limits.ephemeral-storage, requests.cpu,
                                   requests.memory and requests.ephemeral-storage)
                                   are currently supported.'
@@ -2777,7 +2777,7 @@ spec:
                                     type: string
                                   divisor:
                                     description: Specifies the output format of the
-                                      exposed resources, defaults to "1"
+                                      exposed components, defaults to "1"
                                     type: string
                                   resource:
                                     description: 'Required: resource to select'
@@ -2833,16 +2833,16 @@ spec:
                           additionalProperties:
                             type: string
                           description: 'Limits describes the maximum amount of compute
-                            resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            components allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                         requests:
                           additionalProperties:
                             type: string
                           description: 'Requests describes the minimum amount of compute
-                            resources required. If Requests is omitted for a container,
+                            components required. If Requests is omitted for a container,
                             it defaults to Limits if that is explicitly specified,
                             otherwise to an implementation-defined value. More info:
-                            https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                       type: object
                     securityContext:
@@ -3266,7 +3266,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -3370,7 +3370,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -3470,7 +3470,7 @@ spec:
                                       with the corresponding weight.
                                     properties:
                                       labelSelector:
-                                        description: A label query over a set of resources,
+                                        description: A label query over a set of components,
                                           in this case pods.
                                         properties:
                                           matchExpressions:
@@ -3574,7 +3574,7 @@ spec:
                                   node on which a pod of the set of pods is running
                                 properties:
                                   labelSelector:
-                                    description: A label query over a set of resources,
+                                    description: A label query over a set of components,
                                       in this case pods.
                                     properties:
                                       matchExpressions:
@@ -3716,7 +3716,7 @@ spec:
                                 type: object
                               resourceFieldRef:
                                 description: 'Selects a resource of the container:
-                                  only resources limits and requests (limits.cpu,
+                                  only components limits and requests (limits.cpu,
                                   limits.memory, limits.ephemeral-storage, requests.cpu,
                                   requests.memory and requests.ephemeral-storage)
                                   are currently supported.'
@@ -3727,7 +3727,7 @@ spec:
                                     type: string
                                   divisor:
                                     description: Specifies the output format of the
-                                      exposed resources, defaults to "1"
+                                      exposed components, defaults to "1"
                                     type: string
                                   resource:
                                     description: 'Required: resource to select'
@@ -3783,16 +3783,16 @@ spec:
                           additionalProperties:
                             type: string
                           description: 'Limits describes the maximum amount of compute
-                            resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            components allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                         requests:
                           additionalProperties:
                             type: string
                           description: 'Requests describes the minimum amount of compute
-                            resources required. If Requests is omitted for a container,
+                            components required. If Requests is omitted for a container,
                             it defaults to Limits if that is explicitly specified,
                             otherwise to an implementation-defined value. More info:
-                            https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/'
+                            https://kubernetes.io/docs/concepts/configuration/manage-compute-components-container/'
                           type: object
                       type: object
                     securityContext:
