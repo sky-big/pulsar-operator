@@ -2,9 +2,10 @@ package broker
 
 import (
 	"fmt"
-	zookeeper2 "github.com/sky-big/pulsar-operator/pkg/cluster/components/zookeeper"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/zookeeper"
+
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -21,8 +22,8 @@ func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 		},
 		Data: map[string]string{
 			"PULSAR_MEM":                       PulsarMemData,
-			"zookeeperServers":                 zookeeper2.MakeServiceName(c),
-			"configurationStoreServers":        zookeeper2.MakeServiceName(c),
+			"zookeeperServers":                 zookeeper.MakeServiceName(c),
+			"configurationStoreServers":        zookeeper.MakeServiceName(c),
 			"clusterName":                      c.GetName(),
 			"managedLedgerDefaultEnsembleSize": ManagedLedgerDefaultEnsembleSize,
 			"managedLedgerDefaultWriteQuorum":  ManagedLedgerDefaultWriteQuorum,

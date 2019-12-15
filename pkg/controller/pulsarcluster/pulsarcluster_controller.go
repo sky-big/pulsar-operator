@@ -4,7 +4,7 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/cluster/metadata"
+	"github.com/sky-big/pulsar-operator/pkg/pulsar/metadata"
 
 	"github.com/go-logr/logr"
 
