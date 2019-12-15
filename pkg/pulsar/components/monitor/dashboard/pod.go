@@ -2,9 +2,10 @@ package dashboard
 
 import (
 	"fmt"
-	broker2 "github.com/sky-big/pulsar-operator/pkg/pulsar/components/broker"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/broker"
+
 	"k8s.io/api/core/v1"
 )
 
@@ -34,7 +35,7 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 }
 
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
-	brokerUrl := fmt.Sprintf("http://%s:%d/", broker2.MakeServiceName(c), pulsarv1alpha1.PulsarBrokerHttpServerPort)
+	brokerUrl := fmt.Sprintf("http://%s:%d/", broker.MakeServiceName(c), pulsarv1alpha1.PulsarBrokerHttpServerPort)
 	env := make([]v1.EnvVar, 0)
 	broker := v1.EnvVar{
 		Name:  "SERVICE_URL",

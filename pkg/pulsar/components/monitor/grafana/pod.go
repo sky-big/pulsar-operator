@@ -2,9 +2,10 @@ package grafana
 
 import (
 	"fmt"
-	prometheus2 "github.com/sky-big/pulsar-operator/pkg/pulsar/components/monitor/prometheus"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/monitor/prometheus"
+
 	"k8s.io/api/core/v1"
 )
 
@@ -34,7 +35,7 @@ func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 }
 
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
-	prometheusUrl := fmt.Sprintf("http://%s:%d/", prometheus2.MakeServiceName(c), pulsarv1alpha1.PulsarPrometheusServerPort)
+	prometheusUrl := fmt.Sprintf("http://%s:%d/", prometheus.MakeServiceName(c), pulsarv1alpha1.PulsarPrometheusServerPort)
 	env := make([]v1.EnvVar, 0)
 	p := v1.EnvVar{
 		Name:  "PROMETHEUS_URL",
