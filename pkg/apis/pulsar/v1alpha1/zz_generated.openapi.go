@@ -14,7 +14,6 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Bookie":              schema_pkg_apis_pulsar_v1alpha1_Bookie(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Broker":              schema_pkg_apis_pulsar_v1alpha1_Broker(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.ContainerImage":      schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref),
-		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Dashboard":           schema_pkg_apis_pulsar_v1alpha1_Dashboard(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Grafana":             schema_pkg_apis_pulsar_v1alpha1_Grafana(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Manager":             schema_pkg_apis_pulsar_v1alpha1_Manager(ref),
 		"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Monitor":             schema_pkg_apis_pulsar_v1alpha1_Monitor(ref),
@@ -179,33 +178,6 @@ func schema_pkg_apis_pulsar_v1alpha1_ContainerImage(ref common.ReferenceCallback
 	}
 }
 
-func schema_pkg_apis_pulsar_v1alpha1_Dashboard(ref common.ReferenceCallback) common.OpenAPIDefinition {
-	return common.OpenAPIDefinition{
-		Schema: spec.Schema{
-			SchemaProps: spec.SchemaProps{
-				Description: "Pulsar cluster dashboard spec",
-				Type:        []string{"object"},
-				Properties: map[string]spec.Schema{
-					"host": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Host (DEPRECATED) is the expected host of the pulsar dashboard.",
-							Type:        []string{"string"},
-							Format:      "",
-						},
-					},
-					"nodePort": {
-						SchemaProps: spec.SchemaProps{
-							Description: "NodePort (DEPRECATED) is the expected port of the pulsar dashboard.",
-							Type:        []string{"integer"},
-							Format:      "int32",
-						},
-					},
-				},
-			},
-		},
-	}
-}
-
 func schema_pkg_apis_pulsar_v1alpha1_Grafana(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -333,12 +305,6 @@ func schema_pkg_apis_pulsar_v1alpha1_Monitor(ref common.ReferenceCallback) commo
 							Format:      "",
 						},
 					},
-					"dashboard": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Dashboard",
-							Ref:         ref("github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Dashboard"),
-						},
-					},
 					"prometheus": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Prometheus",
@@ -361,7 +327,7 @@ func schema_pkg_apis_pulsar_v1alpha1_Monitor(ref common.ReferenceCallback) commo
 			},
 		},
 		Dependencies: []string{
-			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Dashboard", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Grafana", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.MonitorIngress", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Prometheus"},
+			"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Grafana", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.MonitorIngress", "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1.Prometheus"},
 	}
 }
 
@@ -603,7 +569,7 @@ func schema_pkg_apis_pulsar_v1alpha1_PulsarCluster(ref common.ReferenceCallback)
 					},
 					"apiVersion": {
 						SchemaProps: spec.SchemaProps{
-							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#components",
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources",
 							Type:        []string{"string"},
 							Format:      "",
 						},
