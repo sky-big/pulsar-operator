@@ -17,7 +17,7 @@ const (
 	PulsarClusterRunningPhase = "Running"
 )
 
-// pulsar cluster components
+// pulsar cluster resources
 const (
 	// Zookeeper component
 	ZookeeperComponent = "zookeeper"
@@ -63,10 +63,10 @@ const (
 	// DefaultPulsarContainerVersion is the default tag used for container
 	DefaultPulsarContainerVersion = "latest"
 
-	// DefaultAllPulsarContainerRepository is the default docker repo for components
+	// DefaultAllPulsarContainerRepository is the default docker repo for resources
 	DefaultAllPulsarContainerRepository = "apachepulsar/pulsar-all"
 
-	// DefaultAllPulsarContainerVersion is the default tag used for components
+	// DefaultAllPulsarContainerVersion is the default tag used for resources
 	DefaultAllPulsarContainerVersion = "latest"
 
 	// DefaultPulsarManagerRepository is default docker image name of pulsar manager

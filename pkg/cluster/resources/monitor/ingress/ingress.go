@@ -2,12 +2,11 @@ package ingress
 
 import (
 	"fmt"
+	dashboard2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/dashboard"
+	grafana2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/grafana"
+	prometheus2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/prometheus"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/dashboard"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/grafana"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/prometheus"
-
 	"k8s.io/api/extensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
@@ -64,7 +63,7 @@ func makeDashboardRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 	path := v1beta1.HTTPIngressPath{
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
-			ServiceName: dashboard.MakeServiceName(c),
+			ServiceName: dashboard2.MakeServiceName(c),
 			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarDashboardServerPort),
 		},
 	}
@@ -84,7 +83,7 @@ func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 	path := v1beta1.HTTPIngressPath{
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
-			ServiceName: grafana.MakeServiceName(c),
+			ServiceName: grafana2.MakeServiceName(c),
 			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarGrafanaServerPort),
 		},
 	}
@@ -104,7 +103,7 @@ func makePrometheusRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
 	path := v1beta1.HTTPIngressPath{
 		Path: "/",
 		Backend: v1beta1.IngressBackend{
-			ServiceName: prometheus.MakeServiceName(c),
+			ServiceName: prometheus2.MakeServiceName(c),
 			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarPrometheusServerPort),
 		},
 	}

@@ -2,16 +2,15 @@ package proxy
 
 import (
 	"fmt"
+	broker2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/broker"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/broker"
-
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
-	brokerServiceName := broker.MakeServiceName(c)
+	brokerServiceName := broker2.MakeServiceName(c)
 	webServiceUrl := fmt.Sprintf("http://%s.%s.%s:%d",
 		brokerServiceName, c.Namespace, pulsarv1alpha1.ServiceDomain, pulsarv1alpha1.PulsarBrokerHttpServerPort)
 	brokerServiceUrl := fmt.Sprintf("pulsar://%s.%s.%s:%d",

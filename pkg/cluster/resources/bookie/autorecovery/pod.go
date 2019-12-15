@@ -2,10 +2,9 @@ package autorecovery
 
 import (
 	"fmt"
+	bookie2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/bookie"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/bookie"
-
 	"k8s.io/api/core/v1"
 )
 
@@ -59,7 +58,7 @@ func makeContainerEnvFrom(c *pulsarv1alpha1.PulsarCluster) []v1.EnvFromSource {
 	froms := make([]v1.EnvFromSource, 0)
 
 	var configRef v1.ConfigMapEnvSource
-	configRef.Name = bookie.MakeConfigMapName(c)
+	configRef.Name = bookie2.MakeConfigMapName(c)
 
 	froms = append(froms, v1.EnvFromSource{ConfigMapRef: &configRef})
 	return froms

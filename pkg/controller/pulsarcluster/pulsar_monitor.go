@@ -4,10 +4,10 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/dashboard"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/grafana"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/ingress"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/prometheus"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/dashboard"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/grafana"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/ingress"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/monitor/prometheus"
 
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"

@@ -1,11 +1,10 @@
-package grafana
+package dashboard
 
 import (
 	"fmt"
+	broker2 "github.com/sky-big/pulsar-operator/pkg/cluster/resources/broker"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/monitor/prometheus"
-
 	"k8s.io/api/core/v1"
 )
 
@@ -17,8 +16,8 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:  "grafana",
-		Image: pulsarv1alpha1.MonitorGrafanaImage,
+		Name:  "dashboard",
+		Image: pulsarv1alpha1.MonitorDashboardImage,
 		Ports: makeContainerPort(c),
 		Env:   makeContainerEnv(c),
 	}
@@ -27,20 +26,20 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 func makeContainerPort(c *pulsarv1alpha1.PulsarCluster) []v1.ContainerPort {
 	return []v1.ContainerPort{
 		{
-			Name:          "grafana",
-			ContainerPort: pulsarv1alpha1.PulsarGrafanaServerPort,
+			Name:          "dashboard",
+			ContainerPort: pulsarv1alpha1.PulsarDashboardServerPort,
 			Protocol:      v1.ProtocolTCP,
 		},
 	}
 }
 
 func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
-	prometheusUrl := fmt.Sprintf("http://%s:%d/", prometheus.MakeServiceName(c), pulsarv1alpha1.PulsarPrometheusServerPort)
+	brokerUrl := fmt.Sprintf("http://%s:%d/", broker2.MakeServiceName(c), pulsarv1alpha1.PulsarBrokerHttpServerPort)
 	env := make([]v1.EnvVar, 0)
-	p := v1.EnvVar{
-		Name:  "PROMETHEUS_URL",
-		Value: prometheusUrl,
+	broker := v1.EnvVar{
+		Name:  "SERVICE_URL",
+		Value: brokerUrl,
 	}
-	env = append(env, p)
+	env = append(env, broker)
 	return env
 }

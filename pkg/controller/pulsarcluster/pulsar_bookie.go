@@ -4,8 +4,8 @@ import (
 	"context"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/bookie"
-	"github.com/sky-big/pulsar-operator/pkg/components/bookie/autorecovery"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/bookie"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/bookie/autorecovery"
 
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"

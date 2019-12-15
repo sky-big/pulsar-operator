@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/components/broker"
-	"github.com/sky-big/pulsar-operator/pkg/components/zookeeper"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/broker"
+	"github.com/sky-big/pulsar-operator/pkg/cluster/resources/zookeeper"
 
 	"k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
