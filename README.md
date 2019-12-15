@@ -48,7 +48,7 @@ spec:
 
 which defines pulsar cluster zookeeper, bookkeeper, broker, proxy components configuration
 
-2. If you need pulsar dashboard, prometheus, grafana need configuration, for example:
+2. If you need pulsar prometheus, grafana need configuration, for example:
 ```
 apiVersion: pulsar.apache.org/v1alpha1
 kind: PulsarCluster
@@ -63,7 +63,6 @@ spec:
     size: 3
   monitor:
     enable: true                // true/false: active monitor
-    dashboardPort: 30001        // pulsar dashboard expose port on kubernetes
     prometheusPort: 30002       // prometheus expose port on kubernetes
     grafanaPort: 30003          // grafana expose port on kubernetes
     ingress:                    // ingress configuration
