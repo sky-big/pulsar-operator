@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
-	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/monitor/dashboard"
 	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/monitor/grafana"
 	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/monitor/prometheus"
 
@@ -38,10 +37,6 @@ func makeIngressSpec(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressSpec {
 		Rules: make([]v1beta1.IngressRule, 0),
 	}
 
-	if c.Spec.Monitor.Dashboard.Host != "" {
-		s.Rules = append(s.Rules, makeDashboardRule(c))
-	}
-
 	if c.Spec.Monitor.Grafana.Host != "" {
 		s.Rules = append(s.Rules, makeGrafanaRule(c))
 	}
@@ -50,26 +45,6 @@ func makeIngressSpec(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressSpec {
 		s.Rules = append(s.Rules, makePrometheusRule(c))
 	}
 	return s
-}
-
-func makeDashboardRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {
-	r := v1beta1.IngressRule{
-		Host: c.Spec.Monitor.Dashboard.Host,
-		IngressRuleValue: v1beta1.IngressRuleValue{
-			HTTP: &v1beta1.HTTPIngressRuleValue{
-				Paths: make([]v1beta1.HTTPIngressPath, 0),
-			},
-		},
-	}
-	path := v1beta1.HTTPIngressPath{
-		Path: "/",
-		Backend: v1beta1.IngressBackend{
-			ServiceName: dashboard.MakeServiceName(c),
-			ServicePort: intstr.FromInt(pulsarv1alpha1.PulsarDashboardServerPort),
-		},
-	}
-	r.IngressRuleValue.HTTP.Paths = append(r.IngressRuleValue.HTTP.Paths, path)
-	return r
 }
 
 func makeGrafanaRule(c *pulsarv1alpha1.PulsarCluster) v1beta1.IngressRule {

@@ -18,9 +18,6 @@ spec:
       kubernetes.io/ingress.class: "nginx"
   monitor:
     enable: true
-    dashboard:
-      host: dashboard.pulsar.com
-      nodePort: 30005
     prometheus:
       host: prometheus.pulsar.com
     grafana:

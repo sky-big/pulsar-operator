@@ -46,9 +46,6 @@ const (
 
 // monitor child component
 const (
-	// Monitor dashbaord component
-	MonitorDashboardComponent = "monitor-dashboard"
-
 	// Monitor prometheus component
 	MonitorPrometheusComponent = "monitor-prometheus"
 
@@ -149,9 +146,6 @@ const (
 
 	// Bookie server port
 	PulsarBookieServerPort = 3181
-
-	// Dashboard server port
-	PulsarDashboardServerPort = 80
 
 	// Grafana server port
 	PulsarGrafanaServerPort = 3000

@@ -13,9 +13,6 @@ spec:
     size: 3
   monitor:
     enable: true
-    dashboard:
-      host: dashboard.pulsar.com
-      nodePort: 30005
     prometheus:
       host: prometheus.pulsar.com
     grafana:

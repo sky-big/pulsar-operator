@@ -1,9 +1,6 @@
 package v1alpha1
 
 const (
-	// Dashboard image
-	MonitorDashboardImage = "apachepulsar/pulsar-dashboard:latest"
-
 	// Prometheus image
 	MonitorPrometheusImage = "prom/prometheus:v1.6.3"
 
@@ -17,9 +14,6 @@ type Monitor struct {
 	// Is enable pulsar cluster monitor flag.
 	Enable bool `json:"enable,omitempty"`
 
-	// Dashboard
-	Dashboard Dashboard `json:"dashboard,omitempty"`
-
 	// Prometheus
 	Prometheus Prometheus `json:"prometheus,omitempty"`
 
@@ -28,16 +22,6 @@ type Monitor struct {
 
 	// Ingress
 	Ingress MonitorIngress `json:"ingress,omitempty"`
-}
-
-// Pulsar cluster dashboard spec
-// +k8s:openapi-gen=true
-type Dashboard struct {
-	// Host (DEPRECATED) is the expected host of the pulsar dashboard.
-	Host string `json:"host,omitempty"`
-
-	// NodePort (DEPRECATED) is the expected port of the pulsar dashboard.
-	NodePort int32 `json:"nodePort,omitempty"`
 }
 
 // Pulsar cluster prometheus spec
