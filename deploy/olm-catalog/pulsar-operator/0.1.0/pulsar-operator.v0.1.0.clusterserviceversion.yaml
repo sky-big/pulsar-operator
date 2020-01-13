@@ -1,0 +1,140 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "pulsar.apache.org/v1alpha1",
+          "kind": "PulsarCluster",
+          "metadata": {
+            "name": "example-pulsarcluster"
+          },
+          "spec": {
+            "bookie": {
+              "size": 3
+            },
+            "broker": {
+              "size": 3
+            },
+            "proxy": {
+              "size": 3
+            }
+          }
+        }
+      ]
+    capabilities: Basic Install
+  name: pulsar-operator.v0.1.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - kind: PulsarCluster
+      name: pulsarclusters.pulsar.apache.org
+      version: v1alpha1
+  description: Placeholder description
+  displayName: Pulsar Operator
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - pulsar.apache.org
+          resources:
+          - '*'
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - pods
+          - services
+          - endpoints
+          - persistentvolumeclaims
+          - events
+          - configmaps
+          - secrets
+          - serviceaccounts
+          verbs:
+          - '*'
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          - replicasets
+          - statefulsets
+          verbs:
+          - '*'
+        - apiGroups:
+          - batch
+          resources:
+          - jobs
+          verbs:
+          - '*'
+        - apiGroups:
+          - policy
+          resources:
+          - poddisruptionbudgets
+          verbs:
+          - '*'
+        - apiGroups:
+          - extensions
+          resources:
+          - ingresses
+          verbs:
+          - '*'
+        - apiGroups:
+          - rbac.authorization.k8s.io
+          resources:
+          - clusterrolebindings
+          - clusterroles
+          verbs:
+          - '*'
+        serviceAccountName: pulsar-operator
+      deployments:
+      - name: pulsar-operator
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              name: pulsar-operator
+          strategy: {}
+          template:
+            metadata:
+              labels:
+                name: pulsar-operator
+            spec:
+              containers:
+              - command:
+                - pulsar-operator
+                env:
+                - name: WATCH_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.annotations['olm.targetNamespaces']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: OPERATOR_NAME
+                  value: pulsar-operator
+                image: skybig/pulsar-operator:latest
+                imagePullPolicy: Always
+                name: pulsar-operator
+                resources: {}
+              serviceAccountName: pulsar-operator
+    strategy: deployment
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: true
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  maturity: alpha
+  provider: {}
+  replaces: pulsar-operator.v0.0.0
+  version: 0.1.0
