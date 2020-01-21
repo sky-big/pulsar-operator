@@ -255,6 +255,8 @@ $ make generate
 
 ### Slack
 
-(1). [pulsar-operator-dev](https://app.slack.com/client/TSK90ANQK/CSYV5L9FG)
+(1). [join](https://join.slack.com/t/pulsaroperator/shared_invite/enQtOTE0MzIwOTEwOTY0LTMyNGEzYTU2OTZlMGE4MWJlOTI3NmM1ZWVlNjQ1NTc5YzMyMzRmNGRhN2EyNzY2ODAxMDNkNDEyOWUwYjQyZjY)
 
-(2). [pulsar-operator-user](https://app.slack.com/client/TSK90ANQK/CSLHRDVCH)
+(2). [pulsar-operator-dev](https://app.slack.com/client/TSK90ANQK/CSYV5L9FG)
+
+(3). [pulsar-operator-user](https://app.slack.com/client/TSK90ANQK/CSLHRDVCH)
