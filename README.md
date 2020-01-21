@@ -250,3 +250,11 @@ $ make image
 ```
 $ make generate
 ```
+
+## Discussions Happen Here
+
+### Slack
+
+(1). [pulsar-operator-dev](https://app.slack.com/client/TSK90ANQK/CSYV5L9FG)
+
+(2). [pulsar-operator-user](https://app.slack.com/client/TSK90ANQK/CSLHRDVCH)
