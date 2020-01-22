@@ -1,79 +1,80 @@
-apiVersion: v1
-kind: ServiceAccount
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-  name: pulsar-operator
-
----
-
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: pulsar-operator
+  creationTimestamp: null
+  name: app-operator
 rules:
-- apiGroups:
-  - pulsar.apache.org
-  resources:
-  - "*"
-  verbs:
-  - "*"
 - apiGroups:
   - ""
   resources:
   - pods
   - services
+  - services/finalizers
   - endpoints
   - persistentvolumeclaims
   - events
   - configmaps
   - secrets
-  - serviceaccounts
   verbs:
-  - "*"
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - apps
   resources:
   - deployments
+  - daemonsets
   - replicasets
   - statefulsets
   verbs:
-  - "*"
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
-  - batch
+  - monitoring.coreos.com
   resources:
-  - jobs
+  - servicemonitors
   verbs:
-  - "*"
+  - get
+  - create
 - apiGroups:
-  - policy
+  - apps
+  resourceNames:
+  - app-operator
   resources:
-  - poddisruptionbudgets
+  - deployments/finalizers
   verbs:
-  - "*"
+  - update
 - apiGroups:
-  - "extensions"
+  - ""
   resources:
-  - ingresses
+  - pods
   verbs:
-  - "*"
+  - get
 - apiGroups:
-  - "rbac.authorization.k8s.io"
+  - apps
   resources:
-  - clusterrolebindings
-  - clusterroles
+  - replicasets
+  - deployments
   verbs:
-  - "*"
-
----
-
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: pulsar-operator-cluster-role-binding
-subjects:
-- kind: ServiceAccount
-  name: pulsar-operator
-  namespace: default
-roleRef:
-  kind: ClusterRole
-  name: pulsar-operator
-  apiGroup: rbac.authorization.k8s.io
+  - get
+- apiGroups:
+  - pulsar.apache.org
+  resources:
+  - '*'
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch

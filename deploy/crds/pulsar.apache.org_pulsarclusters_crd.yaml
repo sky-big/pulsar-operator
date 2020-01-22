@@ -9,7 +9,7 @@ spec:
     listKind: PulsarClusterList
     plural: pulsarclusters
     singular: pulsarcluster
-  scope: ""
+  scope: Namespaced
   subresources:
     status: {}
   validation:

@@ -1,0 +1,7 @@
+apiVersion: pulsar.apache.org/v1alpha1
+kind: PulsarUser
+metadata:
+  name: example-pulsaruser
+spec:
+  # Add fields here
+  size: 3
