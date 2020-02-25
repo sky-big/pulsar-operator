@@ -1,7 +1,7 @@
 package autorecovery
 
 const (
-	PulsarMemData = "\" -Xmx256m \""
+	BookieMemData = "\" -Xmx256m \""
 
 	PulsarGCData = "\"  \""
 )
