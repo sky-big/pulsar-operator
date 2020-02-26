@@ -1,7 +1,7 @@
 package bookie
 
 const (
-	PulsarMemData = "\" -Xms64m -Xmx256m -XX:MaxDirectMemorySize=256m\""
+	BookieMemData = "\" -Xms64m -Xmx256m -XX:MaxDirectMemorySize=256m\""
 
 	DbStorage_writeCacheMaxSizeMb = "32"
 

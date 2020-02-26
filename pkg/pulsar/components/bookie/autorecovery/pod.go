@@ -43,8 +43,8 @@ func makeContainerEnv(c *pulsarv1alpha1.PulsarCluster) []v1.EnvVar {
 	env := make([]v1.EnvVar, 0)
 	env = append(env,
 		v1.EnvVar{
-			Name:  "PULSAR_MEM",
-			Value: PulsarMemData,
+			Name:  "BOOKIE_MEM",
+			Value: BookieMemData,
 		},
 		v1.EnvVar{
 			Name:  "PULSAR_GC",
