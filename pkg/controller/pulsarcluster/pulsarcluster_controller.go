@@ -170,6 +170,7 @@ func (r *ReconcilePulsarCluster) Reconcile(request reconcile.Request) (reconcile
 	for _, fun := range []reconcileFunc{
 		r.reconcileZookeeper,
 		r.reconcileBookie,
+		r.reconcileAutoRecovery,
 		r.reconcileBroker,
 		r.reconcileProxy,
 		r.reconcilePulsarCluster,

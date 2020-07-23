@@ -58,10 +58,11 @@ func makePodTemplate(c *v1alpha1.PulsarCluster) corev1.PodTemplateSpec {
 
 func makeContainer(c *v1alpha1.PulsarCluster) corev1.Container {
 	return corev1.Container{
-		Name:    JobContainerName,
-		Image:   fmt.Sprintf("%s:%s", v1alpha1.DefaultPulsarContainerRepository, v1alpha1.DefaultPulsarContainerVersion),
-		Command: makeContainerCommand(),
-		Args:    makeContainerCommandArgs(c),
+		Name:            JobContainerName,
+		Image:           c.Spec.Zookeeper.Image.GenerateImage(),
+		ImagePullPolicy: c.Spec.Zookeeper.Image.PullPolicy,
+		Command:         makeContainerCommand(),
+		Args:            makeContainerCommandArgs(c),
 	}
 }
 

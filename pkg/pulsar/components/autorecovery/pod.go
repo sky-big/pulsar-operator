@@ -1,10 +1,9 @@
 package autorecovery
 
 import (
-	"fmt"
-	bookie2 "github.com/sky-big/pulsar-operator/pkg/pulsar/components/bookie"
-
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
+	"github.com/sky-big/pulsar-operator/pkg/pulsar/components/bookie"
+
 	"k8s.io/api/core/v1"
 )
 
@@ -16,12 +15,13 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:    "replication-worker",
-		Image:   fmt.Sprintf("%s:%s", pulsarv1alpha1.DefaultPulsarContainerRepository, pulsarv1alpha1.DefaultPulsarContainerVersion),
-		Command: makeContainerCommand(),
-		Args:    makeContainerCommandArgs(),
-		Env:     makeContainerEnv(c),
-		EnvFrom: makeContainerEnvFrom(c),
+		Name:            "replication-worker",
+		Image:           c.Spec.AutoRecovery.Image.GenerateImage(),
+		ImagePullPolicy: c.Spec.AutoRecovery.Image.PullPolicy,
+		Command:         makeContainerCommand(),
+		Args:            makeContainerCommandArgs(),
+		Env:             makeContainerEnv(c),
+		EnvFrom:         makeContainerEnvFrom(c),
 	}
 }
 
@@ -58,7 +58,7 @@ func makeContainerEnvFrom(c *pulsarv1alpha1.PulsarCluster) []v1.EnvFromSource {
 	froms := make([]v1.EnvFromSource, 0)
 
 	var configRef v1.ConfigMapEnvSource
-	configRef.Name = bookie2.MakeConfigMapName(c)
+	configRef.Name = bookie.MakeConfigMapName(c)
 
 	froms = append(froms, v1.EnvFromSource{ConfigMapRef: &configRef})
 	return froms

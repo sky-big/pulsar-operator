@@ -53,13 +53,14 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:    "zookeeper",
-		Image:   c.Spec.Zookeeper.Image.GenerateImage(),
-		Command: makeContainerCommand(),
-		Args:    makeContainerCommandArgs(),
-		Ports:   makeContainerPort(c),
-		Env:     makeContainerEnv(c),
-		EnvFrom: makeContainerEnvFrom(c),
+		Name:            "zookeeper",
+		Image:           c.Spec.Zookeeper.Image.GenerateImage(),
+		ImagePullPolicy: c.Spec.Zookeeper.Image.PullPolicy,
+		Command:         makeContainerCommand(),
+		Args:            makeContainerCommandArgs(),
+		Ports:           makeContainerPort(c),
+		Env:             makeContainerEnv(c),
+		EnvFrom:         makeContainerEnvFrom(c),
 
 		ReadinessProbe: &v1.Probe{
 			InitialDelaySeconds: 5,
@@ -79,8 +80,6 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 		VolumeMounts: []v1.VolumeMount{
 			{Name: ContainerDataVolumeName, MountPath: ContainerDataPath},
 		},
-
-		ImagePullPolicy: c.Spec.Zookeeper.Image.PullPolicy,
 	}
 }
 

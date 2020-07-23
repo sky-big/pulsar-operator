@@ -1,8 +1,6 @@
 package bookie
 
 import (
-	"fmt"
-
 	pulsarv1alpha1 "github.com/sky-big/pulsar-operator/pkg/apis/pulsar/v1alpha1"
 
 	"k8s.io/api/core/v1"
@@ -24,13 +22,14 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:    "bookie",
-		Image:   c.Spec.Bookie.Image.GenerateImage(),
-		Command: makeContainerCommand(),
-		Args:    makeContainerCommandArgs(),
-		Ports:   makeContainerPort(c),
-		Env:     makeContainerEnv(c),
-		EnvFrom: makeContainerEnvFrom(c),
+		Name:            "bookie",
+		Image:           c.Spec.Bookie.Image.GenerateImage(),
+		ImagePullPolicy: c.Spec.Bookie.Image.PullPolicy,
+		Command:         makeContainerCommand(),
+		Args:            makeContainerCommandArgs(),
+		Ports:           makeContainerPort(c),
+		Env:             makeContainerEnv(c),
+		EnvFrom:         makeContainerEnvFrom(c),
 
 		VolumeMounts: []v1.VolumeMount{
 			{
@@ -42,8 +41,6 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 				MountPath: BookieLedgersDataMountPath,
 			},
 		},
-
-		ImagePullPolicy: c.Spec.Zookeeper.Image.PullPolicy,
 	}
 }
 
@@ -89,11 +86,12 @@ func makeContainerEnvFrom(c *pulsarv1alpha1.PulsarCluster) []v1.EnvFromSource {
 
 func makeInitContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:    "bookie-metaformat",
-		Image:   fmt.Sprintf("%s:%s", pulsarv1alpha1.DefaultPulsarContainerRepository, pulsarv1alpha1.DefaultPulsarContainerVersion),
-		Command: makeInitContainerCommand(),
-		Args:    makeInitContainerCommandArgs(),
-		EnvFrom: makeInitContainerEnvFrom(c),
+		Name:            "bookie-metaformat",
+		Image:           c.Spec.AutoRecovery.Image.GenerateImage(),
+		ImagePullPolicy: c.Spec.AutoRecovery.Image.PullPolicy,
+		Command:         makeInitContainerCommand(),
+		Args:            makeInitContainerCommandArgs(),
+		EnvFrom:         makeInitContainerEnvFrom(c),
 	}
 }
 

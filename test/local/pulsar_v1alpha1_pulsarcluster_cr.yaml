@@ -3,17 +3,40 @@ kind: PulsarCluster
 metadata:
   name: example-pulsarcluster
 spec:
-  zookeeper:
-    size: 3
+  autoRecovery:
+    size: 1
+    image:
+      repository: apachepulsar/pulsar-all
+      tag: 2.6.0
+      pullPolicy: Always
   bookie:
-    size: 3
+    size: 1
+    image:
+      repository: apachepulsar/pulsar-all
+      tag: 2.6.0
+      pullPolicy: Always
   broker:
-    size: 3
+    size: 1
+    image:
+      repository: apachepulsar/pulsar-all
+      tag: 2.6.0
+      pullPolicy: Always
   proxy:
-    size: 3
+    size: 1
+    image:
+      repository: apachepulsar/pulsar-all
+      tag: 2.6.0
+      pullPolicy: Always
+  zookeeper:
+    size: 1
+    image:
+      repository: apachepulsar/pulsar-all
+      tag: 2.6.0
+      pullPolicy: Always
   monitor:
     enable: true
     prometheus:
       nodePort: 30006
     grafana:
       nodePort: 30007
+

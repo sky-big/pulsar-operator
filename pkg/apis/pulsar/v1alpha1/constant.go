@@ -25,6 +25,9 @@ const (
 	// Broker component
 	BrokerComponent = "broker"
 
+	// AutoRecovery component
+	AutoRecoveryComponent = "autoRecovery"
+
 	// Bookie component
 	BookieComponent = "bookie"
 
@@ -38,12 +41,6 @@ const (
 	ManagerComponent = "manager"
 )
 
-// bookie child component
-const (
-	// Bookie AutoRecovery child component
-	BookieAutoRecoveryComponent = "bookie-autorecovery"
-)
-
 // monitor child component
 const (
 	// Monitor prometheus component
@@ -54,12 +51,6 @@ const (
 )
 
 const (
-	// DefaultPulsarManagerRepository is default docker image name of pulsar pulsar
-	DefaultPulsarContainerRepository = "apachepulsar/pulsar"
-
-	// DefaultPulsarContainerVersion is the default tag used for container
-	DefaultPulsarContainerVersion = "latest"
-
 	// DefaultAllPulsarContainerRepository is the default docker repo for components
 	DefaultAllPulsarContainerRepository = "apachepulsar/pulsar-all"
 

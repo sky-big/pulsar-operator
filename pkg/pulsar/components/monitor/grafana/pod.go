@@ -17,10 +17,11 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:  "grafana",
-		Image: pulsarv1alpha1.MonitorGrafanaImage,
-		Ports: makeContainerPort(c),
-		Env:   makeContainerEnv(c),
+		Name:            "grafana",
+		Image:           pulsarv1alpha1.MonitorGrafanaImage,
+		ImagePullPolicy: pulsarv1alpha1.DefaultContainerPolicy,
+		Ports:           makeContainerPort(c),
+		Env:             makeContainerEnv(c),
 	}
 }
 

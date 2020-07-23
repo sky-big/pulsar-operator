@@ -20,6 +20,9 @@ type PulsarClusterSpec struct {
 	// Bookie defines the desired state of Bookie
 	Bookie Bookie `json:"bookie,omitempty"`
 
+	// AutoRecovery defines the desired state of AutoRecovery
+	AutoRecovery AutoRecovery `json:"autoRecovery,omitempty"`
+
 	// Broker defines the desired state of Broker
 	Broker Broker `json:"broker,omitempty"`
 
@@ -41,6 +44,10 @@ func (s *PulsarClusterSpec) SetDefault(cluster *PulsarCluster) bool {
 	}
 
 	if s.Bookie.SetDefault(cluster) {
+		changed = true
+	}
+
+	if s.AutoRecovery.SetDefault(cluster) {
 		changed = true
 	}
 
