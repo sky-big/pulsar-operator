@@ -60,13 +60,27 @@ func (c *ContainerImage) SetDefault(cluster *PulsarCluster, component string) bo
 			changed = true
 		}
 
+	case AutoRecoveryComponent:
+		if cluster.Spec.AutoRecovery.Image.Repository == "" {
+			cluster.Spec.AutoRecovery.Image.Repository = DefaultAllPulsarContainerRepository
+			changed = true
+		}
+		if cluster.Spec.AutoRecovery.Image.Tag == "" {
+			cluster.Spec.AutoRecovery.Image.Tag = DefaultAllPulsarContainerVersion
+			changed = true
+		}
+		if cluster.Spec.AutoRecovery.Image.PullPolicy == "" {
+			cluster.Spec.AutoRecovery.Image.PullPolicy = DefaultContainerPolicy
+			changed = true
+		}
+
 	case ProxyComponent:
 		if cluster.Spec.Proxy.Image.Repository == "" {
-			cluster.Spec.Proxy.Image.Repository = DefaultPulsarContainerRepository
+			cluster.Spec.Proxy.Image.Repository = DefaultAllPulsarContainerRepository
 			changed = true
 		}
 		if cluster.Spec.Proxy.Image.Tag == "" {
-			cluster.Spec.Proxy.Image.Tag = DefaultPulsarContainerVersion
+			cluster.Spec.Proxy.Image.Tag = DefaultAllPulsarContainerVersion
 			changed = true
 		}
 		if cluster.Spec.Proxy.Image.PullPolicy == "" {

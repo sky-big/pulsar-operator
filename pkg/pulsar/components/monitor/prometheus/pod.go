@@ -16,10 +16,11 @@ func makePodSpec(c *pulsarv1alpha1.PulsarCluster) v1.PodSpec {
 
 func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
-		Name:         "prometheus",
-		Image:        pulsarv1alpha1.MonitorPrometheusImage,
-		Ports:        makeContainerPort(c),
-		VolumeMounts: makeContainerVolumeMount(c),
+		Name:            "prometheus",
+		Image:           pulsarv1alpha1.MonitorPrometheusImage,
+		ImagePullPolicy: pulsarv1alpha1.DefaultContainerPolicy,
+		Ports:           makeContainerPort(c),
+		VolumeMounts:    makeContainerVolumeMount(c),
 	}
 }
 

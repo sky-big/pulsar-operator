@@ -17,12 +17,12 @@ func makeContainer(c *pulsarv1alpha1.PulsarCluster) v1.Container {
 	return v1.Container{
 		Name:            "proxy",
 		Image:           c.Spec.Proxy.Image.GenerateImage(),
+		ImagePullPolicy: c.Spec.Proxy.Image.PullPolicy,
 		Command:         makeContainerCommand(),
 		Args:            makeContainerCommandArgs(),
 		Ports:           makeContainerPort(c),
 		Env:             makeContainerEnv(c),
 		EnvFrom:         makeContainerEnvFrom(c),
-		ImagePullPolicy: c.Spec.Broker.Image.PullPolicy,
 	}
 }
 

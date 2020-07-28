@@ -19,7 +19,7 @@ func MakeDeployment(c *pulsarv1alpha1.PulsarCluster) *appsv1.Deployment {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      MakeDeploymentName(c),
 			Namespace: c.Namespace,
-			Labels:    pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
+			Labels:    pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.AutoRecoveryComponent),
 		},
 		Spec: makeDeploymentSpec(c),
 	}
@@ -32,9 +32,9 @@ func MakeDeploymentName(c *pulsarv1alpha1.PulsarCluster) string {
 func makeDeploymentSpec(c *pulsarv1alpha1.PulsarCluster) appsv1.DeploymentSpec {
 	return appsv1.DeploymentSpec{
 		Selector: &metav1.LabelSelector{
-			MatchLabels: pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
+			MatchLabels: pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.AutoRecoveryComponent),
 		},
-		Replicas: &c.Spec.Bookie.Size,
+		Replicas: &c.Spec.AutoRecovery.Size,
 		Template: makeDeploymentPodTemplate(c),
 	}
 }
@@ -43,7 +43,7 @@ func makeDeploymentPodTemplate(c *pulsarv1alpha1.PulsarCluster) v1.PodTemplateSp
 	return v1.PodTemplateSpec{
 		ObjectMeta: metav1.ObjectMeta{
 			GenerateName: c.GetName(),
-			Labels:       pulsarv1alpha1.MakeAllLabels(c, pulsarv1alpha1.BookieComponent, pulsarv1alpha1.BookieAutoRecoveryComponent),
+			Labels:       pulsarv1alpha1.MakeComponentLabels(c, pulsarv1alpha1.AutoRecoveryComponent),
 		},
 		Spec: makePodSpec(c),
 	}
