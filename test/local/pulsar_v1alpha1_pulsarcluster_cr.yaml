@@ -7,31 +7,31 @@ spec:
     size: 1
     image:
       repository: apachepulsar/pulsar-all
-      tag: 2.6.0
+      tag: 2.5.0
       pullPolicy: Always
   bookie:
     size: 1
     image:
       repository: apachepulsar/pulsar-all
-      tag: 2.6.0
+      tag: 2.5.0
       pullPolicy: Always
   broker:
     size: 1
     image:
       repository: apachepulsar/pulsar-all
-      tag: 2.6.0
+      tag: 2.5.0
       pullPolicy: Always
   proxy:
     size: 1
     image:
       repository: apachepulsar/pulsar-all
-      tag: 2.6.0
+      tag: 2.5.0
       pullPolicy: Always
   zookeeper:
     size: 1
     image:
       repository: apachepulsar/pulsar-all
-      tag: 2.6.0
+      tag: 2.5.0
       pullPolicy: Always
   monitor:
     enable: true
