@@ -38,6 +38,10 @@ kind: PulsarCluster
 metadata:
   name: example-pulsarcluster
 spec:
+  zookeeper:
+    size: 3
+  autoRecovery:
+    size: 3
   bookie:
     size: 3
   broker:
@@ -55,6 +59,10 @@ kind: PulsarCluster
 metadata:
   name: example-pulsarcluster
 spec:
+  zookeeper:
+    size: 3
+  autoRecovery:
+    size: 3
   bookie:
     size: 3
   broker:
@@ -78,6 +86,10 @@ kind: PulsarCluster
 metadata:
   name: example-pulsarcluster
 spec:
+  zookeeper:
+    size: 3
+  autoRecovery:
+    size: 3
   bookie:
     size: 3
   broker:
