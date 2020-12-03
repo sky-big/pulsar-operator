@@ -22,8 +22,6 @@ func MakeConfigMap(c *pulsarv1alpha1.PulsarCluster) *v1.ConfigMap {
 		},
 		Data: map[string]string{
 			"BOOKIE_MEM":                        BookieMemData,
-			"dbStorage_writeCacheMaxSizeMb":     DbStorage_writeCacheMaxSizeMb,
-			"dbStorage_readAheadCacheMaxSizeMb": DbStorage_readAheadCacheMaxSizeMb,
 			"zkServers":                         zookeeper.MakeServiceName(c),
 			"statsProviderClass":                StatsProviderClass,
 		},
